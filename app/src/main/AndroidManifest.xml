@@ -13,8 +13,18 @@
         android:theme="@style/Theme.AP2_SpeakEasy"
         tools:targetApi="31">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".ChatWindowActivity"
             android:exported="false" />
+        <activity
+            android:name=".ChatContactsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
