@@ -14,4 +14,6 @@
     <string name="SignUp_enter_text">Enter text</string>
     <string name="SignUp_next">Next</string>
     <string name="SignUp_sign_up">Sign Up</string>
+   <string name="SignUp_Basic_info">Basic info:</string>
+
 </resources>
