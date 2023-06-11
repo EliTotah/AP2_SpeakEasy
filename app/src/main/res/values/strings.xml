@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AP2_SpeakEasy</string>
+    <string name="SignUp_username">*Username</string>
+    <string name="SignUp_name">*Name</string>
+    <string name="SignUp_enter_text">Enter text</string>
+    <string name="SignUp_next">Next</string>
+    <string name="SignUp_sign_up">Sign Up</string>
+    <string name="SignUp_Basic_info">Basic info:</string>
 </resources>
