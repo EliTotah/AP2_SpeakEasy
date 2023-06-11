@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">AP2_SpeakEasy</string>
+    <string name="login_speakeasy">SpeakEasy</string>
+    <string name="login_plsSignIn">Sign in to your account</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_rmb">Remember me</string>
+    <string name="login_signIn">Sign in</string>
+    <string name="login_dnt">Don\'t have an account?</string>
+    <string name="login_signUp">Sign up</string>
+    <string name="main_SpeakEasy">Speak Easy</string>
+    <string name="SignUp_username">Username</string>
+    <string name="SignUp_name">Name</string>
+    <string name="SignUp_enter_text">Enter text</string>
+    <string name="SignUp_next">Next</string>
+    <string name="SignUp_sign_up">Sign Up</string>
 </resources>
