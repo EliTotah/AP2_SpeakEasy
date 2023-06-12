@@ -9,11 +9,32 @@
     <string name="login_dnt">Don\'t have an account?</string>
     <string name="login_signUp">Sign up</string>
     <string name="main_SpeakEasy">Speak Easy</string>
-    <string name="SignUp_username">Username</string>
-    <string name="SignUp_name">Name</string>
+    <string name="SignUp_username">*Username</string>
+    <string name="SignUp_name">*Name</string>
     <string name="SignUp_enter_text">Enter text</string>
     <string name="SignUp_next">Next</string>
     <string name="SignUp_sign_up">Sign Up</string>
-   <string name="SignUp_Basic_info">Basic info:</string>
+    <string name="SignUp_Basic_info">Basic info:</string>
+    <string name="ContactInfo_phone">Phone</string>
+    <string name="ContactInfo_mail">Mail</string>
+    <string name="ContactInfo_Contact_info">Contact Info:</string>
+    <string name="ContactInfo_contact_info">Contact Info</string>
+    <string name="Gender_Gender">Gender:</string>
+    <string name="Gender_gender">Gender</string>
+    <string name="spinner_title">Select Gender</string>
+    <string name="Password_loginDetails">Login Details</string>
+    <string name="LoginDetails_password">*Password</string>
+    <string name="LoginDetails_confirm_password">*Confirm Password</string>
+    <string name="login_details_title">Login Details:</string>
+    <string name="Password_enter_text">Enter text</string>
+    <string name="Password_prev">Prev</string>
+    <string name="Password_next">Next</string>
+    <string name="SignUp_prev">Prev</string>
+    <string name="LoginDetails_submit">Submit</string>
+    <string name="error_passwords_do_not_match">Passwords do not match</string>
+    <string name="error_missing_uppercase">Must add one UPPERCASE letter</string>
+    <string name="error_missing_lowercase">Must add one lowercase letter</string>
+    <string name="error_missing_number">Must add one number</string>
+    <string name="error_missing_special_symbol">Must add one special symbol: @$! % * ? &amp;</string>
 
 </resources>

@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="40dp"
-                android:background="#69ffffff"
+                android:background="@color/Sign_up_container"
                 android:orientation="vertical"
                 android:padding="20dp">
 
@@ -49,19 +49,6 @@
                         android:src="@drawable/profilepic" />
 
                 </androidx.cardview.widget.CardView>
-
-                <!--       <Button-->
-                <!--                            android:id="@+id/uploadBtn"-->
-                <!--                            android:layout_width="match_parent"-->
-                <!--                            android:layout_height="48dp"-->
-                <!--                            android:layout_gravity="bottom|center_horizontal"-->
-                <!--                            android:background="#CABDBD"-->
-                <!--                            android:text="Upload"-->
-                <!--                            android:textAlignment="center"-->
-                <!--                            android:textAllCaps="true"-->
-                <!--                            android:textColor="#F8F8F8"-->
-                <!--                            android:textSize="12sp"-->
-                <!--                            android:visibility="visible" />-->
 
                 <TextView
                     android:id="@+id/title"
@@ -89,6 +76,7 @@
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/Sign_up_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -96,11 +84,14 @@
                         android:hint="@string/SignUp_name"
                         android:minHeight="48dp"
                         android:padding="20dp"
-                        android:textColor="#3d3c3c"
+                        android:maxLines="1"
+                        android:maxLength="1"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/Sign_up_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
@@ -108,19 +99,11 @@
                         android:minHeight="48dp"
                         android:gravity="center"
                         android:padding="20dp"
-                        android:textColor="#3d3c3c"
+                        android:maxLines="1"
+                        android:maxLength="1"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="15sp"
                         android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/input"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/SignUp_enter_text"
-                        android:paddingStart="15dp"
-                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -128,7 +111,7 @@
                     android:id="@+id/fieldBtns"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="40dp"
                     android:orientation="vertical">
 
                     <Button
@@ -139,7 +122,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginRight="30dp"
-                        android:background="#7f5feb"
+                        android:background="@color/Sign_up_button"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:text="@string/SignUp_next"
