@@ -20,7 +20,6 @@ public class CustomListAdapter extends ArrayAdapter<User> {
 
     public CustomListAdapter(Context ctx, ArrayList<User> userArrayList) {
         super(ctx, R.layout.custom_list_item, userArrayList);
-
         this.inflater = LayoutInflater.from(ctx);
     }
 

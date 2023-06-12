@@ -9,13 +9,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ccc">
+        android:background="@color/chat_background">
 
         <RelativeLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#ededed"
+            android:background="@color/chat_background_header"
             android:padding="15dp">
 
             <androidx.cardview.widget.CardView
@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="150dp"
+                android:layout_marginEnd="120dp"
                 android:layout_marginTop="15dp"
                 android:layout_toStartOf="@+id/navIconsLayout"
                 android:gravity="center"
@@ -62,7 +62,15 @@
                     android:id="@+id/editButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_edit" />
+
+                <ImageView
+                    android:id="@+id/logoutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_logout"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -71,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/headerLayout"
-            android:background="#ededed"
+            android:background="@color/chat_background_header"
             android:layout_margin="2dp"
             android:padding="10dp">
 
