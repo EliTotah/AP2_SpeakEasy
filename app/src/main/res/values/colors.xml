@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Sign_up_button">#7f5feb</color>
+    <color name="Password_text_color">#3d3c3c</color>
+    <color name="Sign_up_container">#69ffffff</color>
+    <color name="Sign_up_text_color">#3d3c3c</color>
 </resources>

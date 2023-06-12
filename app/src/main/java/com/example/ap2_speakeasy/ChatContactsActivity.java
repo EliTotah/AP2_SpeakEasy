@@ -52,5 +52,6 @@ public class ChatContactsActivity extends AppCompatActivity {
         adapter = new CustomListAdapter(getApplicationContext(), users);
 
         listView.setAdapter(adapter);
+        return;
     }
 }
