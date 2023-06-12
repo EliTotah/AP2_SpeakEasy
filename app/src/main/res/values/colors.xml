@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="MainActivity_title_color">#1f1f1f</color>
+    <color name="loginActivity_title">#1f1f1f</color>
+    <color name="loginActivity_fields">#3d3c3c</color>
+    <color name="loginActivity_button_background">#7f5feb</color>
+    <color name="loginActivity_button_text">#dfdeee</color>
+    <color name="chat_background">#ccc</color>
+    <color name="chat_background_header">#ededed</color>
 </resources>

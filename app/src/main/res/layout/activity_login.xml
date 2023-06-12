@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backgroundchat"
+        android:background="@drawable/background_main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/login_speakeasy"
-            android:textColor="#1f1f1f"
+            android:textColor="@color/loginActivity_title"
             android:textSize="35sp"
             android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:letterSpacing="0.03"
             android:text="@string/login_plsSignIn"
-            android:textColor="#1f1f1f"
+            android:textColor="@color/loginActivity_title"
             android:textSize="25sp" />
 
         <EditText
@@ -52,7 +52,7 @@
             android:padding="20dp"
             android:gravity="center"
             android:hint="@string/login_username"
-            android:textColor="#3d3c3c" />
+            android:textColor="@color/loginActivity_fields" />
 
         <EditText
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
             android:gravity="center"
             android:hint="@string/login_password"
             android:inputType="textPassword"
-            android:textColor="#3d3c3c" />
+            android:textColor="@color/loginActivity_fields" />
 
         <CheckBox
             android:id="@+id/checkbox"
@@ -72,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/login_rmb"
-            android:textColor="#3d3c3c"
+            android:textColor="@color/loginActivity_fields"
             android:textSize="20sp" />
 
         <androidx.cardview.widget.CardView
@@ -90,10 +90,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="#7f5feb"
+                android:background="@color/loginActivity_button_background"
                 android:padding="8dp"
                 android:text="@string/login_signIn"
-                android:textColor="#dfdeee"
+                android:textColor="@color/loginActivity_button_text"
                 android:textSize="20sp" />
 
         </androidx.cardview.widget.CardView>
@@ -105,7 +105,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="@string/login_dnt"
-            android:textColor="#dfdeee"
+            android:textColor="@color/loginActivity_button_text"
             android:textSize="20sp" />
 
         <TextView
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/login_signUp"
-            android:textColor="#dfdeee"
+            android:textColor="@color/loginActivity_button_text"
             android:textSize="20sp" />
     </LinearLayout>
 
