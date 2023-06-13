@@ -2,7 +2,10 @@ package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -44,14 +47,25 @@ public class ChatContactsActivity extends AppCompatActivity {
                     userNames[i], profilePictures[i],
                     lastMassages[i], times[i]
             );
-
             users.add(aUser);
         }
 
         listView = findViewById(R.id.list_view);
         adapter = new CustomListAdapter(getApplicationContext(), users);
-
         listView.setAdapter(adapter);
-        return;
+        listView.setClickable(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
+
+                intent.putExtra("userName", userNames[i]);
+                intent.putExtra("profilePicture", profilePictures[i]);
+                intent.putExtra("lastMassage", lastMassages[i]);
+                intent.putExtra("time", times[i]);
+
+                startActivity(intent);
+            }
+        });
     }
 }
