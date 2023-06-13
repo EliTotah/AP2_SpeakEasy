@@ -38,7 +38,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         TextView lastMsg = convertView.findViewById(R.id.last_massage);
         TextView time = convertView.findViewById(R.id.time);
 
-        imageView.setImageResource(user.getPictureId());
+        imageView.setImageResource(user.getPicture());
         userName.setText(user.getUserName());
         lastMsg.setText(user.getLastMassage());
         time.setText(user.getLastMassageSendingTime());

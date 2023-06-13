@@ -84,7 +84,7 @@ public class ChatContactsActivity extends AppCompatActivity {
         dbUsers = userDao.index();
         for (User user : dbUsers) {
             User aUser = new User(
-                    user.getUserName(), R.drawable.profilepic,
+                    user.getUserName(), 0,
                     user.getLastMassage(), user.getLastMassageSendingTime()
             );
             users.add(aUser);
@@ -103,7 +103,7 @@ public class ChatContactsActivity extends AppCompatActivity {
 
             String username = usernameEditText.getText().toString().trim();
             if (!username.isEmpty()) {
-                User user = new User(username,0,"מה קורה","10:00");
+                User user = new User(username,0,"","");
                 userDao.insert(user);
                 loadPosts();
             }
