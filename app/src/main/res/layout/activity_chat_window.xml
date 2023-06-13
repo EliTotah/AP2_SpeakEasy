@@ -95,9 +95,9 @@
             android:layout_marginTop="-7dp"
             android:background="@drawable/whatsapp_background">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="511dp"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -106,10 +106,12 @@
                 <ListView
                     android:id="@+id/list_view_messages"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:layout_height="732dp"
+                    android:layout_weight="1"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"/>
 
-            </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
 
         <!-- Input Box -->

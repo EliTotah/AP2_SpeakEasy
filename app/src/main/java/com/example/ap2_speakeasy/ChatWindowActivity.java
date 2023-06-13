@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,6 +103,7 @@ public class ChatWindowActivity extends AppCompatActivity {
             boolean sent = false;
             Message message = new Message(content, currentTime, sent, 0);
             messageDao.insert(message);
+            ContentMessage.setText("");
             loadMessages();
         } else {
             Toast.makeText(ChatWindowActivity.this, "Please enter a message",

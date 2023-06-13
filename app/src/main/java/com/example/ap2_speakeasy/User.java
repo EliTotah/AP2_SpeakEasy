@@ -8,19 +8,19 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String userName;
-    private int pictureId;
+    private int picture;
     private String lastMassage;
     private String lastMassageSendingTime;
 
-    public User(String userName, int pictureId, String lastMassage, String lastMassageSendingTime) {
+    public User(String userName, int picture, String lastMassage, String lastMassageSendingTime) {
         this.userName = userName;
-        this.pictureId = pictureId;
+        this.picture = picture;
         this.lastMassage = lastMassage;
         this.lastMassageSendingTime = lastMassageSendingTime;
     }
 
-    public int getPictureId() {
-        return pictureId;
+    public int getPicture() {
+        return picture;
     }
 
     public String getLastMassage() {
