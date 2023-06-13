@@ -15,21 +15,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // Use a Handler to introduce a delay
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Start the LoginActivity after the delay
 
-                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-
+                Intent intent = new Intent(MainActivity.this, ChatContactsActivity.class);
                 startActivity(intent);
                 finish(); // Optional: Close the MainActivity so the user can't go back to it
             }
         }, DELAY_TIME_MS);
-
-        return;
     }
-
 }

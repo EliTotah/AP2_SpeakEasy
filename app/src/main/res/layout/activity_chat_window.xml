@@ -103,114 +103,11 @@
                 android:padding="20dp">
 
                 <!-- Message Boxes -->
-
-                <!-- Friend Message -->
-                <LinearLayout
-                    android:id="@+id/friendMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@android:color/white"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="We should video chat to discuss, if you're up for it!"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="07:48"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <!-- My Message -->
-                <LinearLayout
-                    android:id="@+id/myMessage1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="#c6e9f8"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sure 😊"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="07:48"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <!-- My Message -->
-                <LinearLayout
-                    android:id="@+id/myMessage2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="#c6e9f8"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="I'm free now!"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="07:48"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <!-- Friend Message -->
-                <LinearLayout
-                    android:id="@+id/friendMessage2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@android:color/white"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Awesome! I'll start a video chat with you in a few."
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="07:49"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                <ListView
+                    android:id="@+id/list_view_messages"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
             </LinearLayout>
         </ScrollView>

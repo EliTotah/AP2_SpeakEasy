@@ -1,71 +1,122 @@
 package com.example.ap2_speakeasy;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatContactsActivity extends AppCompatActivity {
-
-    final private int[] profilePictures = {
-            R.drawable.kroos, R.drawable.neuer, R.drawable.ramos,
-            R.drawable.modric, R.drawable.muller,
-            R.drawable.mbappe, R.drawable.neymar
-    };
-
-    final private String[] userNames = {
-            "Toni Kroos", "Manuel Neuer", "Sergio Ramos", "Luka Modrić ", "Thomas Müller",
-            "Kylian Mbappe", "Neymar Jr"
-    };
-
-    final private String[] lastMassages = {
-            "Hi, how are you?", "24K Magic", "Missing Madrid :(", "Wanna hear a joke?", "Yo!",
-            "Well....", "Did you see the latest John Wick?"
-    };
-
-    final private String[] times = {
-            "12:00", "00:30", "03:23", "08:59", "12:23", "22:54", "11:47"
-    };
-
-    ListView listView;
-    CustomListAdapter adapter;
+    private ActivityChatContactsBinding binding;
+    private AppDB db;
+    private List<User> users;
+    private List<User> dbUsers;
+    private UserDao userDao;
+    private ListView lvUsers;
+    private UserListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_contacts);
 
-        ArrayList<User> users = new ArrayList<>();
+        binding = ActivityChatContactsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        for (int i = 0; i < profilePictures.length; i++) {
+        db = DatabaseManager.getDatabase(getApplicationContext());
+
+        userDao = db.userDao();
+        handlePosts();
+
+        binding.addContactButton.setOnClickListener(view -> showAddContactDialog());
+
+        binding.logoutButton.setOnClickListener(view -> {
+            finish();
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPosts();
+    }
+
+
+    private void handlePosts() {
+        users = new ArrayList<>();
+        adapter = new UserListAdapter(getApplicationContext(), users);
+        lvUsers = binding.listViewChats;
+
+        loadPosts();
+
+        lvUsers.setAdapter(adapter);
+        lvUsers.setClickable(true);
+
+        lvUsers.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
+            intent.putExtra("userName", dbUsers.get(i).getUserName());
+            intent.putExtra("profilePicture", R.drawable.profilepic);
+            intent.putExtra("lastMassage", dbUsers.get(i).getLastMassage());
+            intent.putExtra("time", dbUsers.get(i).getLastMassageSendingTime());
+            startActivity(intent);
+        });
+
+        lvUsers.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            users.remove(i);
+            User post = dbUsers.remove(i);
+            userDao.delete(post);
+            adapter.notifyDataSetChanged();
+            return true;
+        });
+    }
+
+    private void loadPosts() {
+        users.clear();
+        dbUsers = userDao.index();
+        for (User user : dbUsers) {
             User aUser = new User(
-                    userNames[i], profilePictures[i],
-                    lastMassages[i], times[i]
+                    user.getUserName(), R.drawable.profilepic,
+                    user.getLastMassage(), user.getLastMassageSendingTime()
             );
             users.add(aUser);
         }
+        adapter.notifyDataSetChanged();
+    }
 
-        listView = findViewById(R.id.list_view);
-        adapter = new CustomListAdapter(getApplicationContext(), users);
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
+    private void showAddContactDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.activity_add_contact, null);
+        dialogBuilder.setView(dialogView);
 
-                intent.putExtra("userName", userNames[i]);
-                intent.putExtra("profilePicture", profilePictures[i]);
-                intent.putExtra("lastMassage", lastMassages[i]);
-                intent.putExtra("time", times[i]);
+        EditText usernameEditText = dialogView.findViewById(R.id.usernameEditText);
+        dialogBuilder.setPositiveButton("OK", (dialogInterface, i) -> {
 
-                startActivity(intent);
+            String username = usernameEditText.getText().toString().trim();
+            if (!username.isEmpty()) {
+                User user = new User(username,0,"מה קורה","10:00");
+                userDao.insert(user);
+                loadPosts();
+            }
+            else {
+                Toast.makeText(ChatContactsActivity.this, "Please enter a username",
+                        Toast.LENGTH_SHORT).show();
             }
         });
+
+        dialogBuilder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
+
 }
+

@@ -13,13 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class CustomListAdapter extends ArrayAdapter<User> {
+public class UserListAdapter extends ArrayAdapter<User> {
     LayoutInflater inflater;
 
-    public CustomListAdapter(Context ctx, ArrayList<User> userArrayList) {
-        super(ctx, R.layout.custom_list_item, userArrayList);
+    public UserListAdapter(Context ctx, List<User> userArrayList) {
+        super(ctx, R.layout.user_list_item, userArrayList);
         this.inflater = LayoutInflater.from(ctx);
     }
 
@@ -30,7 +30,7 @@ public class CustomListAdapter extends ArrayAdapter<User> {
         User user = getItem(position);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.custom_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.user_list_item, parent, false);
         }
 
         ImageView imageView = convertView.findViewById(R.id.profile_image);

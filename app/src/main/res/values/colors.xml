@@ -15,5 +15,7 @@
     <color name="loginActivity_button_text">#dfdeee</color>
     <color name="chat_background">#ccc</color>
     <color name="chat_background_header">#ededed</color>
+    <color name="my_message_background">#c6e9f8</color>
+    <color name="friend_message_background">@android:color/white</color>
 
 </resources>

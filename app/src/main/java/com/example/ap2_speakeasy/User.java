@@ -1,6 +1,12 @@
 package com.example.ap2_speakeasy;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class User {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String userName;
     private int pictureId;
     private String lastMassage;
@@ -27,5 +33,13 @@ public class User {
 
     public String getUserName() {
         return userName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
