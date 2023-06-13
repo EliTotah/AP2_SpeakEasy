@@ -1,5 +1,7 @@
 package com.example.ap2_speakeasy;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -12,15 +14,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
-public class SignUpActivity extends AppCompatActivity {
-    private boolean checkInput = false;
+public class GenderActivity extends AppCompatActivity {
     private ImageView imageView; // Declare the ImageView as a class member
 
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -28,13 +24,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> galleryLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-
-        Button nextButton = findViewById(R.id.buttonNext);
+        setContentView(R.layout.activity_gender);
         CardView cardView = findViewById(R.id.card_view_profile_image);
         imageView = findViewById(R.id.profile_image); // Assign the ImageView reference
 
@@ -69,33 +62,28 @@ public class SignUpActivity extends AppCompatActivity {
                 openUploadDialog();
             }
         });
+        Button nextButton = findViewById(R.id.buttonNext);
+        Button prevButton = findViewById(R.id.buttonPrev);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isInputValid()) {
-                    // Start the next activity
-                    Intent intent = new Intent(SignUpActivity.this, ContactInfoActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(SignUpActivity.this, "Please enter all required fields", Toast.LENGTH_SHORT).show();
-                }
+                // Start the next activity
+                Intent intent = new Intent(GenderActivity.this, PasswordActivity.class);
+                startActivity(intent);
             }
         });
-    }
 
-    private boolean isInputValid() {
-        EditText editTextName = findViewById(R.id.Sign_up_name);
-        EditText editTextUserName = findViewById(R.id.Sign_up_username);
-        String inputName = editTextName.getText().toString().trim();
-        String inputUserName = editTextUserName.getText().toString().trim();
-        if ((!inputName.isEmpty()) && (!inputUserName.isEmpty())){
-            checkInput = true;
-        }
-        return checkInput;
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the previous activity
+                Intent intent = new Intent(GenderActivity.this, ContactInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+        return;
     }
-
     private void openUploadDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Upload Picture");

@@ -1,0 +1,9 @@
+<resources>
+    <array name="spinner_items">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+
+    </array>
+</resources>
