@@ -1,7 +1,8 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.Sign_up;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -22,7 +23,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.AP2_SpeakEasy;
+import com.example.ap2_speakeasy.API.UserAPI;
+import com.example.ap2_speakeasy.LoginActivity;
+import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PasswordActivity extends AppCompatActivity {
+    private String selectedImage;
+    private String username;
+    private String displayName;
+    private String password;
+    private ActivitySignUpBinding binding;
     private ImageView imageView; // Declare the ImageView as a class member
 
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -43,6 +61,12 @@ public class PasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
+        Intent intent = getIntent();
+        if (intent != null) {
+            username = intent.getStringExtra("username");
+            displayName = intent.getStringExtra("name");
+            selectedImage = intent.getStringExtra("selectedImage");
+        }
         passwordEditText = findViewById(R.id.password);
         confirmPasswordEditText = findViewById(R.id.confirm_password);
         errorMessageTextView = findViewById(R.id.error_msg);
@@ -189,7 +213,8 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     private void validatePasswords() {
-        String password = passwordEditText.getText().toString();
+        int validPassword=0;
+        password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
 
         if (!password.equals(confirmPassword)) {
@@ -216,9 +241,37 @@ public class PasswordActivity extends AppCompatActivity {
             errorMessageTextView.setText(R.string.error_missing_special_symbol);
             errorMessageTextView.setTextColor(getResources().getColor(R.color.black, null));
         } else {
+            validPassword=1;
             // Passwords match and meet the requirements
             // Proceed with further logic, such as saving the password or registering the user
             Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
         }
     }
+    private void validateAll(int validPassword){
+        UserAPI userAPI = new UserAPI();
+        if (validPassword==1){
+                Call<Void> signupCall = userAPI.signup(username, password, displayName, selectedImage);
+//                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+//                    String firebaseToken = instanceIdResult.getToken();
+                    signupCall.enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            } else {
+                                //binding.editUsername.setError("Username already exists");
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            //binding.editTextUsername.setError(getString(R.string.connection_error));
+                        }
+                    });
+            }
+        }
+
 }
+

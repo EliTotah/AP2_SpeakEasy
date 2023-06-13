@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".AP2_SpeakEasy"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,15 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AP2_SpeakEasy"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".PasswordActivity"
+            android:name=".Sign_up.PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".GenderActivity"
+            android:name=".Sign_up.GenderActivity"
             android:exported="false" />
         <activity
-            android:name=".ContactInfoActivity"
+            android:name=".Sign_up.ContactInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ChatWindowActivity"
@@ -31,7 +35,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".Sign_up.SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

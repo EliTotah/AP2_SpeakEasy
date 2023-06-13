@@ -36,5 +36,6 @@
     <string name="error_missing_lowercase">Must add one lowercase letter</string>
     <string name="error_missing_number">Must add one number</string>
     <string name="error_missing_special_symbol">Must add one special symbol: @$! % * ? &amp;</string>
+    <string name="BaseUrl">http://10.0.2.2:5000/api/</string>
 
 </resources>
