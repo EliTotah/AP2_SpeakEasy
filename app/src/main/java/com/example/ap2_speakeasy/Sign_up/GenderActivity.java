@@ -1,4 +1,4 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.Sign_up;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -16,7 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.ap2_speakeasy.R;
+
 public class GenderActivity extends AppCompatActivity {
+    private String selectedImage;
+    private String username;
+    private String name;
     private ImageView imageView; // Declare the ImageView as a class member
 
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -28,6 +33,12 @@ public class GenderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gender);
+        Intent intent = getIntent();
+        if (intent != null) {
+            username = intent.getStringExtra("username");
+            name = intent.getStringExtra("name");
+            selectedImage = intent.getStringExtra("selectedImage");
+        }
         CardView cardView = findViewById(R.id.card_view_profile_image);
         imageView = findViewById(R.id.profile_image); // Assign the ImageView reference
 
@@ -70,6 +81,9 @@ public class GenderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the next activity
                 Intent intent = new Intent(GenderActivity.this, PasswordActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("name", name);
+                intent.putExtra("selectedImage", selectedImage);
                 startActivity(intent);
             }
         });
