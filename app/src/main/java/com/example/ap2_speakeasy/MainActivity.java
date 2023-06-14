@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int DELAY_TIME_MS = 3000; // 3 seconds
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             // Start the LoginActivity after the delay
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
             finish(); // Optional: Close the MainActivity so the user can't go back to it
         }, DELAY_TIME_MS);

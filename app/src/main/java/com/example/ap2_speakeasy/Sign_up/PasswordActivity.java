@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,19 +25,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
+import com.example.ap2_speakeasy.API.CallBackFlag;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.LoginActivity;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PasswordActivity extends AppCompatActivity {
-    private String selectedImage;
+    private String profilePic;
+    private Bitmap imageBitmap;
     private String username;
     private String displayName;
     private String password;
@@ -65,7 +71,9 @@ public class PasswordActivity extends AppCompatActivity {
         if (intent != null) {
             username = intent.getStringExtra("username");
             displayName = intent.getStringExtra("name");
-            selectedImage = intent.getStringExtra("selectedImage");
+            profilePic = intent.getStringExtra("selectedImage");
+            //imageBitmap = getIntent().getParcelableExtra("selectedImage");
+            //profilePic = encodeImage(imageBitmap);
         }
         passwordEditText = findViewById(R.id.password);
         confirmPasswordEditText = findViewById(R.id.confirm_password);
@@ -241,38 +249,28 @@ public class PasswordActivity extends AppCompatActivity {
             errorMessageTextView.setText(R.string.error_missing_special_symbol);
             errorMessageTextView.setTextColor(getResources().getColor(R.color.black, null));
         } else {
-            validPassword=1;
-            validateAll(validPassword);
+            validateAll();
             // Passwords match and meet the requirements
             // Proceed with further logic, such as saving the password or registering the user
-            Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
         }
     }
-    private void validateAll(int validPassword){
+    private void validateAll(){
         UserAPI userAPI = new UserAPI();
-        if (validPassword==1){
-                Call<Void> signupCall = userAPI.signup(username, password, displayName, selectedImage);
-//                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
-//                    String firebaseToken = instanceIdResult.getToken();
-                    signupCall.enqueue(new Callback<>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                            if (response.isSuccessful()) {
-                                Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            } else {
-                                //binding.editUsername.setError("Username already exists");
-                            }
-                        }
-
-
-                        @Override
-                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            //binding.editTextUsername.setError(getString(R.string.connection_error));
-                        }
-                    });
+        userAPI.register(username, password, displayName, profilePic, callback -> {
+            if (callback) {
+                // Implement your logic here when the callback is complete and the boolean is true
+                Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
-        }
+        });
 
+    }
+    private String encodeImage(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
 }
-
