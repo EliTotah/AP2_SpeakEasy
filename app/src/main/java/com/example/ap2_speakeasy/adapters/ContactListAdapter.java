@@ -1,4 +1,4 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.adapters;
 
 
 import android.annotation.SuppressLint;
@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.ap2_speakeasy.ContactClickListener;
+import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.entities.Contact;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
