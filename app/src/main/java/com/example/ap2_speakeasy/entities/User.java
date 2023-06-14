@@ -1,4 +1,5 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.entities;
+
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

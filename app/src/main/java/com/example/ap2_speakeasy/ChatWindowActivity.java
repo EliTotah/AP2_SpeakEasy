@@ -2,21 +2,19 @@ package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.Dao.AppDB;
+import com.example.ap2_speakeasy.Dao.MessageDao;
+import com.example.ap2_speakeasy.adapters.MessageListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatWindowBinding;
+import com.example.ap2_speakeasy.entities.Message;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.EnumSet;
 import java.util.List;
 
 public class ChatWindowActivity extends AppCompatActivity {

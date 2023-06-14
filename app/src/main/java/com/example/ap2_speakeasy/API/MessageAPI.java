@@ -2,7 +2,7 @@ package com.example.ap2_speakeasy.API;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.Message;
+import com.example.ap2_speakeasy.entities.Message;
 
 
 import java.util.List;

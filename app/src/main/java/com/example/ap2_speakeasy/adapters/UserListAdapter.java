@@ -1,4 +1,4 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.adapters;
 
 
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.entities.User;
 
 import java.util.List;
 

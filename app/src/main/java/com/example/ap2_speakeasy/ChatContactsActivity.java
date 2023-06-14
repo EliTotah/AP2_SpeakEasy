@@ -11,7 +11,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.Dao.AppDB;
+import com.example.ap2_speakeasy.Dao.UserDao;
+import com.example.ap2_speakeasy.adapters.UserListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
+import com.example.ap2_speakeasy.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
