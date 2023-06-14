@@ -1,8 +1,8 @@
 package com.example.ap2_speakeasy.API;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
+import com.example.ap2_speakeasy.Contact;
 import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.User;
 
 import java.util.List;
 import java.util.Map;
@@ -26,14 +26,14 @@ public class ChatAPI {
     }
 
     public void getAllChats() {
-        Call<List<User>> call = chatServiceAPI.getChats();
-        call.enqueue(new Callback<List<User>>() {
+        Call<List<Contact>> call = chatServiceAPI.getChats();
+        call.enqueue(new Callback<List<Contact>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                List<User> users = response.body();
+            public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
+                List<Contact> contacts = response.body();
             }
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {}
+            public void onFailure(Call<List<Contact>> call, Throwable t) {}
         });
     }
 

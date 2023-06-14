@@ -1,12 +1,11 @@
 package com.example.ap2_speakeasy;
 
-import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {User.class, Message.class}, version = 3)
+@Database(entities = {Contact.class, Message.class}, version = 1)
  public abstract class AppDB extends RoomDatabase {
-     public abstract UserDao userDao();
+     public abstract ContactDao contactDao();
      public abstract MessageDao messageDao();
 
 }

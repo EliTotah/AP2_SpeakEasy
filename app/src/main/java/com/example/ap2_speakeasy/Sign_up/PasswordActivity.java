@@ -242,6 +242,7 @@ public class PasswordActivity extends AppCompatActivity {
             errorMessageTextView.setTextColor(getResources().getColor(R.color.black, null));
         } else {
             validPassword=1;
+            validateAll(validPassword);
             // Passwords match and meet the requirements
             // Proceed with further logic, such as saving the password or registering the user
             Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();

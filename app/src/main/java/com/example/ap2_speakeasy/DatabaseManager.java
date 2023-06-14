@@ -10,7 +10,7 @@ public class DatabaseManager {
 
     public static synchronized AppDB getDatabase(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), AppDB.class, "chatsDB")
+            instance = Room.databaseBuilder(context.getApplicationContext(), AppDB.class, "speakEasyDB")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();

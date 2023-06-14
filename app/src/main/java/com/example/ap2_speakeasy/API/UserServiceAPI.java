@@ -1,6 +1,6 @@
 package com.example.ap2_speakeasy.API;
 
-import com.example.ap2_speakeasy.User;
+import com.example.ap2_speakeasy.Contact;
 
 import java.util.List;
 import java.util.Map;
@@ -19,10 +19,10 @@ public interface UserServiceAPI {
     Call<Void> signup(@Body Map<String, String> user);
 
     @GET("Users/")
-    Call<List<User>> getUsers();
+    Call<List<Contact>> getUsers();
 
     @POST("Users/")
-    Call<Void> createUser(@Body User user);
+    Call<Void> createUser(@Body Contact contact);
 
     @GET("Users/{id}")
     Call<Void> getUser (@Path("id") int id);

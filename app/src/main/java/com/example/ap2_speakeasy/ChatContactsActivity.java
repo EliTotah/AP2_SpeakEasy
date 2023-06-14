@@ -1,16 +1,21 @@
 package com.example.ap2_speakeasy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.API.ChatAPI;
+import com.example.ap2_speakeasy.API.MessageAPI;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 
 import java.util.ArrayList;
@@ -19,11 +24,13 @@ import java.util.List;
 public class ChatContactsActivity extends AppCompatActivity {
     private ActivityChatContactsBinding binding;
     private AppDB db;
-    private List<User> users;
-    private List<User> dbUsers;
-    private UserDao userDao;
-    private ListView lvUsers;
-    private UserListAdapter adapter;
+    private List<Contact> contacts;
+    private List<Contact> dbContacts;
+    private ContactDao contactDao;
+    private RecyclerView lvUsers;
+    //private ContactListAdapter adapter;
+
+    private ContactViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +39,14 @@ public class ChatContactsActivity extends AppCompatActivity {
         binding = ActivityChatContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = DatabaseManager.getDatabase(getApplicationContext());
+        viewModel = new ViewModelProvider(this).get(ContactViewModel.class);
 
-        userDao = db.userDao();
-        handlePosts();
+        RecyclerView lvContacts = binding.listViewChats;
+        final ContactListAdapter adapter = new ContactListAdapter(this);
+        lvContacts.setAdapter(adapter);
+        lvContacts.setLayoutManager(new LinearLayoutManager(this));
+
+        viewModel.getContacts().observe(this, adapter::setContacts);
 
         binding.addContactButton.setOnClickListener(view -> showAddContactDialog());
 
@@ -47,49 +58,7 @@ public class ChatContactsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadPosts();
-    }
-
-
-    private void handlePosts() {
-        users = new ArrayList<>();
-        adapter = new UserListAdapter(getApplicationContext(), users);
-        lvUsers = binding.listViewChats;
-
-        loadPosts();
-
-        lvUsers.setAdapter(adapter);
-        lvUsers.setClickable(true);
-
-        lvUsers.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
-            intent.putExtra("userName", dbUsers.get(i).getUserName());
-            intent.putExtra("profilePicture", R.drawable.profilepic);
-            intent.putExtra("lastMassage", dbUsers.get(i).getLastMassage());
-            intent.putExtra("time", dbUsers.get(i).getLastMassageSendingTime());
-            startActivity(intent);
-        });
-
-        lvUsers.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            users.remove(i);
-            User post = dbUsers.remove(i);
-            userDao.delete(post);
-            adapter.notifyDataSetChanged();
-            return true;
-        });
-    }
-
-    private void loadPosts() {
-        users.clear();
-        dbUsers = userDao.index();
-        for (User user : dbUsers) {
-            User aUser = new User(
-                    user.getUserName(), 0,
-                    user.getLastMassage(), user.getLastMassageSendingTime()
-            );
-            users.add(aUser);
-        }
-        adapter.notifyDataSetChanged();
+        //loadPosts();
     }
 
     private void showAddContactDialog() {
@@ -103,11 +72,10 @@ public class ChatContactsActivity extends AppCompatActivity {
 
             String username = usernameEditText.getText().toString().trim();
             if (!username.isEmpty()) {
-                User user = new User(username,0,"","");
-                userDao.insert(user);
-                loadPosts();
-            }
-            else {
+                Contact contact = new Contact(username, 0, "", "");
+                contactDao.insert(contact);
+                //loadPosts();
+            } else {
                 Toast.makeText(ChatContactsActivity.this, "Please enter a username",
                         Toast.LENGTH_SHORT).show();
             }
@@ -117,6 +85,49 @@ public class ChatContactsActivity extends AppCompatActivity {
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
     }
-
 }
+
+/*
+    private void handlePosts() {
+        contacts = new ArrayList<>();
+        adapter = new ContactListAdapter(getApplicationContext(), contacts);
+        lvUsers = binding.listViewChats;
+
+        loadPosts();
+
+        lvUsers.setAdapter(adapter);
+        lvUsers.setClickable(true);
+
+        lvUsers.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
+            intent.putExtra("userName", dbContacts.get(i).getDisplayName());
+            intent.putExtra("profilePicture", R.drawable.profilepic);
+            intent.putExtra("lastMassage", dbContacts.get(i).getLastMassage());
+            intent.putExtra("time", dbContacts.get(i).getLastMassageSendingTime());
+            startActivity(intent);
+        });
+
+        lvUsers.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            contacts.remove(i);
+            Contact post = dbContacts.remove(i);
+            contactDao.delete(post);
+            adapter.notifyDataSetChanged();
+            return true;
+        });
+    }
+
+    private void loadPosts() {
+        contacts.clear();
+        dbContacts = contactDao.index();
+        for (Contact contact : dbContacts) {
+            Contact aContact = new Contact(
+                    contact.getDisplayName(), 0,
+                    contact.getLastMassage(), contact.getLastMassageSendingTime()
+            );
+            contacts.add(aContact);
+        }
+        adapter.notifyDataSetChanged();
+    }
+*/
+
 

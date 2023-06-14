@@ -4,16 +4,16 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class User {
+public class Contact {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String userName;
+    private String displayName;
     private int picture;
     private String lastMassage;
     private String lastMassageSendingTime;
 
-    public User(String userName, int picture, String lastMassage, String lastMassageSendingTime) {
-        this.userName = userName;
+    public Contact(String displayName, int picture, String lastMassage, String lastMassageSendingTime) {
+        this.displayName = displayName;
         this.picture = picture;
         this.lastMassage = lastMassage;
         this.lastMassageSendingTime = lastMassageSendingTime;
@@ -31,8 +31,8 @@ public class User {
         return lastMassageSendingTime;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public int getId() {
