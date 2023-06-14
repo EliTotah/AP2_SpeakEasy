@@ -37,5 +37,11 @@
     <string name="error_missing_number">Must add one number</string>
     <string name="error_missing_special_symbol">Must add one special symbol: @$! % * ? &amp;</string>
     <string name="BaseUrl">http://10.0.2.2:5000/api/</string>
+    <string name="default_server_address">10.0.2.2:5000</string>
+    <string name="settings_messages_header">Messages</string>
+    <string name="settings_server_title">Your server</string>
+    <string name="settings_theme_header">Theme</string>
+    <string name="settings_dark_mode_summary">Use dark mode</string>
+    <string name="settings_dark_mode_title">Dark mode</string>
 
 </resources>
