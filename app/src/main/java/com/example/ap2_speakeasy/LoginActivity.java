@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.ap2_speakeasy.API.CallBackFlag;
 import com.example.ap2_speakeasy.API.UserAPI;
+import com.example.ap2_speakeasy.Sign_up.PasswordActivity;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
 
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +47,26 @@ public class LoginActivity extends AppCompatActivity {
                 binding.editTextPassword.setError("Password is empty");
             } else {
                 UserAPI userAPI = new UserAPI();
-                userAPI.login(username,password);
+                try {
+                    userAPI.signIn(username, password, callback -> {
+                        if (callback == 200) {
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                            intent.putExtra("token", userAPI.token);
+                            startActivity(intent);
+                        } else if (callback == 404) {
+                            Toast.makeText(getApplicationContext(),
+                                    "details not correct", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                catch (Exception e) {
+                    Toast.makeText(getApplicationContext(),
+                            "error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
