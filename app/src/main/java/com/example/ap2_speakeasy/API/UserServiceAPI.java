@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 
 public interface UserServiceAPI {
     @POST("Tokens")
-    Call<Map<String, String>> login(@Body Map<String, String> user);
+    Call<ResponseBody> login(@Body Map<String, String> user);
 
     @POST("Users")
     Call<ResponseBody> signup(@Body Map<String, String> user);

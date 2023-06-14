@@ -261,11 +261,17 @@ public class PasswordActivity extends AppCompatActivity {
     private void validateAll(){
         UserAPI userAPI = new UserAPI();
         userAPI.register(username, password, displayName, profilePic, callback -> {
-            if (callback) {
+            if (callback == 200) {
                 // Implement your logic here when the callback is complete and the boolean is true
                 Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+            else if (callback == 409) {
+                Toast.makeText(this, "User name is already exist", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "error in sign up", Toast.LENGTH_SHORT).show();
             }
         });
 
