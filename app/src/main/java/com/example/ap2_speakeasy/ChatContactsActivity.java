@@ -14,9 +14,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.API.MessageAPI;
+
+import com.example.ap2_speakeasy.Dao.AppDB;
+import com.example.ap2_speakeasy.Dao.ContactDao;
+import com.example.ap2_speakeasy.adapters.ContactListAdapter;
+
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
+import com.example.ap2_speakeasy.entities.Contact;
 
 import java.util.ArrayList;
 import java.util.List;

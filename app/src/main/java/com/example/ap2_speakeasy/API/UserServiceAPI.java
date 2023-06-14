@@ -21,5 +21,7 @@ public interface UserServiceAPI {
 //    Call<Void> createUser(@Body User user);
 //
 //    @GET("Users/{id}")
-//    Call<Void> getUser (@Path("id") int id);
+
+//    Call<Void> getUser (@Path("id") int id);
 }
+

@@ -96,6 +96,9 @@ public class SignUpActivity extends AppCompatActivity {
                     if (selectedImageUri != null) {
                         intent.putExtra("imageUri", selectedImageUri.toString());
                     }
+                    else {
+                        intent.putExtra("imageUri", imageView.toString());
+                    }
                     startActivity(intent);
                 }
                 else {
