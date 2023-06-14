@@ -10,6 +10,6 @@ public class AP2_SpeakEasy extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        context = context.getApplicationContext();
+        context = getApplicationContext();
     }
 }

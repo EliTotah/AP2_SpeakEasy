@@ -1,9 +1,8 @@
 package com.example.ap2_speakeasy.API;
 
-import com.example.ap2_speakeasy.User;
+import com.example.ap2_speakeasy.entities.User;
 
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

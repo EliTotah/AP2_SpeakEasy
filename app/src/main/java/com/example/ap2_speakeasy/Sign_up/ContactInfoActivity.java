@@ -93,8 +93,7 @@ public class ContactInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the previous activity
-                Intent intent = new Intent(ContactInfoActivity.this, SignUpActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         return;

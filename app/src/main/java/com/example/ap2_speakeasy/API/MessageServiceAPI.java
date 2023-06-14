@@ -1,6 +1,6 @@
 package com.example.ap2_speakeasy.API;
 
-import com.example.ap2_speakeasy.Message;
+import com.example.ap2_speakeasy.entities.Message;
 
 import java.util.List;
 

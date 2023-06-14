@@ -92,8 +92,7 @@ public class GenderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the previous activity
-                Intent intent = new Intent(GenderActivity.this, ContactInfoActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         return;

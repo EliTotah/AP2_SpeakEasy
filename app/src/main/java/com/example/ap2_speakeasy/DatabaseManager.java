@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.example.ap2_speakeasy.Dao.AppDB;
+
 public class DatabaseManager {
 
     private static AppDB instance;
