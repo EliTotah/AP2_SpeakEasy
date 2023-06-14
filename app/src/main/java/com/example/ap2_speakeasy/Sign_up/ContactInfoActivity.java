@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
+import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
 public class ContactInfoActivity extends AppCompatActivity {
-
+    private ActivityContactInfoBinding binding;
     private String selectedImage;
     private String username;
     private String name;
@@ -33,15 +35,16 @@ public class ContactInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_info);
+        binding = ActivityContactInfoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
             name = intent.getStringExtra("name");
             selectedImage = intent.getStringExtra("imageUri");
         }
-        CardView cardView = findViewById(R.id.card_view_profile_image);
-        imageView = findViewById(R.id.profile_image); // Assign the ImageView reference
+        CardView cardView = binding.cardViewProfileImage;
+        imageView = binding.profileImage; // Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -74,8 +77,8 @@ public class ContactInfoActivity extends AppCompatActivity {
                 openUploadDialog();
             }
         });
-        Button nextButton = findViewById(R.id.buttonNext);
-        Button prevButton = findViewById(R.id.buttonPrev);
+        Button nextButton = binding.buttonNext;
+        Button prevButton = binding.buttonPrev;
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
