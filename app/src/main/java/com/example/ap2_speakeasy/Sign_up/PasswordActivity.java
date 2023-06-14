@@ -266,14 +266,11 @@ public class PasswordActivity extends AppCompatActivity {
         });
 
     }
-        private String encodeImage(Bitmap bm) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] b = baos.toByteArray();
+    private String encodeImage(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
 
-            return Base64.encodeToString(b, Base64.DEFAULT);
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
-
-
 }
-

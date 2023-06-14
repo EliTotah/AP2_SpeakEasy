@@ -28,7 +28,7 @@
                 app:cardElevation="4dp">
 
                 <ImageView
-                    android:id="@+id/profile_image"
+                    android:id="@+id/profile_image_user_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"/>
@@ -43,7 +43,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/user_name_user_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User Name"
@@ -54,7 +54,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/last_massage"
+                    android:id="@+id/last_massage_user_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hi, how are you?"
@@ -68,7 +68,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/time_user_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:00"

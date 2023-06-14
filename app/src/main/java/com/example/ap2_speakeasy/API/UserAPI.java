@@ -55,11 +55,11 @@ public class UserAPI {
 //        return userServiceAPI.signup(Map.of("username", username, "password", password, "displayName", name, "profilePic", profilePicture));
 //    }
 
-    public void register (String username, String password, String name, String profilePicture, CallBackFlag callBackFlag) {
+    public void register(String username, String password, String name, String profilePicture, CallBackFlag callBackFlag) {
         Call<ResponseBody> signupCall = userServiceAPI.signup(Map.of("username", username, "password", password, "displayName", name, "profilePic", profilePicture));
         signupCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse( Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callBackFlag.complete(true);
                 } else {
@@ -67,14 +67,16 @@ public class UserAPI {
 //                    if (statusCode == 409) {
 //                        // User already exists, show appropriate message to the user using Toast
 //                        //Toast.makeText(getApplicationContext(), "This user already exists and cannot be created.", Toast.LENGTH_SHORT).show();
-                        callBackFlag.complete(true);
-                    }
+
+                    callBackFlag.complete(true);
                 }
+            }
+
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 //binding.editTextUsername.setError(getString(R.string.connection_error));
             }
         });
     }
-
 }
+
