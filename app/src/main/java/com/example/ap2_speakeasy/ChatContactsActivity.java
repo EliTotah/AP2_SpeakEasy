@@ -1,13 +1,11 @@
 package com.example.ap2_speakeasy;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.example.ap2_speakeasy.API.ChatAPI;
-import com.example.ap2_speakeasy.API.MessageAPI;
-
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
+import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
 import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatContactsActivity extends AppCompatActivity {

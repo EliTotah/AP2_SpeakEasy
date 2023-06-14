@@ -1,8 +1,10 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.ViewModels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.repositories.ContactRepository;
 
 import java.util.List;
 

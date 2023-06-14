@@ -1,7 +1,10 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.Dao;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+
+import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.Message;
 
 @Database(entities = {Contact.class, Message.class}, version = 1)
  public abstract class AppDB extends RoomDatabase {

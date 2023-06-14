@@ -1,15 +1,16 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
+
+import com.example.ap2_speakeasy.Dao.ContactDao;
+import com.example.ap2_speakeasy.entities.Contact;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ContactRepository {
 
-    private  ContactDao contactDao;
+    private ContactDao contactDao;
     private  ContactListData contactListData;
     //private final MessageListData messageListData;
 
