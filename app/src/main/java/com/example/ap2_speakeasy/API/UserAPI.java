@@ -64,10 +64,10 @@ public class UserAPI {
                     callBackFlag.complete(true);
                 } else {
                     int statusCode = response.code();
-//                    if (statusCode == 409) {
-//                        // User already exists, show appropriate message to the user using Toast
-//                        //Toast.makeText(getApplicationContext(), "This user already exists and cannot be created.", Toast.LENGTH_SHORT).show();
-
+                    if (statusCode == 409) {
+                        // User already exists, show appropriate message to the user using Toast
+                        //Toast.makeText(getApplicationContext(), "This user already exists and cannot be created.", Toast.LENGTH_SHORT).show();
+                    }
                     callBackFlag.complete(true);
                 }
             }

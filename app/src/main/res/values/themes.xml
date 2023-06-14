@@ -6,4 +6,13 @@
     </style>
 
     <style name="Theme.AP2_SpeakEasy" parent="Base.Theme.AP2_SpeakEasy" />
+
+    <style name="Theme.AP2_SpeakEasy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MaKore.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MaKore.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
