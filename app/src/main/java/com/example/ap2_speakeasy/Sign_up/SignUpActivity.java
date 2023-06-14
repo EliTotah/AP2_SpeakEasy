@@ -7,10 +7,12 @@ import androidx.cardview.widget.CardView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
 
-    private Uri selectedImageUri;
+    private Bitmap selectedImageBitmap;
     private boolean checkInput = false;
     private ImageView imageView; // Declare the ImageView as a class member
 
@@ -59,9 +62,17 @@ public class SignUpActivity extends AppCompatActivity {
                         if (data != null) {
                             // Image selected from the gallery
                             Uri imageUri = data.getData();
-                            selectedImageUri = imageUri;
-                            imageView.setImageURI(imageUri);
+                            try {
+                                // Convert Uri to Bitmap
+                                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                                imageView.setImageBitmap(bitmap);
+                                selectedImageBitmap = bitmap;
+                                // Use the bitmap as needed
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     }
                 });
 
@@ -73,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                             // Photo captured from the camera
                             Bitmap photo = (Bitmap) data.getExtras().get("data");
                             imageView.setImageBitmap(photo);
-                            selectedImageUri = saveImageToGallery(photo);
+                            selectedImageBitmap = photo;
                         }
                     }
                 });
@@ -98,11 +109,17 @@ public class SignUpActivity extends AppCompatActivity {
                     Intent intent = new Intent(SignUpActivity.this, ContactInfoActivity.class);
                     intent.putExtra("name", inputName);
                     intent.putExtra("username", inputUserName);
-                    if (selectedImageUri != null) {
-                        intent.putExtra("imageUri", selectedImageUri.toString());
+                    if (selectedImageBitmap != null) {
+                        Log.e("photo", selectedImageBitmap.toString());
+                        intent.putExtra("imageBitmap", selectedImageBitmap.toString());
                     }
                     else {
-                        intent.putExtra("imageUri", imageView.toString());
+                        imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
+                        imageView.buildDrawingCache(); // Build the drawing cache
+                        Bitmap bitmap = imageView.getDrawingCache();
+                        imageView.setDrawingCacheEnabled(false);
+                        Log.e("photo", bitmap.toString());
+                        intent.putExtra("imageBitmap", bitmap.toString());
                     }
                     startActivity(intent);
                 }

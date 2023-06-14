@@ -9,9 +9,11 @@ import androidx.cardview.widget.CardView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
 
 public class GenderActivity extends AppCompatActivity {
     private ActivityGenderBinding binding;
-
+    private Bitmap selectedImageBitmap;
     private String selectedImage;
     private String username;
     private String name;
@@ -43,6 +45,12 @@ public class GenderActivity extends AppCompatActivity {
             username = intent.getStringExtra("username");
             name = intent.getStringExtra("name");
             selectedImage = intent.getStringExtra("selectedImage");
+            // Convert the bitmap string to a byte array
+            byte[] byteArray = Base64.decode(selectedImage, Base64.DEFAULT);
+            // Convert the byte array to a Bitmap
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            // Set the Bitmap in the ImageView
+            imageView.setImageBitmap(bitmap);
         }
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage; // Assign the ImageView reference

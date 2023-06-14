@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.LoginActivity;
@@ -29,7 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserAPI {
     private Retrofit retrofit;
     private UserServiceAPI userServiceAPI;
-    public String token;
+    //public String token;
+    private MutableLiveData<String> tokenLiveData = new MutableLiveData<>();
+
 
     public UserAPI() {
         /////////////
@@ -64,19 +67,21 @@ public class UserAPI {
         });
     }
 
-    public void signIn(String username, String password,CallBackFlag callBackFlag) {
+
+    public void signIn(String username, String password, CallBackFlag callBackFlag) {
         Call<ResponseBody> loginCall = userServiceAPI.login(Map.of("username", username, "password", password));
         loginCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                callBackFlag.complete(response.code());
                 if (response.code() == 200) {
                     try {
-                        token = response.body().string();
+                        String token = response.body().string();
+                        setToken(token);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
+                callBackFlag.complete(response.code());
             }
 
             @Override
@@ -84,6 +89,13 @@ public class UserAPI {
                 //binding.editTextUsername.setError(getString(R.string.connection_error));
             }
         });
+    }
+    public MutableLiveData<String> getTokenLiveData() {
+        return tokenLiveData;
+    }
+
+    private void setToken(String token) {
+        this.tokenLiveData.setValue(token);
     }
 }
 
