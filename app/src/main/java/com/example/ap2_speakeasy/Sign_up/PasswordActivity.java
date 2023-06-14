@@ -29,6 +29,9 @@ import com.example.ap2_speakeasy.API.CallBackFlag;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.LoginActivity;
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
+import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
+import com.example.ap2_speakeasy.databinding.ActivityPasswordBinding;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -41,12 +44,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PasswordActivity extends AppCompatActivity {
+    private ActivityPasswordBinding binding;
     private String profilePic;
     private Bitmap imageBitmap;
     private String username;
     private String displayName;
     private String password;
-    private ActivitySignUpBinding binding;
     private ImageView imageView; // Declare the ImageView as a class member
 
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -66,7 +69,8 @@ public class PasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password);
+        binding = ActivityPasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
@@ -75,11 +79,11 @@ public class PasswordActivity extends AppCompatActivity {
             //imageBitmap = getIntent().getParcelableExtra("selectedImage");
             //profilePic = encodeImage(imageBitmap);
         }
-        passwordEditText = findViewById(R.id.password);
-        confirmPasswordEditText = findViewById(R.id.confirm_password);
-        errorMessageTextView = findViewById(R.id.error_msg);
-        CardView cardView = findViewById(R.id.card_view_profile_image);
-        imageView = findViewById(R.id.profile_image); // Assign the ImageView reference
+        passwordEditText = binding.password;
+        confirmPasswordEditText = binding.confirmPassword;
+        errorMessageTextView = binding.errorMsg;
+        CardView cardView = binding.cardViewProfileImage;
+        imageView = binding.profileImage; // Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -113,8 +117,8 @@ public class PasswordActivity extends AppCompatActivity {
             }
         });
 
-        Button submitButton = findViewById(R.id.buttonSubmit);
-        Button prevButton = findViewById(R.id.buttonPrev);
+        Button submitButton = binding.buttonSubmit;
+        Button prevButton = binding.buttonPrev;
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,8 +126,8 @@ public class PasswordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        passwordVisibility1 = findViewById(R.id.visibility_password);
-        passwordVisibility2 = findViewById(R.id.visibility_confirm_password);
+        passwordVisibility1 = binding.visibilityPassword;
+        passwordVisibility2 = binding.visibilityConfirmPassword;
 
         passwordEditText.addTextChangedListener(passwordTextWatcher);
         confirmPasswordEditText.addTextChangedListener(confirmPasswordTextWatcher);

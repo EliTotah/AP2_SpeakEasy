@@ -21,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,6 +29,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private ActivitySignUpBinding binding;
+
     private Uri selectedImageUri;
     private boolean checkInput = false;
     private ImageView imageView; // Declare the ImageView as a class member
@@ -41,11 +45,12 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        Button nextButton = findViewById(R.id.buttonNext);
-        CardView cardView = findViewById(R.id.card_view_profile_image);
-        imageView = findViewById(R.id.profile_image); // Assign the ImageView reference
+        Button nextButton = binding.buttonNext;
+        CardView cardView = binding.cardViewProfileImage;
+        imageView = binding.profileImage;// Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -85,8 +90,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isInputValid()) {
-                    EditText editTextName = findViewById(R.id.Sign_up_name);
-                    EditText editTextUserName = findViewById(R.id.Sign_up_username);
+                    EditText editTextName = binding.SignUpName;
+                    EditText editTextUserName = binding.SignUpUsername;
                     String inputName = editTextName.getText().toString().trim();
                     String inputUserName = editTextUserName.getText().toString().trim();
                     // Start the next activity
@@ -109,8 +114,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isInputValid() {
-        EditText editTextName = findViewById(R.id.Sign_up_name);
-        EditText editTextUserName = findViewById(R.id.Sign_up_username);
+        EditText editTextName = binding.SignUpName;
+        EditText editTextUserName = binding.SignUpUsername;
         String inputName = editTextName.getText().toString().trim();
         String inputUserName = editTextUserName.getText().toString().trim();
         if ((!inputName.isEmpty()) && (!inputUserName.isEmpty())){
