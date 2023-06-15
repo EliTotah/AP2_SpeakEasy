@@ -9,9 +9,12 @@ import androidx.cardview.widget.CardView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,8 +23,11 @@ import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
+import java.io.FileNotFoundException;
+
 public class ContactInfoActivity extends AppCompatActivity {
     private ActivityContactInfoBinding binding;
+    private Bitmap selectedImageBitmap;
     private String selectedImage;
     private String username;
     private String name;
@@ -41,7 +47,13 @@ public class ContactInfoActivity extends AppCompatActivity {
         if (intent != null) {
             username = intent.getStringExtra("username");
             name = intent.getStringExtra("name");
-            selectedImage = intent.getStringExtra("imageUri");
+            selectedImage = intent.getStringExtra("imageBitmap");
+            // Convert the bitmap string to a byte array
+            byte[] byteArray = Base64.decode(selectedImage, Base64.DEFAULT);
+            // Convert the byte array to a Bitmap
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            // Set the Bitmap in the ImageView
+            imageView.setImageBitmap(bitmap);
         }
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage; // Assign the ImageView reference
@@ -53,7 +65,15 @@ public class ContactInfoActivity extends AppCompatActivity {
                         if (data != null) {
                             // Image selected from the gallery
                             Uri imageUri = data.getData();
-                            imageView.setImageURI(imageUri);
+                            try {
+                                // Convert Uri to Bitmap
+                                Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                                imageView.setImageBitmap(bitmap);
+                                selectedImageBitmap = bitmap;
+                                // Use the bitmap as needed
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -87,7 +107,17 @@ public class ContactInfoActivity extends AppCompatActivity {
                 Intent intent = new Intent(ContactInfoActivity.this, GenderActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
-                intent.putExtra("selectedImage", selectedImage);
+                if (selectedImage != null) {
+                    Log.e("photo", selectedImage);
+                    intent.putExtra("imageBitmap", selectedImage);
+                }
+                else {
+                    imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
+                    imageView.buildDrawingCache(); // Build the drawing cache
+                    Bitmap bitmap = imageView.getDrawingCache();
+                    Log.e("photo", bitmap.toString());
+                    intent.putExtra("imageBitmap", bitmap.toString());
+                }
                 startActivity(intent);
             }
         });

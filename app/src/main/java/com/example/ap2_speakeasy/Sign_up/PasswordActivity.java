@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,10 +48,10 @@ import retrofit2.Response;
 public class PasswordActivity extends AppCompatActivity {
     private ActivityPasswordBinding binding;
     private String profilePic;
-    private Bitmap imageBitmap;
     private String username;
     private String displayName;
     private String password;
+    private  String encodedImage;
     private ImageView imageView; // Declare the ImageView as a class member
 
     private static final int GALLERY_REQUEST_CODE = 1;
@@ -76,8 +78,8 @@ public class PasswordActivity extends AppCompatActivity {
             username = intent.getStringExtra("username");
             displayName = intent.getStringExtra("name");
             profilePic = intent.getStringExtra("selectedImage");
-            //imageBitmap = getIntent().getParcelableExtra("selectedImage");
-            //profilePic = encodeImage(imageBitmap);
+            encodedImage = encodeImageString(profilePic);
+            Log.e("encodedImage", encodedImage);
         }
         passwordEditText = binding.password;
         confirmPasswordEditText = binding.confirmPassword;
@@ -122,8 +124,7 @@ public class PasswordActivity extends AppCompatActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PasswordActivity.this, GenderActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         passwordVisibility1 = binding.visibilityPassword;
@@ -143,7 +144,6 @@ public class PasswordActivity extends AppCompatActivity {
         });
 
         submitButton.setOnClickListener(v -> validatePasswords());
-        return;
     }
 
     private void togglePasswordVisibility(EditText editText, ImageView visibilityImageView, boolean showPassword) {
@@ -260,7 +260,7 @@ public class PasswordActivity extends AppCompatActivity {
     }
     private void validateAll(){
         UserAPI userAPI = new UserAPI();
-        userAPI.register(username, password, displayName, profilePic, callback -> {
+        userAPI.register(username, password, displayName, encodedImage, callback -> {
             if (callback == 200) {
                 // Implement your logic here when the callback is complete and the boolean is true
                 Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
@@ -276,11 +276,16 @@ public class PasswordActivity extends AppCompatActivity {
         });
 
     }
-    private String encodeImage(Bitmap bm) {
+    private String encodeImageString(String bitmapString) {
+        byte[] byteArray = Base64.decode(bitmapString, Base64.DEFAULT);
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
 
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
+
 }
