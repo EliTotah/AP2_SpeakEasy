@@ -31,7 +31,9 @@ public class UserAPI {
     private Retrofit retrofit;
     private UserServiceAPI userServiceAPI;
     //public String token;
-    private MutableLiveData<String> tokenLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> tokenLiveData;
+    private MutableLiveData<String> activeUserName;
+
 
 
     public UserAPI() {
@@ -49,6 +51,8 @@ public class UserAPI {
                 .client(client)
                 .build();
         userServiceAPI = retrofit.create(UserServiceAPI.class);
+        tokenLiveData = new MutableLiveData<>();
+        activeUserName = new MutableLiveData<>();
     }
 
 
@@ -77,6 +81,7 @@ public class UserAPI {
                     try {
                         String token = response.body().string();
                         setToken(token);
+                        setActiveUserName(username);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -96,6 +101,14 @@ public class UserAPI {
 
     private void setToken(String token) {
         this.tokenLiveData.setValue(token);
+    }
+
+    public MutableLiveData<String> getActiveUserName() {
+        return activeUserName;
+    }
+
+    public void setActiveUserName(String activeUserName) {
+        this.activeUserName.setValue(activeUserName);
     }
 }
 
