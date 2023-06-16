@@ -2,7 +2,12 @@ package com.example.ap2_speakeasy.repositories;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.ap2_speakeasy.AP2_SpeakEasy;
+import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
+import com.example.ap2_speakeasy.DatabaseManager;
+import com.example.ap2_speakeasy.LoginActivity;
+import com.example.ap2_speakeasy.MainActivity;
 import com.example.ap2_speakeasy.entities.Contact;
 
 import java.util.LinkedList;
@@ -15,14 +20,14 @@ public class ContactRepository {
     //private final MessageListData messageListData;
 
     public ContactRepository() {
-        //DatabaseManager db = DatabaseManager.getDatabase(AP2_SpeakEasy);
-        //contactsDao = db.();
-        ContactListData contactListData = new ContactListData();
+        AppDB db = DatabaseManager.getDatabase(AP2_SpeakEasy.context);
+        contactDao = db.contactDao();
+        contactListData = new ContactListData();
         //messageListData = new MessageListData();
     }
 
     public void insertContact(Contact contact) {
-        //contactsDao.insertContact(contact);
+        contactDao.insert(contact);
         List<Contact> contactsList = contactListData.getValue();
         if (contactsList == null) {
             contactsList = new LinkedList<>();
@@ -31,15 +36,19 @@ public class ContactRepository {
         contactListData.setValue(contactsList);
     }
 
-    public void deleteContacts() {
-        //contactsDao.deleteContacts();
-        contactListData.setValue(null);
+    public void deleteContact(Contact contact) {
+        contactDao.delete(contact);
+        List<Contact> contactsList = contactListData.getValue();
+        if (contactsList == null) {
+            return;
+        }
+        contactsList.remove(contact);
+        contactListData.setValue(contactsList);
     }
 
     // Get contact by id
-    public Contact getContact(String id) {
-        return  null;
-        //return contactsDao.getContact(id);
+    public Contact getContact(int id) {
+        return contactDao.get(id);
     }
 
     // Get contacts list

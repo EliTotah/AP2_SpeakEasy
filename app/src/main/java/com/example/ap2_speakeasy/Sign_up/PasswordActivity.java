@@ -81,7 +81,7 @@ public class PasswordActivity extends AppCompatActivity {
             encodedImage = encodeImageString(profilePic);
             Log.e("encodedImage", encodedImage);
         }
-        passwordEditText = binding.password;
+        passwordEditText = binding.editPassword;
         confirmPasswordEditText = binding.confirmPassword;
         errorMessageTextView = binding.errorMsg;
         CardView cardView = binding.cardViewProfileImage;

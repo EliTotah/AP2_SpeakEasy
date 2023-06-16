@@ -43,5 +43,14 @@
     <string name="settings_theme_header">Theme</string>
     <string name="settings_dark_mode_summary">Use dark mode</string>
     <string name="settings_dark_mode_title">Dark mode</string>
-
+    <string name="Settings_settings_title">Chat App Settings</string>
+    <string name="Settings_notification_sound_option">Enable Notification Sound</string>
+    <string name="Settings_vibration_option">Enable Vibration</string>
+    <string name="Settings_dark_mode_option">Dark Mode</string>
+    <string name="Settings_language_option">Language</string>
+    <string name="Settings_save_button">Save Settings</string>
+    <string name="settings_back">back</string>
+    <string name="settings_server_address">Server Address</string>
+    <string name="settings_enter_server_address">Enter new server address</string>
+    <item name="Settings_notification_sound_checkbox" type="id" />
 </resources>
