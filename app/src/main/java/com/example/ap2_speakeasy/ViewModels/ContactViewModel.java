@@ -25,7 +25,7 @@ public class ContactViewModel extends ViewModel {
     }
 
     // Get contact by id
-    public Contact getContact(String id) {
+    public Contact getContact(int id) {
         return contactsRepository.getContact(id);
     }
 

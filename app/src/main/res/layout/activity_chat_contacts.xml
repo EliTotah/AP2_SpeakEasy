@@ -29,19 +29,18 @@
                     android:id="@+id/userImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bibi"/>
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/user_display_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="120dp"
                 android:layout_marginTop="15dp"
                 android:layout_toStartOf="@+id/navIconsLayout"
                 android:gravity="center"
-                android:text="Bibi"
                 android:textSize="30dp" />
 
             <LinearLayout

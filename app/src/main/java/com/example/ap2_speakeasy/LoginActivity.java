@@ -17,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     private UserAPI userAPI;
 
     private String userToken;
+    private String activeUserName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +28,20 @@ public class LoginActivity extends AppCompatActivity {
         // Observe changes to the token value
         userAPI.getTokenLiveData().observe(this, token -> {
             if (token != null) {
+                userToken = token;
                 // Token value has changed, handle it here
-                Log.e("token", token);
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                intent.putExtra("token", token);
-                startActivity(intent);
+                //Log.e("token", token);
+//                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+//                intent.putExtra("token", token);
+//                startActivity(intent);
                 // Save the token to preferences or use it as needed
 
+            }
+        });
+
+        userAPI.getActiveUserName().observe(this, username -> {
+            if (username != null) {
+                activeUserName = username;
             }
         });
         binding.signup.setOnClickListener(view -> {
@@ -56,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                     userAPI.signIn(username, password, callback -> {
                         if (callback == 200) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, ChatContactsActivity.class);
+                            intent.putExtra("token", userToken);
+                            intent.putExtra("activeUserName", activeUserName);
+                            startActivity(intent);
                         } else if (callback == 404) {
                             Toast.makeText(getApplicationContext(),
                                     "details not correct", Toast.LENGTH_SHORT).show();
