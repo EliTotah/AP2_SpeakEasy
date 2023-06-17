@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AP2_SpeakEasy</string>
+    <string name="login_speakeasy">SpeakEasy</string>
+    <string name="login_plsSignIn">התחבר לחשבון שלך</string>
+    <string name="login_username">שם משתמש</string>
+    <string name="login_password">סיסמה</string>
+    <string name="login_rmb">זכור אותי</string>
+    <string name="login_signIn">התחברות</string>
+    <string name="login_dnt">אין לך חשבון?</string>
+    <string name="login_signUp">הירשם</string>
+    <string name="main_SpeakEasy">Speak Easy</string>
+    <string name="SignUp_username">*שם משתמש</string>
+    <string name="SignUp_name">*שם</string>
+    <string name="SignUp_enter_text">הזן טקסט</string>
+    <string name="SignUp_next">הבא</string>
+    <string name="SignUp_sign_up">הירשם</string>
+    <string name="SignUp_Basic_info">מידע בסיסי:</string>
+    <string name="ContactInfo_phone">טלפון</string>
+    <string name="ContactInfo_mail">דואל</string>
+    <string name="ContactInfo_Contact_info">מידע יצירת קשר:</string>
+    <string name="ContactInfo_contact_info">מידע יצירת קשר</string>
+    <string name="Gender_Gender">מין:</string>
+    <string name="Gender_gender">מין</string>
+    <string name="spinner_title">בחר מין</string>
+    <string name="Password_loginDetails">פרטי התחברות</string>
+    <string name="LoginDetails_password">*סיסמה</string>
+    <string name="LoginDetails_confirm_password">*אימות סיסמה</string>
+    <string name="login_details_title">פרטי התחברות:</string>
+    <string name="Password_enter_text">הזן טקסט</string>
+    <string name="Password_prev">קודם</string>
+    <string name="Password_next">הבא</string>
+    <string name="SignUp_prev">קודם</string>
+    <string name="LoginDetails_submit">שלח</string>
+    <string name="error_passwords_do_not_match">הסיסמאות אינן תואמות</string>
+    <string name="error_missing_uppercase">חייב לכלול אות גדולה אחת</string>
+    <string name="error_missing_lowercase">חייב לכלול אות קטנה אחת</string>
+    <string name="error_missing_number">חייב לכלול מספר אחד</string>
+    <string name="error_missing_special_symbol">חייב לכלול סמל מיוחד אחד: @$! % * ? &amp;</string>
+    <string name="BaseUrl">http://10.0.2.2:5000/api/</string>
+    <string name="default_server_address">10.0.2.2:5000</string>
+    <string name="settings_messages_header">הודעות</string>
+    <string name="settings_server_title">השרת שלך</string>
+    <string name="settings_theme_header">ערכת נושא</string>
+    <string name="settings_dark_mode_summary">השתמש במצב כהה</string>
+    <string name="settings_dark_mode_title">מצב כהה</string>
+    <string name="Settings_settings_title">הגדרות יישום הצאט</string>
+    <string name="Settings_notification_sound_option">אפשר צליל התראה</string>
+    <string name="Settings_vibration_option">אפשר רטט</string>
+    <string name="Settings_dark_mode_option">מצב כהה</string>
+    <string name="Settings_language_option">שפה</string>
+    <string name="Settings_save_button">שמירת הגדרות</string>
+    <string name="settings_back">חזרה</string>
+    <string name="settings_server_address">כתובת השרת</string>
+    <string name="settings_enter_server_address">הזן כתובת שרת חדשה</string>
+    <item name="Settings_notification_sound_checkbox" type="id" />
+</resources>

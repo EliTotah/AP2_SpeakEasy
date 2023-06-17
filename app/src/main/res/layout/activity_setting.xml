@@ -1,35 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    tools:context="SettingsActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.MaKore.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/settings_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.MaKore.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context=".SettingActivity">
 
     <LinearLayout
+        android:id="@+id/settingsPage"
         android:layout_width="match_parent"
-        android:background="?attr/backgroundColor"
-        android:paddingTop="56dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <FrameLayout
-            android:id="@+id/settings"
+        <LinearLayout
+            android:id="@+id/settingsContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="600dp"
+            android:background="@color/Sign_up_container"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_back"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="16dp"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:id="@+id/settingsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="77dp"
+                android:gravity="center"
+                android:text="Chat App Settings"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/server_address_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:text="@string/settings_enter_server_address" />
+
+            <Switch
+                android:id="@+id/notificationSoundSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:padding="16dp"
+                android:text="Enable Notification Sound"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/vibrationSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:padding="16dp"
+                android:text="Enable Vibration"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/darkModeSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:padding="16dp"
+                android:text="Enable Dark Mode"
+                android:textSize="16sp" />
+
+
+            <Spinner
+                android:id="@+id/languageSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/language_options"
+                android:padding="16dp" />
+
+            <Button
+                android:id="@+id/saveSettingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Save Settings" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             // Start the LoginActivity after the delay
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
             finish(); // Optional: Close the MainActivity so the user can't go back to it
         }, DELAY_TIME_MS);

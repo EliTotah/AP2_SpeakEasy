@@ -4,6 +4,11 @@
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
-
     </array>
+        <array name="language_options">
+                <item>Language</item>
+                <item>English</item>
+                <item>Hebrew</item>
+
+            </array>
 </resources>

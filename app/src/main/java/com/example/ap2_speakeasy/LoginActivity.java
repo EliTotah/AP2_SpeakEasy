@@ -49,6 +49,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.dnthave.setOnClickListener(view -> {
+            // Handle the click event here
+            Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+            startActivity(intent);
+        });
+
         binding.loginButton.setOnClickListener(view -> {
             // Get username and password from the UI
             String username = binding.editTextUsername.getText().toString();

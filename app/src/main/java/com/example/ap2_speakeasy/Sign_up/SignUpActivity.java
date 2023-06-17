@@ -111,7 +111,8 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra("username", inputUserName);
                     if (selectedImageBitmap != null) {
                         Log.e("photo", selectedImageBitmap.toString());
-                        intent.putExtra("imageBitmap", selectedImageBitmap.toString());
+                        String imageBitmap = selectedImageBitmap.toString().trim();
+                        intent.putExtra("imageBitmap",imageBitmap);
                     }
                     else {
                         imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
