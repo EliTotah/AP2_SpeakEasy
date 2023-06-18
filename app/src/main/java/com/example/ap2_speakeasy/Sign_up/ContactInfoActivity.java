@@ -43,20 +43,20 @@ public class ContactInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityContactInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        CardView cardView = binding.cardViewProfileImage;
+        imageView = binding.profileImage;
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
             name = intent.getStringExtra("name");
-            selectedImage = intent.getStringExtra("imageBitmap");
-            // Convert the bitmap string to a byte array
-            byte[] byteArray = Base64.decode(selectedImage, Base64.DEFAULT);
-            // Convert the byte array to a Bitmap
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            // Set the Bitmap in the ImageView
-            imageView.setImageBitmap(bitmap);
+            selectedImage = getIntent().getStringExtra("imageBitmap");
+            selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
+            if (selectedImageBitmap != null) {
+                imageView.setImageBitmap(selectedImageBitmap);
+            }
         }
-        CardView cardView = binding.cardViewProfileImage;
-        imageView = binding.profileImage; // Assign the ImageView reference
+
+        // Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -75,6 +75,7 @@ public class ContactInfoActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+
                     }
                 });
 
@@ -86,6 +87,7 @@ public class ContactInfoActivity extends AppCompatActivity {
                             // Photo captured from the camera
                             Bitmap photo = (Bitmap) data.getExtras().get("data");
                             imageView.setImageBitmap(photo);
+                            selectedImageBitmap = photo;
                         }
                     }
                 });
@@ -166,6 +168,15 @@ public class ContactInfoActivity extends AppCompatActivity {
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraLauncher.launch(intent);
+    }
+    private Bitmap decodeImage(String imageString) {
+        try {
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

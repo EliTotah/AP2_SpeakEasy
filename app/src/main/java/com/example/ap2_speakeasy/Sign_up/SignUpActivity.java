@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +36,8 @@ import java.io.OutputStream;
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
+    private String imageString = "";
+
 
     private Bitmap selectedImageBitmap;
     private boolean checkInput = false;
@@ -111,8 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra("username", inputUserName);
                     if (selectedImageBitmap != null) {
                         Log.e("photo", selectedImageBitmap.toString());
-                        String imageBitmap = selectedImageBitmap.toString().trim();
-                        intent.putExtra("imageBitmap",imageBitmap);
+                        imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
+                        intent.putExtra("imageBitmap", imageString);
                     }
                     else {
                         imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
@@ -178,22 +182,12 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraLauncher.launch(intent);
     }
-    private Uri saveImageToGallery(Bitmap imageBitmap) {
-        // Save the image to a temporary file
-        File tempFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg");
-        try (OutputStream os = new FileOutputStream(tempFile)) {
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Add the image to the gallery
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(tempFile);
-        mediaScanIntent.setData(contentUri);
-        sendBroadcast(mediaScanIntent);
-
-        return contentUri;
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] imageBytes = outputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
+
 
 }
