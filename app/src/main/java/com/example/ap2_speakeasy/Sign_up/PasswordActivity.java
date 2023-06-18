@@ -82,7 +82,7 @@ public class PasswordActivity extends AppCompatActivity {
         if (intent != null) {
             username = intent.getStringExtra("username");
             displayName = intent.getStringExtra("name");
-            selectedImage = getIntent().getStringExtra("imageBitmap");
+            selectedImage = getIntent().getStringExtra("selectedImage");
             selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
             if (selectedImageBitmap != null) {
                 imageView.setImageBitmap(selectedImageBitmap);
@@ -289,6 +289,12 @@ public class PasswordActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] imageBytes = outputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
 }

@@ -23,10 +23,12 @@ import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 public class ContactInfoActivity extends AppCompatActivity {
     private ActivityContactInfoBinding binding;
+    private  String imageString;
     private Bitmap selectedImageBitmap;
     private String selectedImage;
     private String username;
@@ -109,16 +111,18 @@ public class ContactInfoActivity extends AppCompatActivity {
                 Intent intent = new Intent(ContactInfoActivity.this, GenderActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
-                if (selectedImage != null) {
-                    Log.e("photo", selectedImage);
-                    intent.putExtra("imageBitmap", selectedImage);
+                if (selectedImageBitmap != null) {
+                    Log.e("photo", selectedImageBitmap.toString());
+                    imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
+                    intent.putExtra("selectedImage", imageString);
                 }
                 else {
                     imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
                     imageView.buildDrawingCache(); // Build the drawing cache
                     Bitmap bitmap = imageView.getDrawingCache();
+                    imageView.setDrawingCacheEnabled(false);
                     Log.e("photo", bitmap.toString());
-                    intent.putExtra("imageBitmap", bitmap.toString());
+                    intent.putExtra("selectedImage", bitmap.toString());
                 }
                 startActivity(intent);
             }
@@ -177,6 +181,12 @@ public class ContactInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] imageBytes = outputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 }
 

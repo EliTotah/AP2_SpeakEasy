@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,8 +23,13 @@ import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
 import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
 
+import java.io.ByteArrayOutputStream;
+
 public class GenderActivity extends AppCompatActivity {
     private ActivityGenderBinding binding;
+    private String imageString = "";
+
+
     private Bitmap selectedImageBitmap;
     private String selectedImage;
     private String username;
@@ -46,11 +52,12 @@ public class GenderActivity extends AppCompatActivity {
             if (intent != null) {
                 username = intent.getStringExtra("username");
                 name = intent.getStringExtra("name");
-                selectedImage = getIntent().getStringExtra("imageBitmap");
+                selectedImage = getIntent().getStringExtra("selectedImage");
                 selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
                 if (selectedImageBitmap != null) {
                     imageView.setImageBitmap(selectedImageBitmap);
                 }
+
             }
 
 
@@ -95,7 +102,19 @@ public class GenderActivity extends AppCompatActivity {
                 Intent intent = new Intent(GenderActivity.this, PasswordActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("name", name);
-                intent.putExtra("selectedImage", selectedImage);
+                if (selectedImageBitmap != null) {
+                    Log.e("photo", selectedImageBitmap.toString());
+                    imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
+                    intent.putExtra("selectedImage", imageString);
+                }
+                else {
+                    imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
+                    imageView.buildDrawingCache(); // Build the drawing cache
+                    Bitmap bitmap = imageView.getDrawingCache();
+                    imageView.setDrawingCacheEnabled(false);
+                    Log.e("photo", bitmap.toString());
+                    intent.putExtra("selectedImage", bitmap.toString());
+                }
                 startActivity(intent);
             }
         });
@@ -154,4 +173,10 @@ public class GenderActivity extends AppCompatActivity {
             }
             return null;
         }
+    private String encodeImage(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        byte[] imageBytes = outputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
 }
