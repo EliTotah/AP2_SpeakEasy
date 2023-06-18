@@ -42,6 +42,7 @@ public class ContactRepository {
 
     public void insertContact(String username) {
         chatAPI.createChat(token,username);
+        chatAPI.getAllChats(this.contactListData,token);
     }
 
     class ContactListData extends MutableLiveData<List<Contact>> {

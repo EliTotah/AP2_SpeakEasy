@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -54,10 +56,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         Button nextButton = binding.buttonNext;
         CardView cardView = binding.cardViewProfileImage;
-        imageView = binding.profileImage;// Assign the ImageView reference
+        imageView = binding.profileImage;
+        imageView.setImageResource(R.drawable.profilepic);// Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -114,17 +116,19 @@ public class SignUpActivity extends AppCompatActivity {
                     intent.putExtra("name", inputName);
                     intent.putExtra("username", inputUserName);
                     if (selectedImageBitmap != null) {
-                        Log.e("photo", selectedImageBitmap.toString());
                         imageString = encodeImage(selectedImageBitmap); // Convert bitmap to string
                         intent.putExtra("imageBitmap", imageString);
                     }
                     else {
-                        imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
-                        imageView.buildDrawingCache(); // Build the drawing cache
-                        Bitmap bitmap = imageView.getDrawingCache();
-                        imageView.setDrawingCacheEnabled(false);
-                        Log.e("photo", bitmap.toString());
-                        intent.putExtra("imageBitmap", bitmap.toString());
+                        Drawable drawable = imageView.getDrawable();
+                        if (drawable instanceof BitmapDrawable) {
+                            // Extract the Bitmap from the Drawable
+                            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                            imageView.setDrawingCacheEnabled(false);
+                            imageString = encodeImage(bitmap);
+                            // Pass the bitmap to the next intent if required
+                            intent.putExtra("imageBitmap", imageString);
+                        }
                     }
                     startActivity(intent);
                 }
@@ -186,8 +190,15 @@ public class SignUpActivity extends AppCompatActivity {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         byte[] imageBytes = outputStream.toByteArray();
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return encodedImage;
     }
+
 
 
 }

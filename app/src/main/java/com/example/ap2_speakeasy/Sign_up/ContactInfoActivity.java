@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -117,12 +119,15 @@ public class ContactInfoActivity extends AppCompatActivity {
                     intent.putExtra("selectedImage", imageString);
                 }
                 else {
-                    imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
-                    imageView.buildDrawingCache(); // Build the drawing cache
-                    Bitmap bitmap = imageView.getDrawingCache();
-                    imageView.setDrawingCacheEnabled(false);
-                    Log.e("photo", bitmap.toString());
-                    intent.putExtra("selectedImage", bitmap.toString());
+                    Drawable drawable = imageView.getDrawable();
+                    if (drawable instanceof BitmapDrawable) {
+                        // Extract the Bitmap from the Drawable
+                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                        imageView.setDrawingCacheEnabled(false);
+                        imageString = encodeImage(bitmap);
+                        // Pass the bitmap to the next intent if required
+                        intent.putExtra("selectedImage", imageString);
+                    }
                 }
                 startActivity(intent);
             }
