@@ -58,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         Button nextButton = binding.buttonNext;
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage;// Assign the ImageView reference
+        imageView.setImageResource(R.drawable.profilepic);
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -123,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
                         imageView.buildDrawingCache(); // Build the drawing cache
                         Bitmap bitmap = imageView.getDrawingCache();
                         imageView.setDrawingCacheEnabled(false);
-                        Log.e("photo", bitmap.toString());
+                        Log.e("OurPhoto", bitmap.toString());
                         intent.putExtra("imageBitmap", bitmap.toString());
                     }
                     startActivity(intent);

@@ -75,6 +75,7 @@ public class ChatAPI {
                         User user = gson.fromJson(userJson, User.class);
                         Contact c = new Contact(id,user,null);
                         contactDao.insert(c);
+
                         Log.e("api call",response.body().toString());
                         responeAnswer.setValue("ok");
                     }
@@ -109,11 +110,13 @@ public class ChatAPI {
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
                     contactListData.setValue(response.body());
+                    List<Contact> lc = response.body();
                     Log.e("api call",response.body().toString());
                 }
                 else {
                     Log.e("api call","booooooo");
                 }
+                //callBackFlag.complete(response.code());
             }
 
             @Override
@@ -127,6 +130,10 @@ public class ChatAPI {
                 }
             }
         });
+    }
+
+    public void getUserDetails() {
+
     }
 
 /*

@@ -9,9 +9,9 @@ public class User {
 
     private String displayName;
 
-    private ImageView profilePic;
+    private String profilePic;
 
-    public User(String id, String displayName, ImageView profilePic) {
+    public User(String id, String displayName, String profilePic) {
         this.id = id;
         this.displayName = displayName;
         this.profilePic = profilePic;
@@ -33,11 +33,11 @@ public class User {
         this.displayName = displayName;
     }
 
-    public ImageView getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(ImageView profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 }

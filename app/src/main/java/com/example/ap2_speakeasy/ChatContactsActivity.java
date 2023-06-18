@@ -2,6 +2,7 @@ package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class ChatContactsActivity extends AppCompatActivity {
     private List<Contact> dbContacts;
     private ContactDao contactDao;
     private RecyclerView lvUsers;
+    ContactListAdapter adapter;
     //private ContactListAdapter adapter;
 
     private ContactViewModel viewModel;
@@ -60,10 +63,19 @@ public class ChatContactsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent intent = getIntent();
 
-        if(intent!= null) {
+        if (intent != null) {
              activeUserName = getIntent().getStringExtra("activeUserName");
              userToken = getIntent().getStringExtra("token");
         }
+
+        UserAPI userAPI = new UserAPI();
+        userAPI.getUserDetails(activeUserName, callback -> {
+            if(callback == 200) {
+                User u = userAPI.getUser();
+                binding.userDisplayName.setText(u.getDisplayName());
+                //binding.userImage.setImageResource(u.getProfilePic());
+            }
+        });
 
         this.db = DatabaseManager.getDatabase();
 
@@ -72,7 +84,7 @@ public class ChatContactsActivity extends AppCompatActivity {
         this.contacts = new ArrayList<>();
 
         ListView lvContacts = binding.listViewChats;
-        final ContactListAdapter adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts);
+        adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts);
 
         viewModel.getContacts().observe(this, adapter::setContacts);
 
@@ -115,6 +127,7 @@ public class ChatContactsActivity extends AppCompatActivity {
         dialogBuilder.setNegativeButton("Cancel", null);
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        adapter.notifyDataSetChanged();
     }
 
 

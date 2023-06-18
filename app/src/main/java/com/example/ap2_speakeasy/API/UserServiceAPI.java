@@ -1,5 +1,7 @@
 package com.example.ap2_speakeasy.API;
 
+import com.example.ap2_speakeasy.entities.User;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -17,7 +19,7 @@ public interface UserServiceAPI {
     Call<ResponseBody> signup(@Body Map<String, String> user);
 
     @GET("Users/{id}")
-    Call<Map<String,String>> getUser (@Path("id") String username);
+    Call<User> getUser (@Path("id") String username);
 
 //    @GET("Users/")
 //    Call<List<User>> getUsers();

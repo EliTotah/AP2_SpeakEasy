@@ -13,8 +13,11 @@ import com.example.ap2_speakeasy.MainActivity;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.Sign_up.PasswordActivity;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
+import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.User;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
@@ -33,6 +36,9 @@ public class UserAPI {
     //public String token;
     private MutableLiveData<String> tokenLiveData;
     private MutableLiveData<String> activeUserName;
+
+    private MutableLiveData<User> user;
+
 
 
 
@@ -95,6 +101,37 @@ public class UserAPI {
             }
         });
     }
+
+    public void getUserDetails(String username, CallBackFlag callBackFlag) {
+        Call<User> call = userServiceAPI.getUser(username);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    String id = response.body().getId();
+                    String display = response.body().getDisplayName();
+                    String pic = response.body().getProfilePic();
+                    User u = new User(id, display, pic);
+                    setUser(u);
+                }
+                else {
+                    Log.e("api call","booooooo");
+                }
+                callBackFlag.complete(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                String err = t.getMessage();
+                if (err!=null){
+                    Log.e("api call","ERROR: " + err );
+                }
+                else {
+                    Log.e("api call","Unknown error");
+                }
+            }
+        });
+    }
     public MutableLiveData<String> getTokenLiveData() {
         return tokenLiveData;
     }
@@ -111,8 +148,12 @@ public class UserAPI {
         this.activeUserName.setValue(activeUserName);
     }
 
-    public Call<Map<String,String>> getUserDetails(String username) {
-        return userServiceAPI.getUser(username);
+    public User getUser() {
+        return user.getValue();
+    }
+
+    public void setUser(User user) {
+        this.user.setValue(user);
     }
 }
 
