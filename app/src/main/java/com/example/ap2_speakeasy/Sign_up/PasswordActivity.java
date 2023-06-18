@@ -51,6 +51,9 @@ public class PasswordActivity extends AppCompatActivity {
     private String username;
     private String displayName;
     private String password;
+    private Bitmap selectedImageBitmap;
+    private String selectedImage;
+
     private  String encodedImage;
     private ImageView imageView; // Declare the ImageView as a class member
 
@@ -73,19 +76,21 @@ public class PasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        CardView cardView = binding.cardViewProfileImage;
+        imageView = binding.profileImage; // Assign the ImageView reference
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
             displayName = intent.getStringExtra("name");
-            profilePic = intent.getStringExtra("selectedImage");
-            encodedImage = encodeImageString(profilePic);
-            Log.e("encodedImage", encodedImage);
+            selectedImage = getIntent().getStringExtra("imageBitmap");
+            selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
+            if (selectedImageBitmap != null) {
+                imageView.setImageBitmap(selectedImageBitmap);
+            }
         }
         passwordEditText = binding.editPassword;
         confirmPasswordEditText = binding.confirmPassword;
         errorMessageTextView = binding.errorMsg;
-        CardView cardView = binding.cardViewProfileImage;
-        imageView = binding.profileImage; // Assign the ImageView reference
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -260,7 +265,7 @@ public class PasswordActivity extends AppCompatActivity {
     }
     private void validateAll(){
         UserAPI userAPI = new UserAPI();
-        userAPI.register(username, password, displayName, encodedImage, callback -> {
+        userAPI.register(username, password, displayName, selectedImage, callback -> {
             if (callback == 200) {
                 // Implement your logic here when the callback is complete and the boolean is true
                 Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
@@ -276,16 +281,14 @@ public class PasswordActivity extends AppCompatActivity {
         });
 
     }
-    private String encodeImageString(String bitmapString) {
-        byte[] byteArray = Base64.decode(bitmapString, Base64.DEFAULT);
-
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-
-        return Base64.encodeToString(b, Base64.DEFAULT);
+    private Bitmap decodeImage(String imageString) {
+        try {
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

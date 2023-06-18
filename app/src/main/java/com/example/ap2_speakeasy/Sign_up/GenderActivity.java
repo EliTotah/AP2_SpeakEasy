@@ -40,20 +40,19 @@ public class GenderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityGenderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Intent intent = getIntent();
-        if (intent != null) {
-            username = intent.getStringExtra("username");
-            name = intent.getStringExtra("name");
-            selectedImage = intent.getStringExtra("selectedImage");
-            // Convert the bitmap string to a byte array
-            byte[] byteArray = Base64.decode(selectedImage, Base64.DEFAULT);
-            // Convert the byte array to a Bitmap
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            // Set the Bitmap in the ImageView
-            imageView.setImageBitmap(bitmap);
-        }
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage; // Assign the ImageView reference
+        Intent intent = getIntent();
+            if (intent != null) {
+                username = intent.getStringExtra("username");
+                name = intent.getStringExtra("name");
+                selectedImage = getIntent().getStringExtra("imageBitmap");
+                selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
+                if (selectedImageBitmap != null) {
+                    imageView.setImageBitmap(selectedImageBitmap);
+                }
+            }
+
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -146,4 +145,13 @@ public class GenderActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraLauncher.launch(intent);
     }
+        private Bitmap decodeImage(String imageString) {
+            try {
+                byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 }
