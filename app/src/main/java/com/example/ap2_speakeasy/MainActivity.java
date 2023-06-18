@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
             // Start the LoginActivity after the delay
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+
             startActivity(intent);
             finish(); // Optional: Close the MainActivity so the user can't go back to it
         }, DELAY_TIME_MS);

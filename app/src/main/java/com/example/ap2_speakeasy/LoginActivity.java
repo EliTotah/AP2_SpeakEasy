@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     userAPI.signIn(username, password, callback -> {
                         if (callback == 200) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            Log.e("token", userToken);
                             Intent intent = new Intent(LoginActivity.this, ChatContactsActivity.class);
                             intent.putExtra("token", "Bearer " + userToken);
                             intent.putExtra("activeUserName", activeUserName);
