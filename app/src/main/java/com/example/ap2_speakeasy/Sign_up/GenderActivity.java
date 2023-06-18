@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -108,12 +110,15 @@ public class GenderActivity extends AppCompatActivity {
                     intent.putExtra("selectedImage", imageString);
                 }
                 else {
-                    imageView.setDrawingCacheEnabled(true); // Enable the drawing cache
-                    imageView.buildDrawingCache(); // Build the drawing cache
-                    Bitmap bitmap = imageView.getDrawingCache();
-                    imageView.setDrawingCacheEnabled(false);
-                    Log.e("photo", bitmap.toString());
-                    intent.putExtra("selectedImage", bitmap.toString());
+                    Drawable drawable = imageView.getDrawable();
+                    if (drawable instanceof BitmapDrawable) {
+                        // Extract the Bitmap from the Drawable
+                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                        imageView.setDrawingCacheEnabled(false);
+                        imageString = encodeImage(bitmap);
+                        // Pass the bitmap to the next intent if required
+                        intent.putExtra("selectedImage", imageString);
+                    }
                 }
                 startActivity(intent);
             }
@@ -164,7 +169,7 @@ public class GenderActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraLauncher.launch(intent);
     }
-        private Bitmap decodeImage(String imageString) {
+    private Bitmap decodeImage(String imageString) {
             try {
                 byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
                 return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
@@ -172,7 +177,7 @@ public class GenderActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
-        }
+    }
     private String encodeImage(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
