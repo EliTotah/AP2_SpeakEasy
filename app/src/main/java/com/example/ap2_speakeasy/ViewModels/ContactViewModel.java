@@ -9,8 +9,8 @@ import com.example.ap2_speakeasy.repositories.ContactRepository;
 import java.util.List;
 
 public class ContactViewModel extends ViewModel {
-    private final ContactRepository contactsRepository;
-    private final LiveData<List<Contact>> contacts;
+    private ContactRepository contactsRepository;
+    private LiveData<List<Contact>> contacts;
 
 
     public ContactViewModel(String token) {
@@ -29,9 +29,10 @@ public class ContactViewModel extends ViewModel {
 
     public void insertContact(String username) {
         contactsRepository.insertContact(username);
+        reload();
     }
-/*
+
     public void reload() {
-        contactsRepository.reload();
-    }*/
+        this.contacts = contactsRepository.getAll();
+    }
 }

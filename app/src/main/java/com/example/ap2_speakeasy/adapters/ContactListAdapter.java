@@ -3,6 +3,9 @@ package com.example.ap2_speakeasy.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +14,10 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.ap2_speakeasy.ContactClickListener;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Contact;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.Nullable;
@@ -46,11 +43,12 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
         convertView = inflater.inflate(R.layout.user_list_item, parent, false);
 
         ImageView imageView = convertView.findViewById(R.id.profile_image_user_view);
-        TextView displayName = convertView.findViewById(R.id.user_display_name);
+        TextView displayName = convertView.findViewById(R.id.display_name_user_view);
         TextView lastMsg = convertView.findViewById(R.id.last_massage_user_view);
         TextView time = convertView.findViewById(R.id.time_user_view);
 
-        imageView.setImageResource(R.drawable.profilepic);
+        Bitmap im = decodeImage(contact.getUser().getProfilePic());
+        imageView.setImageBitmap(im);
         displayName.setText(contact.getUser().getDisplayName());
         String lm = "";
         String created = "";
@@ -65,6 +63,15 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
 
         return convertView;
     }
+
+    private Bitmap decodeImage(String imageString) {
+        try {
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;}
 
     public void setContacts(List<Contact> contacts) {
         this.clear();

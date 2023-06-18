@@ -55,13 +55,12 @@ public class ContactInfoActivity extends AppCompatActivity {
             name = intent.getStringExtra("name");
             selectedImage = getIntent().getStringExtra("imageBitmap");
             selectedImageBitmap = decodeImage(selectedImage); // Convert string to bitmap
-            if (selectedImageBitmap != null) {
+            if (selectedImage != null) {
                 imageView.setImageBitmap(selectedImageBitmap);
             }
         }
 
         // Assign the ImageView reference
-
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {

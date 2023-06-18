@@ -1,5 +1,7 @@
 package com.example.ap2_speakeasy.repositories;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -42,7 +44,7 @@ public class ContactRepository {
 
     public void insertContact(String username) {
         chatAPI.createChat(token,username);
-        chatAPI.getAllChats(this.contactListData,token);
+        chatAPI.getAllChats(contactListData,token);
     }
 
     class ContactListData extends MutableLiveData<List<Contact>> {

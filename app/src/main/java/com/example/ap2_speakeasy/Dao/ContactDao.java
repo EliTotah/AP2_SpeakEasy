@@ -17,7 +17,6 @@ import java.util.List;
 
     @Query("SELECT * FROM Contact WHERE id = :id")
     Contact get(int id);
-
     @Insert
     void insert(Contact... contacts);
 
