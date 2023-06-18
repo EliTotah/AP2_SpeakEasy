@@ -10,9 +10,9 @@ public class DatabaseManager {
 
     private static AppDB instance;
 
-    public static synchronized AppDB getDatabase(Context context) {
+    public static synchronized AppDB getDatabase() {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), AppDB.class, "speakEasyDB")
+            instance = Room.databaseBuilder(AP2_SpeakEasy.context, AppDB.class, "speakEasyDB")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();

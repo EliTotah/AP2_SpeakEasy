@@ -11,29 +11,27 @@ import java.util.List;
 public class ContactViewModel extends ViewModel {
     private final ContactRepository contactsRepository;
     private final LiveData<List<Contact>> contacts;
-    //private String contactId;
 
 
-    public ContactViewModel() {
-        contactsRepository = new ContactRepository();
-        contacts = contactsRepository.getContacts();
-        //contactId = null;
+    public ContactViewModel(String token) {
+        this.contactsRepository = new ContactRepository(token);
+        this.contacts = contactsRepository.getAll();
     }
 
     public LiveData<List<Contact>> getContacts() {
-        return contacts;
+        return this.contacts;
     }
 
     // Get contact by id
-    public Contact getContact(int id) {
+    /*public Contact getContact(int id) {
         return contactsRepository.getContact(id);
-    }
+    }*/
 
-    public void insertContact(Contact contact) {
-        contactsRepository.insertContact(contact);
+    public void insertContact(String username) {
+        contactsRepository.insertContact(username);
     }
-
+/*
     public void reload() {
         contactsRepository.reload();
-    }
+    }*/
 }

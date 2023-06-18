@@ -1,8 +1,11 @@
 package com.example.ap2_speakeasy.repositories;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
+import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.DatabaseManager;
@@ -13,65 +16,45 @@ import com.example.ap2_speakeasy.entities.Contact;
 import java.util.LinkedList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ContactRepository {
 
     private ContactDao contactDao;
-    private  ContactListData contactListData;
-    //private final MessageListData messageListData;
+    private ContactListData contactListData;
+    private ChatAPI chatAPI;
+    private String token;
+    private AppDB db;
 
-    public ContactRepository() {
-        AppDB db = DatabaseManager.getDatabase(AP2_SpeakEasy.context);
-        contactDao = db.contactDao();
-        contactListData = new ContactListData();
-        //messageListData = new MessageListData();
+    public ContactRepository(String token) {
+        this.token = token;
+        this.db = DatabaseManager.getDatabase();
+        this.contactDao = db.contactDao();
+        this.contactListData = new ContactListData();
+        this.chatAPI = new ChatAPI();
     }
 
-    public void insertContact(Contact contact) {
-        contactDao.insert(contact);
-        List<Contact> contactsList = contactListData.getValue();
-        if (contactsList == null) {
-            contactsList = new LinkedList<>();
-        }
-        contactsList.add(contact);
-        contactListData.setValue(contactsList);
-    }
-
-    public void deleteContact(Contact contact) {
-        contactDao.delete(contact);
-        List<Contact> contactsList = contactListData.getValue();
-        if (contactsList == null) {
-            return;
-        }
-        contactsList.remove(contact);
-        contactListData.setValue(contactsList);
-    }
-
-    // Get contact by id
-    public Contact getContact(int id) {
-        return contactDao.get(id);
-    }
-
-    // Get contacts list
-    public MutableLiveData<List<Contact>> getContacts() {
+    public LiveData<List<Contact>> getAll() {
         return contactListData;
     }
 
-    public MutableLiveData<List<Contact>> reload() {
-        return contactListData;
+    public void insertContact(String username) {
+        chatAPI.createChat(token,username);
     }
+
     class ContactListData extends MutableLiveData<List<Contact>> {
         public ContactListData() {
             super();
-            setValue(new LinkedList<>());
+            setValue(contactDao.index());
         }
 
         @Override
         protected void onActive() {
             super.onActive();
-
             new Thread(() -> {
-                List<Contact> contacts = contactDao.index();
-                contactListData.postValue(contacts);
+                chatAPI.getAllChats(this,token);
             }).start();
         }
     }

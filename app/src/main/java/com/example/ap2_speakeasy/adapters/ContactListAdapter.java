@@ -21,96 +21,56 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import android.widget.ArrayAdapter;
 
-public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder> {
+import androidx.annotation.Nullable;
+import java.util.ArrayList;
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+public class ContactListAdapter extends ArrayAdapter<Contact> {
 
-        private final ImageView profilePic;
-        private final TextView displayName;
-        private final TextView lastMsg;
-        private final TextView timeLastMsg;
+    LayoutInflater inflater;
 
-        private ContactViewHolder(View itemView) {
-            super(itemView);
-            profilePic = itemView.findViewById(R.id.profile_image_user_view);
-            displayName = itemView.findViewById(R.id.user_name_user_view);
-            lastMsg = itemView.findViewById(R.id.last_massage_user_view);
-            timeLastMsg = itemView.findViewById(R.id.time_user_view);
-        }
-    }
 
-    private final LayoutInflater mInflater;
-    private List<Contact> contacts;
-    private ContactClickListener mContactClickListener;
+    public ContactListAdapter(Context context, ArrayList<Contact> contactList) {
+        super(context, 0, contactList);
+        this.inflater = LayoutInflater.from(context);
 
-    public ContactListAdapter(Context ctx) {
-        mInflater = LayoutInflater.from(ctx);
-        //mContactClickListener = listener;
     }
 
     @NonNull
     @Override
-    public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mView = mInflater.inflate(R.layout.user_list_item, parent, false);
-        return new ContactViewHolder(mView);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        Contact contact = getItem(position);
 
-    @Override
-    public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        if (contacts != null) {
-            Contact current = contacts.get(position);
-            holder.displayName.setText(current.getDisplayName());
+        convertView = inflater.inflate(R.layout.user_list_item, parent, false);
 
-            if (current.getLastMassage() != null) {
-                String lastMessage = current.getLastMassage();
-                if (lastMessage.length() > 15) {
-                    lastMessage = lastMessage.substring(0, 15) + "...";
-                }
-                holder.lastMsg.setText(lastMessage);
-            } else {
-                holder.lastMsg.setText("");
-            }
+        ImageView imageView = convertView.findViewById(R.id.profile_image_user_view);
+        TextView displayName = convertView.findViewById(R.id.user_display_name);
+        TextView lastMsg = convertView.findViewById(R.id.last_massage_user_view);
+        TextView time = convertView.findViewById(R.id.time_user_view);
 
-            if (current.getLastMassageSendingTime() != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                try {
-                    // Parse the string from format "MM/dd/yyyy, HH:mm:ss" to "h:mm a"
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.US);
-
-                    LocalDateTime dateTime = LocalDateTime.parse(current.getLastMassageSendingTime(), formatter);
-                    holder.timeLastMsg.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.US)));
-                } catch (Exception e) {
-                    holder.timeLastMsg.setText("");
-                }
-            } else {
-                holder.timeLastMsg.setText("");
-            }
-            holder.profilePic.setImageResource(current.getPicture());
-
-            // On click listener for the contact
-            holder.itemView.setOnClickListener(v -> {
-                // Invoke the listener passed in the constructor
-                if (mContactClickListener != null) {
-                    mContactClickListener.onContactClick(v, current);
-                }
-            });
+        imageView.setImageResource(R.drawable.profilepic);
+        displayName.setText(contact.getUser().getDisplayName());
+        String lm = "";
+        String created = "";
+        if (contact.getLastMessage() != null) {
+            if (contact.getLastMessage().getContent() != null)
+                lm = contact.getLastMessage().getContent();
+            if (contact.getLastMessage().getCreated() != null)
+                created = contact.getLastMessage().getCreated();
         }
+        lastMsg.setText(lm);
+        time.setText(created);
+
+        return convertView;
     }
-    @SuppressLint("NotifyDataSetChanged")
-    public void setContacts(List<Contact> contactsList) {
-        contacts = contactsList;
+
+    public void setContacts(List<Contact> contacts) {
+        this.clear();
+        if (contacts != null) {
+            addAll(contacts);
+        }
         notifyDataSetChanged();
-    }
-
-    public int getItemCount() {
-        if (contacts != null) {
-            return contacts.size();
-        }
-        return 0;
-    }
-
-    public List<Contact> getContacts() {
-        return contacts;
     }
 }
