@@ -74,17 +74,11 @@ public class ChatContactsActivity extends AppCompatActivity {
         ListView lvContacts = binding.listViewChats;
         final ContactListAdapter adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts);
 
-        viewModel.getContacts().observe(this, contacts->{
-            adapter.setContacts(contacts);
-        });
+        viewModel.getContacts().observe(this, adapter::setContacts);
 
 
         lvContacts.setAdapter(adapter);
         lvContacts.setClickable(true);
-
-
-//        binding.setUserDisplayName(map.get("displayName"));
-//        binding.setUserImage(map.get("profilePic"));
 
         binding.addContactButton.setOnClickListener(view -> showAddContactDialog());
 

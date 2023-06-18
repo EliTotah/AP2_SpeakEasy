@@ -56,7 +56,7 @@ public class ChatAPI {
         responeAnswer = new MutableLiveData<>();
     }
 
-    public void createChat(String username, String token) {
+    public void createChat(String token, String username) {
         Call<Map<String, String>> call = chatServiceAPI.createChat(token,Map.of("username",username));
         call.enqueue(new Callback<Map<String, String>>() {
             @Override
