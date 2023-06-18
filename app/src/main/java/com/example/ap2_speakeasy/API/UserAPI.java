@@ -99,7 +99,7 @@ public class UserAPI {
         return tokenLiveData;
     }
 
-    private void setToken(String token) {
+    public void setToken(String token) {
         this.tokenLiveData.setValue(token);
     }
 
@@ -109,6 +109,10 @@ public class UserAPI {
 
     public void setActiveUserName(String activeUserName) {
         this.activeUserName.setValue(activeUserName);
+    }
+
+    public Call<Map<String,String>> getUserDetails(String username) {
+        return userServiceAPI.getUser(username);
     }
 }
 

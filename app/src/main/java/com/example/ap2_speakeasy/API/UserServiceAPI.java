@@ -5,7 +5,9 @@ import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface UserServiceAPI {
     @POST("Tokens")
@@ -13,6 +15,9 @@ public interface UserServiceAPI {
 
     @POST("Users")
     Call<ResponseBody> signup(@Body Map<String, String> user);
+
+    @GET("Users/{id}")
+    Call<Map<String,String>> getUser (@Path("id") String username);
 
 //    @GET("Users/")
 //    Call<List<User>> getUsers();

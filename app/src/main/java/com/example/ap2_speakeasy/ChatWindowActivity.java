@@ -33,7 +33,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         binding = ActivityChatWindowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = DatabaseManager.getDatabase(getApplicationContext());
+        db = DatabaseManager.getDatabase();
 
         messageDao = db.messageDao();
 

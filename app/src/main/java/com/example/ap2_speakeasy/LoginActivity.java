@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
                             Log.e("token", userToken);
                             Intent intent = new Intent(LoginActivity.this, ChatContactsActivity.class);
-                            intent.putExtra("token", userToken);
+                            intent.putExtra("token", "Bearer " + userToken);
                             intent.putExtra("activeUserName", activeUserName);
                             startActivity(intent);
                         } else if (callback == 404) {

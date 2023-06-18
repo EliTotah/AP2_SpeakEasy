@@ -26,4 +26,7 @@ import java.util.List;
 
     @Delete
     void delete(Contact... contacts);
+
+   @Query("DELETE FROM Contact")
+    void deleteContacts();
 }

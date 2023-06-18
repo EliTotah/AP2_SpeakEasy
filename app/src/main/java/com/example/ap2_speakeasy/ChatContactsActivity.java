@@ -6,13 +6,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.ap2_speakeasy.API.CallBackFlag;
+import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
@@ -21,10 +28,21 @@ import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Request;
+import okio.Timeout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatContactsActivity extends AppCompatActivity {
     private ActivityChatContactsBinding binding;
+    String activeUserName;
+    String userToken;
     private AppDB db;
     private List<Contact> contacts;
     private List<Contact> dbContacts;
@@ -40,15 +58,33 @@ public class ChatContactsActivity extends AppCompatActivity {
 
         binding = ActivityChatContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Intent intent = getIntent();
 
-        viewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        if(intent!= null) {
+             activeUserName = getIntent().getStringExtra("activeUserName");
+             userToken = getIntent().getStringExtra("token");
+        }
 
-        RecyclerView lvContacts = binding.listViewChats;
-        final ContactListAdapter adapter = new ContactListAdapter(this);
+        this.db = DatabaseManager.getDatabase();
+
+        this.contactDao = db.contactDao();
+        this.viewModel = new ContactViewModel(userToken);
+        this.contacts = new ArrayList<>();
+
+        ListView lvContacts = binding.listViewChats;
+        final ContactListAdapter adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts);
+
+        viewModel.getContacts().observe(this, contacts->{
+            adapter.setContacts(contacts);
+        });
+
+
         lvContacts.setAdapter(adapter);
-        lvContacts.setLayoutManager(new LinearLayoutManager(this));
+        lvContacts.setClickable(true);
 
-        viewModel.getContacts().observe(this, adapter::setContacts);
+
+//        binding.setUserDisplayName(map.get("displayName"));
+//        binding.setUserImage(map.get("profilePic"));
 
         binding.addContactButton.setOnClickListener(view -> showAddContactDialog());
 
@@ -72,11 +108,10 @@ public class ChatContactsActivity extends AppCompatActivity {
         EditText usernameEditText = dialogView.findViewById(R.id.usernameEditText);
         dialogBuilder.setPositiveButton("OK", (dialogInterface, i) -> {
 
+
             String username = usernameEditText.getText().toString().trim();
             if (!username.isEmpty()) {
-                Contact contact = new Contact(username, 0, "", "");
-                contactDao.insert(contact);
-                //loadPosts();
+                viewModel.insertContact(usernameEditText.getText().toString());
             } else {
                 Toast.makeText(ChatContactsActivity.this, "Please enter a username",
                         Toast.LENGTH_SHORT).show();
@@ -87,6 +122,8 @@ public class ChatContactsActivity extends AppCompatActivity {
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
     }
+
+
 }
 
 /*
