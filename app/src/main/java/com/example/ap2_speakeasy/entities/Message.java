@@ -5,19 +5,19 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Message {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String content;
     private String created;
     // True if the message was sent by the current user
-    private boolean sent;
+    private String sender;
     // The contact id of the user the current user is chatting with
     private int contactId;
 
-    public Message(String content, String created, boolean sent, int contactId) {
+    public Message(String content, String created, String sender, int contactId) {
         this.content = content;
         this.created = created;
-        this.sent = sent;
+        this.sender = sender;
         this.contactId = contactId;
     }
 
@@ -45,12 +45,12 @@ public class Message {
         this.created = created;
     }
 
-    public boolean isSent() {
-        return sent;
+    public String getSender() {
+        return sender;
     }
 
-    public void setSent(boolean sent) {
-        this.sent = sent;
+    public void setSent(String sender) {
+        this.sender = sender;
     }
 
     public int getContactId() {

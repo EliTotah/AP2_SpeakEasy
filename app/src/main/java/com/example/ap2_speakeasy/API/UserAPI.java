@@ -59,6 +59,7 @@ public class UserAPI {
         userServiceAPI = retrofit.create(UserServiceAPI.class);
         tokenLiveData = new MutableLiveData<>();
         activeUserName = new MutableLiveData<>();
+        user = new MutableLiveData<>();
     }
 
 
@@ -102,8 +103,8 @@ public class UserAPI {
         });
     }
 
-    public void getUserDetails(String username, CallBackFlag callBackFlag) {
-        Call<User> call = userServiceAPI.getUser(username);
+    public void getUserDetails(String username, String token, CallBackFlag callBackFlag) {
+        Call<User> call = userServiceAPI.getUser(token, username);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -113,9 +114,10 @@ public class UserAPI {
                     String pic = response.body().getProfilePic();
                     User u = new User(id, display, pic);
                     setUser(u);
+                    Log.e("api call1","work");
                 }
                 else {
-                    Log.e("api call","booooooo");
+                    Log.e("api call2","booooooo");
                 }
                 callBackFlag.complete(response.code());
             }
@@ -124,10 +126,10 @@ public class UserAPI {
             public void onFailure(Call<User> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api call","ERROR: " + err );
+                    Log.e("api call3","ERROR: " + err );
                 }
                 else {
-                    Log.e("api call","Unknown error");
+                    Log.e("api call4","Unknown error");
                 }
             }
         });
@@ -149,11 +151,17 @@ public class UserAPI {
     }
 
     public User getUser() {
-        return user.getValue();
+        if (user != null) {
+            return user.getValue();
+        }
+        return null;
     }
 
     public void setUser(User user) {
-        this.user.setValue(user);
+        if (user != null) {
+            this.user.setValue(user);
+        }
+        return;
     }
 }
 
