@@ -39,8 +39,7 @@ public class MessageRepository {
         return messageListData;
     }
     public void insertMessage(String content) {
-        messageAPI.createMessage(token,chatID,content);
-        messageAPI.getMessages(messageListData,token, chatID);
+        messageAPI.createMessage(token,chatID,content,messageListData);
     }
 
     class MessageListData extends MutableLiveData<List<Message>> {
