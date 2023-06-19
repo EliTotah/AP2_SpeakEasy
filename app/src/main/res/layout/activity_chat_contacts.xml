@@ -118,6 +118,15 @@
                 android:layout_weight="1" />
 
         </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_action_settings"
+            app:backgroundTint="@color/white" />
 
     </RelativeLayout>
 </RelativeLayout>
