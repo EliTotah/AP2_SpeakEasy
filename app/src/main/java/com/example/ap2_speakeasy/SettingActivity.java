@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,14 +21,9 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
-import com.example.ap2_speakeasy.databinding.ActivitySettingBinding;
-
-import java.lang.reflect.Field;
 import java.util.Locale;
 
 public class SettingActivity extends AppCompatActivity {
-    private ActivitySettingBinding binding;
     private EditText serverAddressEditText;
     private Switch notificationSoundSwitch;
     private Switch vibrationSwitch;
@@ -35,36 +32,36 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySettingBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_setting);
 
-        serverAddressEditText = binding.serverAddressEdittext;
-        notificationSoundSwitch = binding.notificationSoundSwitch;
-        vibrationSwitch = binding.vibrationSwitch;
-        darkModeSwitch = binding.darkModeSwitch;
-        Spinner languageSpinner = binding.languageSpinner;
+        serverAddressEditText = findViewById(R.id.server_address_edittext);
+        notificationSoundSwitch = findViewById(R.id.notificationSoundSwitch);
+        vibrationSwitch = findViewById(R.id.vibrationSwitch);
+        darkModeSwitch = findViewById(R.id.darkModeSwitch);
+        Spinner languageSpinner = findViewById(R.id.languageSpinner);
 
         loadSavedSettings();
 
-        Button saveButton = binding.saveSettingsButton;
+        Button saveButton = findViewById(R.id.saveSettingsButton);
         saveButton.setOnClickListener(v -> saveSettings());
 
         notificationSoundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle notification sound switch state change
-            // isChecked will be true if the switch is turned on
-            // Perform necessary actions based on the state
+            if (isChecked) {
+                enableNotificationSound();
+            } else {
+                disableNotificationSound();
+            }
         });
 
         vibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle vibration switch state change
-            // isChecked will be true if the switch is turned on
-            // Perform necessary actions based on the state
+            if (isChecked) {
+                enableVibration();
+            } else {
+                disableVibration();
+            }
         });
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle dark mode switch state change
-            // isChecked will be true if the switch is turned on
-            // Perform necessary actions based on the state
             toggleNightMode();
             updateThemeButtonLabel();
         });
@@ -86,11 +83,11 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton backButton = binding.backButton;
+        ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());
     }
+
     private void saveSettings() {
-        // Save the settings to SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -98,49 +95,30 @@ public class SettingActivity extends AppCompatActivity {
         editor.putBoolean("vibration_enabled", vibrationSwitch.isChecked());
         editor.putBoolean("dark_mode_enabled", darkModeSwitch.isChecked());
 
+        String url = serverAddressEditText.getText().toString();
+        editor.putString("server_address", url);
+
         editor.apply();
 
-        // Execute the method for each change
-        if (notificationSoundSwitch.isChecked()) {
-            // Method for notification sound enabled
-            //performActionForNotificationSoundEnabled();
+        boolean isNotificationSoundEnabled = notificationSoundSwitch.isChecked();
+        boolean isVibrationEnabled = vibrationSwitch.isChecked();
+
+        if (isNotificationSoundEnabled) {
+            enableNotificationSound();
         } else {
-            // Method for notification sound disabled
-            //performActionForNotificationSoundDisabled();
+            disableNotificationSound();
         }
 
-        if (vibrationSwitch.isChecked()) {
-            // Method for vibration enabled
-            //performActionForVibrationEnabled();
+        if (isVibrationEnabled) {
+            enableVibration();
         } else {
-            // Method for vibration disabled
-            //performActionForVibrationDisabled();
+            disableVibration();
         }
 
-        if (darkModeSwitch.isChecked()) {
-            // Method for dark mode enabled
-            //performActionForDarkModeEnabled();
-        } else {
-            // Method for dark mode disabled
-            //performActionForDarkModeDisabled();
-        }
-
-        // Get the server address from the EditText
-        String url = serverAddressEditText.getText().toString();
-        ServerUrl.getInstance().setUrl(url);
-
-        // Create a new intent to the Sign-up activity
-        Intent intent = new Intent(SettingActivity.this, SignUpActivity.class);
-        // Add any necessary extras to the intent
-        startActivity(intent);
-
-        // Finish the current activity
         finish();
     }
 
     private void loadSavedSettings() {
-        // Load saved settings from SharedPreferences and update the switches accordingly
-        // You can use SharedPreferences to store and retrieve the switch states
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean notificationSoundEnabled = sharedPreferences.getBoolean("notification_sound_enabled", false);
         boolean vibrationEnabled = sharedPreferences.getBoolean("vibration_enabled", false);
@@ -150,22 +128,6 @@ public class SettingActivity extends AppCompatActivity {
         vibrationSwitch.setChecked(vibrationEnabled);
         darkModeSwitch.setChecked(darkModeEnabled);
     }
-
-//    private void saveSettings() {
-//        // Save the settings to SharedPreferences
-//        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//        editor.putBoolean("notification_sound_enabled", notificationSoundSwitch.isChecked());
-//        editor.putBoolean("vibration_enabled", vibrationSwitch.isChecked());
-//        editor.putBoolean("dark_mode_enabled", darkModeSwitch.isChecked());
-//
-//        editor.apply();
-//
-//        String url = serverAddressEditText.getText().toString();
-//        ServerUrl.getInstance().setUrl(url);
-//        onBackPressed();
-//    }
 
     private void toggleNightMode() {
         int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -177,7 +139,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateThemeButtonLabel() {
-        Button themeButton = binding.darkModeSwitch;
+        Button themeButton = findViewById(R.id.darkModeSwitch);
         int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
             themeButton.setText("Night Mode");
@@ -187,17 +149,51 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateLanguage(String languageCode) {
-        // Update the app's language based on the selected language code
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
+        String currentLanguage = Locale.getDefault().getLanguage();
+        if (!currentLanguage.equals(languageCode)) {
+            Locale locale = new Locale(languageCode);
+            Locale.setDefault(locale);
 
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
-        configuration.setLocale(locale);
+            Resources resources = getResources();
+            Configuration configuration = resources.getConfiguration();
+            configuration.setLocale(locale);
 
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
-        // Restart the activity to apply the language changes
-        recreate();
+            // Restart the activity to apply the new language
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
+    }
+
+
+    private void enableVibration() {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) {
+            long[] pattern = {0, 400, 200, 400};
+            vibrator.vibrate(pattern, -1);
+        }
+    }
+
+    private void disableVibration() {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) {
+            vibrator.cancel();
+        }
+    }
+
+    private void disableNotificationSound() {
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        if (audioManager != null) {
+            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
+        }
+    }
+
+    private void enableNotificationSound() {
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        if (audioManager != null) {
+            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, audioManager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION), 0);
+        }
     }
 }

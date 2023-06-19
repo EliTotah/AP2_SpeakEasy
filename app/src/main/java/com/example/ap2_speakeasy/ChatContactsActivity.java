@@ -34,6 +34,7 @@ import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,6 +88,13 @@ public class ChatContactsActivity extends AppCompatActivity {
             else {
                 //error
             }
+        });
+
+        FloatingActionButton settingsButton = binding.settingsButton;
+        settingsButton.setOnClickListener(v -> {
+            // Start the SettingActivity
+            Intent intentSettings = new Intent(ChatContactsActivity.this, SettingActivity.class);
+            startActivity(intentSettings);
         });
 
         this.db = DatabaseManager.getDatabase();
