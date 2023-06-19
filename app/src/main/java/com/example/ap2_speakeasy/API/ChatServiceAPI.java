@@ -2,6 +2,7 @@ package com.example.ap2_speakeasy.API;
 
 import com.example.ap2_speakeasy.entities.ChatUserAdd;
 import com.example.ap2_speakeasy.entities.Contact;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import retrofit2.http.Path;
 public interface ChatServiceAPI {
 
         @POST("Chats/")
-        Call<ChatUserAdd> createChat(@Header("Authorization")String token, @Body Map<String,String> request);
+        Call<JsonObject> createChat(@Header("Authorization")String token, @Body Map<String,String> request);
 
         @GET("Chats/")
         Call<List<Contact>> getChats(@Header("Authorization")String token);

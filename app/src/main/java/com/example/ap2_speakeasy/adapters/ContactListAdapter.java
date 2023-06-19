@@ -18,8 +18,11 @@ import androidx.annotation.NonNull;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Contact;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import android.widget.ArrayAdapter;
 
@@ -62,8 +65,24 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
                 if (contact.getLastMessage().getCreated() != null)
                     created = contact.getLastMessage().getCreated();
             }
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.US);
+            String formattedTime = "";
+
+                // Parse the date string to a Date object
+            Date date = new Date();
+            try {
+                if(!(created.equals(""))) {
+                    date = inputFormat.parse(created);
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            // Format the Date object to the desired output format
+            formattedTime = outputFormat.format(date);
+
             lastMsg.setText(lm);
-            time.setText(created);
+            time.setText(formattedTime);
         }
         return convertView;
     }

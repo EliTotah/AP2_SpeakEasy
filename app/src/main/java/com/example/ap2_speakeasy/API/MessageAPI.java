@@ -9,9 +9,13 @@ import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.MessageDao;
 import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
+import com.google.gson.JsonObject;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,26 +36,39 @@ public class MessageAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         messageServiceAPI = retrofit.create(MessageServiceAPI.class);
+        responeAnswer = new MutableLiveData<>();
     }
 
-    public void createMessage(String token, int id, String content) {
+    public void createMessage(String token, int id, String content,MutableLiveData<List<Message>> messages) {
         //content
-        Call<Map<String, String>> call = messageServiceAPI.createMessage(token,id, Map.of("msg", content));
-        call.enqueue(new Callback<Map<String, String>>() {
+        Call<JsonObject> call = messageServiceAPI.createMessage(token,id, Map.of("msg", content));
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     AppDB db = DatabaseManager.getDatabase();
                     MessageDao messageDao = db.messageDao();
-                    Map<String, String> map = response.body();
-                    if (map != null) {
-                        String created = map.get("created");
-                        String userName = map.get("sender");
-                        Map<String,String> username= Map.of("username",userName);
-                        String content = map.get("content");
-                        Message m = new Message(content, created, username, id);
+                    JsonObject responseBody = response.body();
+                    if (responseBody != null) {
+                        String created = responseBody.get("created").getAsString();
+                        JsonObject senderJson = responseBody.get("sender").getAsJsonObject();
+                        String username = senderJson.get("username").getAsString();
+                        Map<String, String> usernameMap = new HashMap<>();
+                        usernameMap.put("username", username);
+                        String content = responseBody.get("content").getAsString();
+
+                        Message m = new Message(content, created, usernameMap, id);
                         messageDao.insert(m);
-                        Log.e("call message", response.body().toString());
+                        List<Message> currentMessages = messages.getValue();
+                        // Add the new User object to the current list
+                        if (currentMessages != null) {
+                            currentMessages.add(m);
+                        } else {
+                            currentMessages = new ArrayList<>();
+                            currentMessages.add(m);
+                        }
+                        messages.setValue(currentMessages);
+                        Log.e("call message", messages.getValue().toString());
                         responeAnswer.setValue("ok");
                     } else {
                         Log.e("call message", "booooooo");
@@ -63,7 +80,7 @@ public class MessageAPI {
             }
 
             @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
                     Log.e("api1 call","ERROR: " + err );

@@ -109,11 +109,11 @@ public class UserAPI {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    String id = response.body().getId();
+                    //String id = response.body().getId();
                     String display = response.body().getDisplayName();
                     String pic = response.body().getProfilePic();
                     String username = response.body().getUsername();
-                    User u = new User(id,username, display, pic);
+                    User u = new User(username, display, pic);
                     setUser(u);
                     Log.e("api call1","work");
                 }

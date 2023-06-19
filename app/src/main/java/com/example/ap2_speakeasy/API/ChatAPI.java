@@ -15,6 +15,8 @@ import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.User;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,23 +61,20 @@ public class ChatAPI {
     }
 
     public void createChat(String token, String username,MutableLiveData<List<Contact>> contacts) {
-        Call<ChatUserAdd> call = chatServiceAPI.createChat(token,Map.of("username",username));
-        call.enqueue(new Callback<ChatUserAdd>() {
+        Call<JsonObject> call = chatServiceAPI.createChat(token,Map.of("username",username));
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ChatUserAdd> call, Response<ChatUserAdd> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     AppDB db = DatabaseManager.getDatabase();
                     ContactDao contactDao = db.contactDao();
-                    ChatUserAdd chatUserAdd = response.body();
-                    //Map<String, String> map = response.body();
-                    if (chatUserAdd != null) {
-                        /*String idString = chatUserAdd.get("id");
-                        int id = Integer.parseInt(idString);
-
-                        Gson gson = new Gson();
-                        String userName = chatUserAdd.get("user");
-                        User user = gson.fromJson(userName, User.class);*/
-                        Contact c = new Contact(chatUserAdd.getId(),chatUserAdd.getUser(),null);
+                    JsonObject responseBody = response.body(); // Assuming the response body is a JSON string
+                    if (responseBody != null) {
+                        String id = responseBody.get("id").getAsString();
+                        int id2 = Integer.parseInt(id);
+                        JsonObject userJson = responseBody.get("user").getAsJsonObject();
+                        User user = new Gson().fromJson(userJson, User.class);
+                        Contact c = new Contact(id2,user,null);
                         contactDao.insert(c);
                         List<Contact> currentUsers = contacts.getValue();
                         // Add the new User object to the current list
@@ -86,7 +85,6 @@ public class ChatAPI {
                             currentUsers.add(c);
                         }
                         contacts.setValue(currentUsers);
-                        Log.e("api call30",response.body().toString());
                         responeAnswer.setValue("ok");
                     }
                     else {
@@ -94,18 +92,16 @@ public class ChatAPI {
                     }
                 }
                 else {
-                    int a = response.code();
                     responeAnswer.setValue(response.errorBody().toString());
                     Log.e("api call32",response.errorBody().toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<ChatUserAdd> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
                     Log.e("api call34","ERROR: " + err );
-                    Log.e("api call37", "ERROR: ", t);
                 }
                 else {
                     Log.e("api call35","Unknown error");
@@ -120,13 +116,11 @@ public class ChatAPI {
             @Override
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
-                    Log.e("contactlist",contactListData.toString());
                     contactListData.setValue(response.body());
                 }
                 else {
                     Log.e("api call12","booooooo");
                 }
-                //callBackFlag.complete(response.code());
             }
 
             @Override
