@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,8 +54,7 @@ public class ChatContactsActivity extends AppCompatActivity {
     private List<Contact> dbContacts;
     private ContactDao contactDao;
     private RecyclerView lvUsers;
-    ContactListAdapter adapter;
-    //private ContactListAdapter adapter;
+    private ContactListAdapter adapter;
 
     private ContactViewModel viewModel;
 
@@ -69,11 +72,19 @@ public class ChatContactsActivity extends AppCompatActivity {
         }
 
         UserAPI userAPI = new UserAPI();
-        userAPI.getUserDetails(activeUserName, callback -> {
+        userAPI.getUserDetails(activeUserName, userToken, callback -> {
             if(callback == 200) {
                 User u = userAPI.getUser();
-                binding.userDisplayName.setText(u.getDisplayName());
-                //binding.userImage.setImageResource(u.getProfilePic());
+                if (u!=null) {
+                    binding.userDisplayName.setText(u.getDisplayName());
+                    binding.userImage.setImageBitmap(decodeImage(u.getProfilePic()));
+                }
+                else {
+                    //error
+                }
+            }
+            else {
+                //error
             }
         });
 
@@ -88,9 +99,22 @@ public class ChatContactsActivity extends AppCompatActivity {
 
         viewModel.getContacts().observe(this, adapter::setContacts);
 
-
         lvContacts.setAdapter(adapter);
         lvContacts.setClickable(true);
+
+        lvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Contact clicked = contacts.get(position);
+                Intent intent2 = new Intent(ChatContactsActivity.this, ChatWindowActivity.class);
+                intent2.putExtra("token", userToken);
+                intent2.putExtra("friendDisplayName", clicked.getUser().getDisplayName());
+                intent2.putExtra("friendPic", clicked.getUser().getProfilePic());
+                intent2.putExtra("chatID", String.valueOf(clicked.getId()));
+                intent2.putExtra("activeUserName", activeUserName);
+                startActivity(intent2);
+            }
+        });
 
         binding.addContactButton.setOnClickListener(view -> showAddContactDialog());
 
@@ -128,6 +152,16 @@ public class ChatContactsActivity extends AppCompatActivity {
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
         adapter.notifyDataSetChanged();
+    }
+
+    private Bitmap decodeImage(String imageString) {
+        try {
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

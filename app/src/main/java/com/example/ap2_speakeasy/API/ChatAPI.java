@@ -110,7 +110,6 @@ public class ChatAPI {
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
                     contactListData.setValue(response.body());
-                    List<Contact> lc = response.body();
                     Log.e("api call",response.body().toString());
                 }
                 else {

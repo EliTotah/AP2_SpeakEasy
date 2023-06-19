@@ -1,16 +1,28 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.ap2_speakeasy.API.MessageAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
+import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.Dao.MessageDao;
+import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
+import com.example.ap2_speakeasy.ViewModels.MessageViewModel;
+import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.adapters.MessageListAdapter;
+import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.databinding.ActivityChatWindowBinding;
+import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
 import java.util.ArrayList;
@@ -19,6 +31,11 @@ import java.util.List;
 
 public class ChatWindowActivity extends AppCompatActivity {
 
+    int chatID;
+    String userToken;
+    String displayName;
+    String friendPic;
+    private String activeUserName;
     private ActivityChatWindowBinding binding;
     private AppDB db;
     private List<Message> messages;
@@ -26,6 +43,7 @@ public class ChatWindowActivity extends AppCompatActivity {
     private MessageDao messageDao;
     private ListView lvMessages;
     private MessageListAdapter adapter;
+    private MessageViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +51,32 @@ public class ChatWindowActivity extends AppCompatActivity {
         binding = ActivityChatWindowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = DatabaseManager.getDatabase();
+        Intent intent = getIntent();
 
-        messageDao = db.messageDao();
+        if (intent != null) {
+            String idString = getIntent().getStringExtra("chatID");
+            chatID = Integer.parseInt(idString);
+            userToken = getIntent().getStringExtra("token");
+            activeUserName = getIntent().getStringExtra("activeUserName");
+            friendPic = getIntent().getStringExtra("friendPic");
+            displayName = getIntent().getStringExtra("friendDisplayName");
+        }
 
-        handleMessages();
+        binding.friendName.setText(displayName);
+        binding.friendImage.setImageBitmap(decodeImage(friendPic));
+
+        this.db = DatabaseManager.getDatabase();
+
+        this.messageDao = db.messageDao();
+        this.viewModel = new MessageViewModel(userToken,chatID);
+        this.messages = new ArrayList<>();
+
+        ListView lvMessages = binding.listViewMessages;
+        adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName);
+
+        viewModel.getMessages().observe(this, adapter::setMessages);
+
+        lvMessages.setAdapter(adapter);
 
         binding.sendIcon.setClickable(true);
         binding.sendIcon.setOnClickListener(v -> {
@@ -52,11 +91,34 @@ public class ChatWindowActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadMessages();
+        //loadMessages();
     }
 
+    private void handleSend() {
+        EditText ContentMessage = binding.messageInput;
+        String content = ContentMessage.getText().toString().trim();
+        if (!content.isEmpty()) {
+            viewModel.insertMessage(content);
+            ContentMessage.setText("");
+        } else {
+            Toast.makeText(ChatWindowActivity.this, "Please enter a message",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
-    private void handleMessages() {
+    private Bitmap decodeImage(String imageString) {
+        try {
+            byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+
+/*
+private void handleMessages() {
         messages = new ArrayList<>();
         adapter = new MessageListAdapter(getApplicationContext(), messages);
         lvMessages = binding.listViewMessages;
@@ -87,25 +149,4 @@ public class ChatWindowActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
-
-    private void handleSend() {
-        EditText ContentMessage = binding.messageInput;
-        String content = ContentMessage.getText().toString().trim();
-        if (!content.isEmpty()) {
-            Calendar calendar = Calendar.getInstance();
-            int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-            int currentMinute = calendar.get(Calendar.MINUTE);
-
-            // Combine hour and minute into a single variable
-            String currentTime = String.format("%02d:%02d", currentHour, currentMinute);
-            boolean sent = false;
-            Message message = new Message(content, currentTime, sent, 0);
-            messageDao.insert(message);
-            ContentMessage.setText("");
-            loadMessages();
-        } else {
-            Toast.makeText(ChatWindowActivity.this, "Please enter a message",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-}
+ */

@@ -12,15 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MessageListAdapter extends ArrayAdapter<Message> {
     LayoutInflater inflater;
-    public MessageListAdapter(Context ctx, List<Message> messagesArrayList) {
-        super(ctx, R.layout.message_list_item, messagesArrayList);
+    String ActiveUser;
+    public MessageListAdapter(Context ctx, ArrayList<Message> messagesArrayList, String activeUser) {
+        super(ctx, 0, messagesArrayList);
         this.inflater = LayoutInflater.from(ctx);
+        this.ActiveUser=activeUser;
     }
 
     @NonNull
@@ -37,7 +42,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         TextView content = convertView.findViewById(R.id.Message_content);
         TextView time = convertView.findViewById(R.id.Time_sent);
 
-        if (!(message.isSent())) {
+        if ((Objects.equals(message.getSender(), ActiveUser))) {
             zone.setBackgroundResource(R.color.my_message_background);
         }
         else {
@@ -48,5 +53,13 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         time.setText(message.getCreated());
 
         return convertView;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.clear();
+        if (messages != null) {
+            addAll(messages);
+        }
+        notifyDataSetChanged();
     }
 }

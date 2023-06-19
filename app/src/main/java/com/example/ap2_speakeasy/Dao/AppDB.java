@@ -10,7 +10,7 @@ import com.example.ap2_speakeasy.entities.User;
 import com.example.ap2_speakeasy.messageConverter;
 import com.example.ap2_speakeasy.userConvert;
 
-@Database(entities = {Contact.class, Message.class}, version = 3)
+@Database(entities = {Contact.class, Message.class}, version = 4)
 @TypeConverters({userConvert.class, messageConverter.class})
  public abstract class AppDB extends RoomDatabase {
     public static final String DATABASE_NAME = "27017ChatDB.db";
