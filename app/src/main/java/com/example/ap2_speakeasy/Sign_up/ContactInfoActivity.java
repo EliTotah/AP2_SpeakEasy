@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.SettingManager;
 import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 
@@ -192,5 +193,6 @@ public class ContactInfoActivity extends AppCompatActivity {
         byte[] imageBytes = outputStream.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
+
 }
 

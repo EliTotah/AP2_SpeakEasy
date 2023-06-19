@@ -1,5 +1,8 @@
 package com.example.ap2_speakeasy;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,6 +23,7 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
 
@@ -28,6 +32,7 @@ public class SettingActivity extends AppCompatActivity {
     private Switch notificationSoundSwitch;
     private Switch vibrationSwitch;
     private Switch darkModeSwitch;
+    private SharedPreferences settingsSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +67,8 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            toggleNightMode();
-            updateThemeButtonLabel();
+            toggleNightMode(isChecked);
+            //updateThemeButtonLabel();
         });
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,6 +90,23 @@ public class SettingActivity extends AppCompatActivity {
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // Set default values for the preferences (before creating a listener!)
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, true);
+        SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
+            if (key.equals("dark_mode")) {
+                changeTheme(preferences.getBoolean(key, false));
+            }
+        };
+        settingsSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    private void changeTheme(boolean isNightMode) {
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+        }
     }
 
     private void saveSettings() {
@@ -129,13 +151,13 @@ public class SettingActivity extends AppCompatActivity {
         darkModeSwitch.setChecked(darkModeEnabled);
     }
 
-    private void toggleNightMode() {
-        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    private void toggleNightMode(boolean is_Chacked) {
+        SharedPreferences.Editor editor = settingsSharedPreferences.edit();
+        if (is_Chacked) {
+            editor.putBoolean("dark_mode", true);
         }
+        editor.putBoolean("dark_mode", false);
+        editor.apply();
     }
 
     private void updateThemeButtonLabel() {
@@ -151,14 +173,15 @@ public class SettingActivity extends AppCompatActivity {
     private void updateLanguage(String languageCode) {
         String currentLanguage = Locale.getDefault().getLanguage();
         if (!currentLanguage.equals(languageCode)) {
-            Locale locale = new Locale(languageCode);
-            Locale.setDefault(locale);
+            Locale newLocale = new Locale(languageCode);
+            Locale.setDefault(newLocale);
 
-            Resources resources = getResources();
-            Configuration configuration = resources.getConfiguration();
-            configuration.setLocale(locale);
+            Resources res = getResources();
+            Configuration config = res.getConfiguration();
+            config.setLocale(newLocale);
 
-            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+            // Update the configuration of the current resources
+            res.updateConfiguration(config, res.getDisplayMetrics());
 
             // Restart the activity to apply the new language
             Intent intent = getIntent();
@@ -166,6 +189,8 @@ public class SettingActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+
 
 
     private void enableVibration() {

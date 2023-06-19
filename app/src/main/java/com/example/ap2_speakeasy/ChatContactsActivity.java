@@ -1,14 +1,19 @@
 package com.example.ap2_speakeasy;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -51,6 +56,9 @@ public class ChatContactsActivity extends AppCompatActivity {
     private ActivityChatContactsBinding binding;
     String activeUserName;
     String userToken;
+
+    private SharedPreferences settingsSharedPreferences;
+    private Boolean _isNightMode = null;
     private AppDB db;
     private List<Contact> contacts;
     private List<Contact> dbContacts;
@@ -62,6 +70,11 @@ public class ChatContactsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNightMode = sharedPreferences1.getBoolean("dark_mode", false);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }
         super.onCreate(savedInstanceState);
 
         binding = ActivityChatContactsBinding.inflate(getLayoutInflater());
@@ -176,47 +189,6 @@ public class ChatContactsActivity extends AppCompatActivity {
 
 }
 
-/*
-    private void handlePosts() {
-        contacts = new ArrayList<>();
-        adapter = new ContactListAdapter(getApplicationContext(), contacts);
-        lvUsers = binding.listViewChats;
 
-        loadPosts();
-
-        lvUsers.setAdapter(adapter);
-        lvUsers.setClickable(true);
-
-        lvUsers.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(getApplicationContext(), ChatWindowActivity.class);
-            intent.putExtra("userName", dbContacts.get(i).getDisplayName());
-            intent.putExtra("profilePicture", R.drawable.profilepic);
-            intent.putExtra("lastMassage", dbContacts.get(i).getLastMassage());
-            intent.putExtra("time", dbContacts.get(i).getLastMassageSendingTime());
-            startActivity(intent);
-        });
-
-        lvUsers.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            contacts.remove(i);
-            Contact post = dbContacts.remove(i);
-            contactDao.delete(post);
-            adapter.notifyDataSetChanged();
-            return true;
-        });
-    }
-
-    private void loadPosts() {
-        contacts.clear();
-        dbContacts = contactDao.index();
-        for (Contact contact : dbContacts) {
-            Contact aContact = new Contact(
-                    contact.getDisplayName(), 0,
-                    contact.getLastMassage(), contact.getLastMassageSendingTime()
-            );
-            contacts.add(aContact);
-        }
-        adapter.notifyDataSetChanged();
-    }
-*/
 
 
