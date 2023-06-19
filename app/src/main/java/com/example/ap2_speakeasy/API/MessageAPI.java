@@ -47,8 +47,9 @@ public class MessageAPI {
                     if (map != null) {
                         String created = map.get("created");
                         String userName = map.get("sender");
+                        Map<String,String> username= Map.of("username",userName);
                         String content = map.get("content");
-                        Message m = new Message(content, created, userName, id);
+                        Message m = new Message(content, created, username, id);
                         messageDao.insert(m);
                         Log.e("call message", response.body().toString());
                         responeAnswer.setValue("ok");
@@ -56,7 +57,6 @@ public class MessageAPI {
                         Log.e("call message", "booooooo");
                     }
                 } else {
-                    int a = response.code();
                     responeAnswer.setValue(response.errorBody().toString());
                     Log.e("call message", response.errorBody().toString());
                 }

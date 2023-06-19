@@ -10,12 +10,14 @@ import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.LoginActivity;
+import com.example.ap2_speakeasy.entities.ChatUserAdd;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.User;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,48 +58,57 @@ public class ChatAPI {
         responeAnswer = new MutableLiveData<>();
     }
 
-    public void createChat(String token, String username) {
-        Call<Map<String, String>> call = chatServiceAPI.createChat(token,Map.of("username",username));
-        call.enqueue(new Callback<Map<String, String>>() {
+    public void createChat(String token, String username,MutableLiveData<List<Contact>> contacts) {
+        Call<ChatUserAdd> call = chatServiceAPI.createChat(token,Map.of("username",username));
+        call.enqueue(new Callback<ChatUserAdd>() {
             @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+            public void onResponse(Call<ChatUserAdd> call, Response<ChatUserAdd> response) {
                 if (response.isSuccessful()) {
                     AppDB db = DatabaseManager.getDatabase();
                     ContactDao contactDao = db.contactDao();
-                    Map<String, String> map = response.body();
-                    if (map != null) {
-                        String idString = map.get("id");
+                    ChatUserAdd chatUserAdd = response.body();
+                    //Map<String, String> map = response.body();
+                    if (chatUserAdd != null) {
+                        /*String idString = chatUserAdd.get("id");
                         int id = Integer.parseInt(idString);
 
-                        String userJson = map.get("user");
-
                         Gson gson = new Gson();
-                        User user = gson.fromJson(userJson, User.class);
-                        Contact c = new Contact(id,user,null);
+                        String userName = chatUserAdd.get("user");
+                        User user = gson.fromJson(userName, User.class);*/
+                        Contact c = new Contact(chatUserAdd.getId(),chatUserAdd.getUser(),null);
                         contactDao.insert(c);
-
-                        Log.e("api call",response.body().toString());
+                        List<Contact> currentUsers = contacts.getValue();
+                        // Add the new User object to the current list
+                        if (currentUsers != null) {
+                            currentUsers.add(c);
+                        } else {
+                            currentUsers = new ArrayList<>();
+                            currentUsers.add(c);
+                        }
+                        contacts.setValue(currentUsers);
+                        Log.e("api call30",response.body().toString());
                         responeAnswer.setValue("ok");
                     }
                     else {
-                        Log.e("api call","booooooo");
+                        Log.e("api call31","booooooo");
                     }
                 }
                 else {
                     int a = response.code();
                     responeAnswer.setValue(response.errorBody().toString());
-                    Log.e("api call",response.errorBody().toString());
+                    Log.e("api call32",response.errorBody().toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+            public void onFailure(Call<ChatUserAdd> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api call","ERROR: " + err );
+                    Log.e("api call34","ERROR: " + err );
+                    Log.e("api call37", "ERROR: ", t);
                 }
                 else {
-                    Log.e("api call","Unknown error");
+                    Log.e("api call35","Unknown error");
                 }
             }
         });
@@ -109,11 +120,11 @@ public class ChatAPI {
             @Override
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
+                    Log.e("contactlist",contactListData.toString());
                     contactListData.setValue(response.body());
-                    Log.e("api call",response.body().toString());
                 }
                 else {
-                    Log.e("api call","booooooo");
+                    Log.e("api call12","booooooo");
                 }
                 //callBackFlag.complete(response.code());
             }
@@ -122,10 +133,10 @@ public class ChatAPI {
             public void onFailure(Call<List<Contact>> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api call","ERROR: " + err );
+                    Log.e("api call13","ERROR: " + err );
                 }
                 else {
-                    Log.e("api call","Unknown error");
+                    Log.e("api call14","Unknown error");
                 }
             }
         });

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,14 @@ import androidx.annotation.NonNull;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Contact;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ContactListAdapter extends ArrayAdapter<Contact> {
 
@@ -46,21 +50,21 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
         TextView displayName = convertView.findViewById(R.id.display_name_user_view);
         TextView lastMsg = convertView.findViewById(R.id.last_massage_user_view);
         TextView time = convertView.findViewById(R.id.time_user_view);
-
-        Bitmap im = decodeImage(contact.getUser().getProfilePic());
-        imageView.setImageBitmap(im);
-        displayName.setText(contact.getUser().getDisplayName());
-        String lm = "";
-        String created = "";
-        if (contact.getLastMessage() != null) {
-            if (contact.getLastMessage().getContent() != null)
-                lm = contact.getLastMessage().getContent();
-            if (contact.getLastMessage().getCreated() != null)
-                created = contact.getLastMessage().getCreated();
+        if (contact.getUser() != null) {
+            Bitmap im = decodeImage(contact.getUser().getProfilePic());
+            imageView.setImageBitmap(im);
+            displayName.setText(contact.getUser().getDisplayName());
+            String lm = "";
+            String created = "";
+            if (contact.getLastMessage() != null) {
+                if (contact.getLastMessage().getContent() != null)
+                    lm = contact.getLastMessage().getContent();
+                if (contact.getLastMessage().getCreated() != null)
+                    created = contact.getLastMessage().getCreated();
+            }
+            lastMsg.setText(lm);
+            time.setText(created);
         }
-        lastMsg.setText(lm);
-        time.setText(created);
-
         return convertView;
     }
 

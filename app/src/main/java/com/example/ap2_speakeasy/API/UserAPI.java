@@ -112,7 +112,8 @@ public class UserAPI {
                     String id = response.body().getId();
                     String display = response.body().getDisplayName();
                     String pic = response.body().getProfilePic();
-                    User u = new User(id, display, pic);
+                    String username = response.body().getUsername();
+                    User u = new User(id,username, display, pic);
                     setUser(u);
                     Log.e("api call1","work");
                 }

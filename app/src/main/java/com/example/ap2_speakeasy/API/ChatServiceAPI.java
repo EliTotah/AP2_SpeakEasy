@@ -1,5 +1,6 @@
 package com.example.ap2_speakeasy.API;
 
+import com.example.ap2_speakeasy.entities.ChatUserAdd;
 import com.example.ap2_speakeasy.entities.Contact;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import retrofit2.http.Path;
 public interface ChatServiceAPI {
 
         @POST("Chats/")
-        Call<Map<String, String>> createChat(@Header("Authorization")String token, @Body Map<String,String> request);
+        Call<ChatUserAdd> createChat(@Header("Authorization")String token, @Body Map<String,String> request);
 
         @GET("Chats/")
         Call<List<Contact>> getChats(@Header("Authorization")String token);
