@@ -1,9 +1,12 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,10 +15,13 @@ import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     private ActivityLoginBinding binding;
+    private SharedPreferences settingsSharedPreferences;
+    private Boolean isNightMode = null;
     public static Context context;
     private UserAPI userAPI;
 
@@ -26,6 +32,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Retrieve the initial value of the preference and set the theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+        changeTheme(isNightMode);
+
+        // Register the shared preference change listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         userAPI = new UserAPI();
         // Initialize the ViewModel
         // Observe changes to the token value
@@ -56,6 +69,13 @@ public class LoginActivity extends AppCompatActivity {
             // Handle the click event here
             Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
             startActivity(intent);
+        });
+
+        FloatingActionButton settingsButton = binding.settingsButton;
+        settingsButton.setOnClickListener(v -> {
+            // Start the SettingActivity
+            Intent intentSettings = new Intent(LoginActivity.this, SettingActivity.class);
+            startActivity(intentSettings);
         });
 
         binding.loginButton.setOnClickListener(view -> {
@@ -93,5 +113,26 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("dark_mode")) {
+            boolean isNightMode = sharedPreferences.getBoolean(key, false);
+            changeTheme(isNightMode);
+        }
+    }
+    private void changeTheme(boolean isNightMode) {
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the shared preference change listener
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 }

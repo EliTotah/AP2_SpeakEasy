@@ -52,13 +52,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChatContactsActivity extends AppCompatActivity {
+public class ChatContactsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private ActivityChatContactsBinding binding;
     String activeUserName;
     String userToken;
 
     private SharedPreferences settingsSharedPreferences;
-    private Boolean _isNightMode = null;
+    private Boolean isNightMode = null;
     private AppDB db;
     private List<Contact> contacts;
     private List<Contact> dbContacts;
@@ -70,16 +70,18 @@ public class ChatContactsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isNightMode = sharedPreferences1.getBoolean("dark_mode", false);
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }
         super.onCreate(savedInstanceState);
-
         binding = ActivityChatContactsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
+
+        // Retrieve the initial value of the preference and set the theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+        changeTheme(isNightMode);
+
+        // Register the shared preference change listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         if (intent != null) {
              activeUserName = getIntent().getStringExtra("activeUserName");
@@ -144,7 +146,12 @@ public class ChatContactsActivity extends AppCompatActivity {
             finish();
         });
     }
-
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("dark_mode")) {
+            boolean isNightMode = sharedPreferences.getBoolean(key, false);
+            changeTheme(isNightMode);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -184,6 +191,21 @@ public class ChatContactsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void changeTheme(boolean isNightMode) {
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the shared preference change listener
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
 

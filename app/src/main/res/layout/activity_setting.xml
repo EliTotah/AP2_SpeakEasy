@@ -45,46 +45,31 @@
                 android:id="@+id/server_address_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="74dp"
-                android:text="@string/settings_enter_server_address" />
-
-            <Switch
-                android:id="@+id/notificationSoundSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:padding="16dp"
-                android:text="Enable Notification Sound"
-                android:textSize="16sp" />
-
-            <Switch
-                android:id="@+id/vibrationSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="83dp"
-                android:padding="16dp"
-                android:text="Enable Vibration"
-                android:textSize="16sp" />
-
-            <Switch
-                android:id="@+id/darkModeSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:padding="16dp"
-                android:text="Enable Dark Mode"
-                android:textSize="16sp" />
-
-
-            <Spinner
-                android:id="@+id/languageSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/language_options"
-                android:padding="16dp" />
+                android:hint="@string/settings_enter_server_address" />
 
             <Button
                 android:id="@+id/saveSettingsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Save Settings" />
+                android:text="@string/Setting_save_server" />
+
+
+            <Switch
+                android:id="@+id/darkModeSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="136dp"
+                android:padding="30dp"
+                android:text="Enable Dark Mode"
+                android:textSize="16sp" />
+
+
+<!--            <Spinner-->
+<!--                android:id="@+id/languageSpinner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:entries="@array/language_options"-->
+<!--                android:padding="16dp" />-->
 
 
         </LinearLayout>

@@ -52,5 +52,6 @@
     <string name="settings_back">back</string>
     <string name="settings_server_address">Server Address</string>
     <string name="settings_enter_server_address">Enter new server address</string>
+    <string name="Setting_save_server">Save Server</string>
     <item name="Settings_notification_sound_checkbox" type="id" />
 </resources>
