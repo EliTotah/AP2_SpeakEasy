@@ -42,7 +42,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         TextView content = convertView.findViewById(R.id.Message_content);
         TextView time = convertView.findViewById(R.id.Time_sent);
 
-        if ((Objects.equals(message.getSender(), ActiveUser))) {
+        if ((Objects.equals(message.getSender().get("username"), ActiveUser))) {
             zone.setBackgroundResource(R.color.my_message_background);
         }
         else {

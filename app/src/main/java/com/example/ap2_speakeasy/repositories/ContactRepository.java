@@ -43,14 +43,19 @@ public class ContactRepository {
     }
 
     public void insertContact(String username) {
-        chatAPI.createChat(token,username);
-        chatAPI.getAllChats(contactListData,token);
+        chatAPI.createChat(token,username,contactListData);
     }
+
+    public void reload() {
+        contactListData.setValue(contactDao.index());
+    }
+
 
     class ContactListData extends MutableLiveData<List<Contact>> {
         public ContactListData() {
             super();
-            setValue(contactDao.index());
+           setValue(contactDao.index());
+
         }
 
         @Override

@@ -6,15 +6,24 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey
     private String id;
-
+    private String username;
     private String displayName;
-
     private String profilePic;
 
-    public User(String id, String displayName, String profilePic) {
+    public User(String id, String username,String displayName, String profilePic) {
         this.id = id;
         this.displayName = displayName;
         this.profilePic = profilePic;
+        this.username=username;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getId() {
