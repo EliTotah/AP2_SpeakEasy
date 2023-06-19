@@ -2,6 +2,7 @@ package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
+    public static Context context;
     private UserAPI userAPI;
 
     private String userToken;
