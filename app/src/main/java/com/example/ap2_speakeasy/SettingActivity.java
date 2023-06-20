@@ -29,9 +29,9 @@ import java.util.Locale;
 
 public class SettingActivity extends AppCompatActivity {
     private EditText serverAddressEditText;
-    private Switch notificationSoundSwitch;
-    private Switch vibrationSwitch;
     private Switch darkModeSwitch;
+
+    private Spinner languageSpinner;
     private SharedPreferences settingsSharedPreferences;
 
     @Override
@@ -40,53 +40,36 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         serverAddressEditText = findViewById(R.id.server_address_edittext);
-        notificationSoundSwitch = findViewById(R.id.notificationSoundSwitch);
-        vibrationSwitch = findViewById(R.id.vibrationSwitch);
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
-        Spinner languageSpinner = findViewById(R.id.languageSpinner);
+        //languageSpinner = findViewById(R.id.languageSpinner);
 
         loadSavedSettings();
 
         Button saveButton = findViewById(R.id.saveSettingsButton);
         saveButton.setOnClickListener(v -> saveSettings());
 
-        notificationSoundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                enableNotificationSound();
-            } else {
-                disableNotificationSound();
-            }
-        });
-
-        vibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                enableVibration();
-            } else {
-                disableVibration();
-            }
-        });
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             toggleNightMode(isChecked);
             //updateThemeButtonLabel();
         });
 
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLanguage = parent.getItemAtPosition(position).toString();
-                if (selectedLanguage.equals("English")) {
-                    updateLanguage("en");
-                } else if (selectedLanguage.equals("Hebrew")) {
-                    updateLanguage("he");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
-        });
+//        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String selectedLanguage = parent.getItemAtPosition(position).toString();
+//                if (selectedLanguage.equals("English")) {
+//                    updateLanguage("en");
+//                } else if (selectedLanguage.equals("Hebrew")) {
+//                    updateLanguage("he");
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Do nothing
+//            }
+//        });
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());
@@ -107,67 +90,39 @@ public class SettingActivity extends AppCompatActivity {
         } else {
             getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean("dark_mode", isNightMode);
+        editor.apply();
     }
 
     private void saveSettings() {
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putBoolean("notification_sound_enabled", notificationSoundSwitch.isChecked());
-        editor.putBoolean("vibration_enabled", vibrationSwitch.isChecked());
-        editor.putBoolean("dark_mode_enabled", darkModeSwitch.isChecked());
+        //editor.putBoolean("dark_mode", darkModeSwitch.isChecked());
 
         String url = serverAddressEditText.getText().toString();
         editor.putString("server_address", url);
 
         editor.apply();
 
-        boolean isNotificationSoundEnabled = notificationSoundSwitch.isChecked();
-        boolean isVibrationEnabled = vibrationSwitch.isChecked();
 
-        if (isNotificationSoundEnabled) {
-            enableNotificationSound();
-        } else {
-            disableNotificationSound();
-        }
-
-        if (isVibrationEnabled) {
-            enableVibration();
-        } else {
-            disableVibration();
-        }
 
         finish();
     }
 
     private void loadSavedSettings() {
-        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        boolean notificationSoundEnabled = sharedPreferences.getBoolean("notification_sound_enabled", false);
-        boolean vibrationEnabled = sharedPreferences.getBoolean("vibration_enabled", false);
-        boolean darkModeEnabled = sharedPreferences.getBoolean("dark_mode_enabled", false);
-
-        notificationSoundSwitch.setChecked(notificationSoundEnabled);
-        vibrationSwitch.setChecked(vibrationEnabled);
+        SharedPreferences settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean darkModeEnabled = settingsSharedPreferences.getBoolean("dark_mode", false);
         darkModeSwitch.setChecked(darkModeEnabled);
     }
 
-    private void toggleNightMode(boolean is_Chacked) {
+    private void toggleNightMode(boolean isChecked) {
         SharedPreferences.Editor editor = settingsSharedPreferences.edit();
-        if (is_Chacked) {
-            editor.putBoolean("dark_mode", true);
-        }
-        editor.putBoolean("dark_mode", false);
+        editor.putBoolean("dark_mode", isChecked);
         editor.apply();
-    }
-
-    private void updateThemeButtonLabel() {
-        Button themeButton = findViewById(R.id.darkModeSwitch);
-        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
-            themeButton.setText("Night Mode");
-        } else {
-            themeButton.setText("Day Mode");
-        }
     }
 
     private void updateLanguage(String languageCode) {
@@ -187,38 +142,6 @@ public class SettingActivity extends AppCompatActivity {
             Intent intent = getIntent();
             finish();
             startActivity(intent);
-        }
-    }
-
-
-
-
-    private void enableVibration() {
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        if (vibrator != null && vibrator.hasVibrator()) {
-            long[] pattern = {0, 400, 200, 400};
-            vibrator.vibrate(pattern, -1);
-        }
-    }
-
-    private void disableVibration() {
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        if (vibrator != null && vibrator.hasVibrator()) {
-            vibrator.cancel();
-        }
-    }
-
-    private void disableNotificationSound() {
-        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (audioManager != null) {
-            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
-        }
-    }
-
-    private void enableNotificationSound() {
-        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (audioManager != null) {
-            audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, audioManager.getStreamMaxVolume(AudioManager.STREAM_NOTIFICATION), 0);
         }
     }
 }
