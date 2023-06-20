@@ -24,11 +24,6 @@ public class MessageViewModel extends ViewModel {
         return this.messages;
     }
 
-    // Get contact by id
-    /*public Contact getContact(int id) {
-        return contactsRepository.getContact(id);
-    }*/
-
     public void insertMessage(String content) {
         messageRepository.insertMessage(content);
         reload();

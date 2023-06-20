@@ -38,6 +38,7 @@ import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
 import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 
+import com.example.ap2_speakeasy.adapters.MessageListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.User;
@@ -70,6 +71,7 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
 
     private ContactViewModel viewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,7 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
 
         // Retrieve the initial value of the preference and set the theme
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+        isNightMode = sharedPreferences.getBoolean("dark_mode", false);
         changeTheme(isNightMode);
 
         // Register the shared preference change listener
@@ -121,7 +123,8 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         this.contacts = new ArrayList<>();
 
         ListView lvContacts = binding.listViewChats;
-        adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts);
+        adapter = new ContactListAdapter(getApplicationContext(), (ArrayList<Contact>) this.contacts, isNightMode);
+        adapter.setNightMode(isNightMode);
 
         viewModel.getContacts().observe(this, adapter::setContacts);
 
@@ -152,16 +155,14 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
     }
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("dark_mode")) {
-            boolean isNightMode = sharedPreferences.getBoolean(key, false);
+            isNightMode = sharedPreferences.getBoolean(key, false);
             changeTheme(isNightMode);
         }
     }
     @Override
     protected void onResume() {
         super.onResume();
-        //loadPosts();
     }
-
 
     private void showAddContactDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);

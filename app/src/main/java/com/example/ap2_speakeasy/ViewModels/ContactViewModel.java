@@ -22,10 +22,6 @@ public class ContactViewModel extends ViewModel {
         return this.contacts;
     }
 
-    // Get contact by id
-    /*public Contact getContact(int id) {
-        return contactsRepository.getContact(id);
-    }*/
 
     public void insertContact(String username) {
         contactsRepository.insertContact(username);

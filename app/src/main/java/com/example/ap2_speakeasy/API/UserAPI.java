@@ -91,7 +91,8 @@ public class UserAPI {
                         setToken(token);
                         setActiveUserName(username);
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Toast.makeText(AP2_SpeakEasy.context,
+                                "Error with the server", Toast.LENGTH_SHORT).show();;
                     }
                 }
                 callBackFlag.complete(response.code());
@@ -99,7 +100,9 @@ public class UserAPI {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                //binding.editTextUsername.setError(getString(R.string.connection_error));
+                String err = t.getMessage();
+                Toast.makeText(AP2_SpeakEasy.context,
+                        "Error:" + err, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -116,10 +119,10 @@ public class UserAPI {
                     String username = response.body().getUsername();
                     User u = new User(username, display, pic);
                     setUser(u);
-                    Log.e("api call1","work");
                 }
                 else {
-                    Log.e("api call2","booooooo");
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
                 callBackFlag.complete(response.code());
             }
@@ -128,10 +131,12 @@ public class UserAPI {
             public void onFailure(Call<User> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api call3","ERROR: " + err );
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error" + err, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Log.e("api call4","Unknown error");
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
