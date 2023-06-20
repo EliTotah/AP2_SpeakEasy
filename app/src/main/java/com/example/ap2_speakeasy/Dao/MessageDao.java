@@ -1,5 +1,6 @@
 package com.example.ap2_speakeasy.Dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,7 +17,7 @@ public interface MessageDao {
     List<Message> getMessages();
 
     @Query("SELECT * FROM message WHERE contactId = :id ORDER BY id")
-    List<Message> getAllMessagesWithContact(int id);
+    LiveData<List<Message>> getAllMessagesWithContact(int id);
 
     @Insert
     void insert(Message... messages);

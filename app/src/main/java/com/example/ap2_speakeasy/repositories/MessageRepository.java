@@ -15,6 +15,7 @@ import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageRepository {
@@ -36,16 +37,24 @@ public class MessageRepository {
     }
 
     public LiveData<List<Message>> getAll() {
+        messageListData.setValue(messageDao.getAllMessagesWithContact(chatID).getValue());
         return messageListData;
     }
     public void insertMessage(String content) {
         messageAPI.createMessage(token,chatID,content,messageListData);
+        messageListData.setValue(messageDao.getAllMessagesWithContact(chatID).getValue());
     }
 
+    public  void addMessage(Message m) {
+        messageDao.insert(m);
+        List<Message> list = this.messageListData.getValue();
+        list.add(m);
+        this.messageListData.setValue(list);
+    }
     class MessageListData extends MutableLiveData<List<Message>> {
         public MessageListData() {
             super();
-            setValue(messageDao.getAllMessagesWithContact(chatID));
+            setValue(messageDao.getAllMessagesWithContact(chatID).getValue());
         }
 
         @Override

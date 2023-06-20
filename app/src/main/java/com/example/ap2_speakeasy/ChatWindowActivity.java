@@ -1,6 +1,7 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -85,6 +86,11 @@ public class ChatWindowActivity extends AppCompatActivity {
 
         binding.returnButton.setOnClickListener(view -> {
             finish();
+        });
+
+        MutableLiveData<Message> messageFirebase = SingeltonFireBase.getMessageFirebase();
+        messageFirebase.observe(this,message -> {
+            viewModel.addMessage(message);
         });
     }
 
