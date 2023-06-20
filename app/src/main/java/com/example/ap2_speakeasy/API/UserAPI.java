@@ -11,6 +11,7 @@ import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.LoginActivity;
 import com.example.ap2_speakeasy.MainActivity;
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.ServerUrl;
 import com.example.ap2_speakeasy.Sign_up.PasswordActivity;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.entities.Contact;
@@ -52,7 +53,7 @@ public class UserAPI {
         /////////////////
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(AP2_SpeakEasy.context.getString(R.string.BaseUrl))
+                .baseUrl(ServerUrl.getInstance().getUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

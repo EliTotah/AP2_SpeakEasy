@@ -9,6 +9,7 @@ import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.MessageDao;
 import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.ServerUrl;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 import com.google.gson.JsonObject;
@@ -32,7 +33,7 @@ public class MessageAPI {
 
     public MessageAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(AP2_SpeakEasy.context.getString(R.string.BaseUrl))
+                .baseUrl(ServerUrl.getInstance().getUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         messageServiceAPI = retrofit.create(MessageServiceAPI.class);
