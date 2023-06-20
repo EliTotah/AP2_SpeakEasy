@@ -8,6 +8,7 @@ import com.example.ap2_speakeasy.entities.Message;
 import com.example.ap2_speakeasy.repositories.ContactRepository;
 import com.example.ap2_speakeasy.repositories.MessageRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageViewModel extends ViewModel {
@@ -34,6 +35,9 @@ public class MessageViewModel extends ViewModel {
         reload();
     }
 
+    public void addMessage(Message m) {
+        messageRepository.addMessage(m);
+    }
     public void reload() {
         this.messages = messageRepository.getAll();
     }

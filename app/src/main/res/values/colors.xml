@@ -21,5 +21,6 @@
     <color name="friend_message_background">@android:color/white</color>
     <color name="light_grey">#ECECEC</color>
     <color name="window_texts">#1f1f1f</color>
+    <color name="dis_color">#1f1f1f</color>
 
 </resources>

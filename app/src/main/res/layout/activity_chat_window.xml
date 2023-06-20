@@ -88,21 +88,15 @@
         </RelativeLayout>
 
         <!-- Chat Container -->
-
-        <ScrollView
-            android:id="@+id/chatContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/headerLayout"
-            android:layout_marginTop="-7dp"
-            android:background="@drawable/whatsapp_background">
-
             <RelativeLayout
+                android:id="@+id/chatContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="511dp"
+                android:layout_marginBottom="40dp"
+                android:layout_below="@id/headerLayout"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:background="@drawable/whatsapp_background">
 
                 <!-- Message Boxes -->
                 <ListView
@@ -115,7 +109,6 @@
                     android:dividerHeight="0dp"/>
 
             </RelativeLayout>
-        </ScrollView>
 
         <!-- Input Box -->
 
