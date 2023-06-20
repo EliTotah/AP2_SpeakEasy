@@ -13,10 +13,24 @@
     <color name="loginActivity_fields">#3d3c3c</color>
     <color name="loginActivity_button_background">#7f5feb</color>
     <color name="loginActivity_button_text">#dfdeee</color>
+    <color name="hints_login">#1f1f1f</color>
+
     <color name="chat_background">#ccc</color>
     <color name="chat_background_header">#ededed</color>
     <color name="my_message_background">#c6e9f8</color>
     <color name="friend_message_background">@android:color/white</color>
     <color name="light_grey">#ECECEC</color>
+    <color name="window_texts">#1f1f1f</color>
+    <color name="contact_color">#1f1f1f</color>
+    <color name="my_message_background_night">#263F3D</color>
+    <color name="friend_message_background_night">#4E4B4B</color>
+    <color name="night_mode_text_color">#FFFFFF</color>
+    <color name="night_mode_background_color">#1A1413</color>
+    <color name="day_mode_text_color">#070000</color>
+    <color name="day_mode_background_color">#FFFFFF</color>
+    <color name="background_contact">#FFFFFF</color>
+    <color name="chat_searchContainer">#FFFFFF</color>
+    <color name="night_contact_color">#1f1f1f</color>
+    <color name="background_icon">#FFFFFF</color>
 
 </resources>

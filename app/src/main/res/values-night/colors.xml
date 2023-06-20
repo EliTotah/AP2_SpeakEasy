@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="Sign_up_button">#7f5feb</color>
+    <color name="Password_text_color">#3d3c3c</color>
+    <color name="Sign_up_container">#69453E3E</color>
+    <color name="Sign_up_text_color">#FFFFFF</color>
+
+    <color name="MainActivity_title_color">#1f1f1f</color>
+    <color name="loginActivity_title">#1f1f1f</color>
+    <color name="loginActivity_fields">#3d3c3c</color>
+    <color name="loginActivity_button_background">#7f5feb</color>
+    <color name="loginActivity_button_text">#1f1f1f</color>
+    <color name="hints_login">#1f1f1f</color>
+
+    <color name="chat_background_header">#1f1f1f</color>
+    <color name="my_message_background">#006400</color>
+    <color name="friend_message_background">#3d3c3c</color>
+    <color name="light_grey">#ECECEC</color>
+    <color name="window_texts">#FFFFFFFF</color>
+    <color name="contact_color">#FFFFFFFF</color>
+    <color name="background_contact">#FFFFFFFF</color>
+    <color name="chat_searchContainer">#3C3939</color>
+    <color name="chat_background">#1f1f1f</color>
+    <color name="my_message_background_night">#263F3D</color>
+    <color name="friend_message_background_night">#4E4B4B</color>
+    <color name="night_mode_text_color">#FFFFFF</color>
+    <color name="night_mode_background_color">#1f1f1f</color>
+    <color name="night_contact_color">#1f1f1f</color>
+    <color name="background_icon">#AB87B1</color>
+</resources>

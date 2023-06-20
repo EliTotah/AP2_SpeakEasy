@@ -27,18 +27,21 @@ import java.util.List;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class ContactListAdapter extends ArrayAdapter<Contact> {
 
     LayoutInflater inflater;
+    private boolean isNightMode = false;
 
 
-    public ContactListAdapter(Context context, ArrayList<Contact> contactList) {
+    public ContactListAdapter(Context context, ArrayList<Contact> contactList, boolean isNightMode) {
         super(context, 0, contactList);
         this.inflater = LayoutInflater.from(context);
-
+        this.isNightMode = isNightMode;
     }
 
     @NonNull
@@ -53,6 +56,17 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
         TextView displayName = convertView.findViewById(R.id.display_name_user_view);
         TextView lastMsg = convertView.findViewById(R.id.last_massage_user_view);
         TextView time = convertView.findViewById(R.id.time_user_view);
+
+        // Customize the colors based on night mode
+        int textColor = isNightMode ? R.color.night_mode_text_color : R.color.day_mode_text_color;
+        int backgroundColor = isNightMode ? R.color.night_contact_color : R.color.day_mode_background_color;
+
+        // Apply the colors to the views
+        displayName.setTextColor(ContextCompat.getColor(getContext(), textColor));
+        lastMsg.setTextColor(ContextCompat.getColor(getContext(), textColor));
+        time.setTextColor(ContextCompat.getColor(getContext(), textColor));
+        convertView.setBackgroundColor(ContextCompat.getColor(getContext(), backgroundColor));
+
         if (contact.getUser() != null) {
             Bitmap im = decodeImage(contact.getUser().getProfilePic());
             imageView.setImageBitmap(im);
@@ -101,6 +115,10 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
         if (contacts != null) {
             addAll(contacts);
         }
+        notifyDataSetChanged();
+    }
+    public void setNightMode(boolean isNightMode) {
+        this.isNightMode = isNightMode;
         notifyDataSetChanged();
     }
 }

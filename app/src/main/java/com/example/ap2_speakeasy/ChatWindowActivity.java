@@ -1,9 +1,11 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChatWindowActivity extends AppCompatActivity {
+public class ChatWindowActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     int chatID;
     String userToken;
@@ -37,19 +39,22 @@ public class ChatWindowActivity extends AppCompatActivity {
     String friendPic;
     private String activeUserName;
     private ActivityChatWindowBinding binding;
-    private AppDB db;
-    private List<Message> messages;
-    private List<Message> dbMessages;
-    private MessageDao messageDao;
-    private ListView lvMessages;
-    private MessageListAdapter adapter;
     private MessageViewModel viewModel;
+    private boolean isNightMode;
+    MessageListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityChatWindowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Retrieve the initial value of the preference and set the theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+
+
+        // Register the shared preference change listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         Intent intent = getIntent();
 
@@ -65,14 +70,15 @@ public class ChatWindowActivity extends AppCompatActivity {
         binding.friendName.setText(displayName);
         binding.friendImage.setImageBitmap(decodeImage(friendPic));
 
-        this.db = DatabaseManager.getDatabase();
+        AppDB db = DatabaseManager.getDatabase();
 
-        this.messageDao = db.messageDao();
+        MessageDao messageDao = db.messageDao();
         this.viewModel = new MessageViewModel(userToken,chatID);
-        this.messages = new ArrayList<>();
+        List<Message> messages = new ArrayList<>();
 
         ListView lvMessages = binding.listViewMessages;
-        adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName);
+        adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) messages, activeUserName,isNightMode);
+        adapter.setNightMode(isNightMode);
 
         viewModel.getMessages().observe(this, adapter::setMessages);
 
@@ -91,7 +97,6 @@ public class ChatWindowActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //loadMessages();
     }
 
     private void handleSend() {
@@ -115,38 +120,11 @@ public class ChatWindowActivity extends AppCompatActivity {
         }
         return null;
     }
-}
 
-/*
-private void handleMessages() {
-        messages = new ArrayList<>();
-        adapter = new MessageListAdapter(getApplicationContext(), messages);
-        lvMessages = binding.listViewMessages;
-
-        loadMessages();
-
-        lvMessages.setAdapter(adapter);
-        lvMessages.setClickable(true);
-
-        lvMessages.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            messages.remove(i);
-            Message message = dbMessages.remove(i);
-            messageDao.delete(message);
-            adapter.notifyDataSetChanged();
-            return true;
-        });
-    }
-
-    private void loadMessages() {
-        messages.clear();
-        dbMessages = messageDao.getMessages();
-        for (Message message : dbMessages) {
-            Message aMessage = new Message(
-                    message.getContent(), message.getCreated(),
-                    message.isSent(), message.getContactId()
-            );
-            messages.add(aMessage);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("dark_mode")) {
+            isNightMode = sharedPreferences.getBoolean(key, false);
         }
-        adapter.notifyDataSetChanged();
     }
- */
+}
