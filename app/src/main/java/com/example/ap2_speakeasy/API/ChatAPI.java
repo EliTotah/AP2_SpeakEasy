@@ -10,6 +10,7 @@ import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.LoginActivity;
+import com.example.ap2_speakeasy.ServerUrl;
 import com.example.ap2_speakeasy.entities.ChatUserAdd;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.R;
@@ -52,7 +53,7 @@ public class ChatAPI {
         /////////////////
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(AP2_SpeakEasy.context.getString(R.string.BaseUrl))
+                .baseUrl(ServerUrl.getInstance().getUrl())
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

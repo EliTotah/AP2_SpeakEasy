@@ -25,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.example.ap2_speakeasy.Sign_up.ContactInfoActivity;
+import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
+
 import java.util.Locale;
 
 public class SettingActivity extends AppCompatActivity {
@@ -46,7 +49,7 @@ public class SettingActivity extends AppCompatActivity {
         loadSavedSettings();
 
         Button saveButton = findViewById(R.id.saveSettingsButton);
-        saveButton.setOnClickListener(v -> saveSettings());
+        saveButton.setOnClickListener(v -> saveServer());
 
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -97,20 +100,21 @@ public class SettingActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void saveSettings() {
+    private void saveServer() {
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         //editor.putBoolean("dark_mode", darkModeSwitch.isChecked());
 
         String url = serverAddressEditText.getText().toString();
+        ServerUrl.getInstance().setUrl(url);
         editor.putString("server_address", url);
 
         editor.apply();
 
-
-
-        finish();
+        // Start the next activity
+        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void loadSavedSettings() {
