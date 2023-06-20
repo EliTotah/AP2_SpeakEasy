@@ -1,6 +1,7 @@
 package com.example.ap2_speakeasy.API;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -69,14 +70,15 @@ public class MessageAPI {
                             currentMessages.add(m);
                         }
                         messages.setValue(currentMessages);
-                        Log.e("call message", messages.getValue().toString());
                         responeAnswer.setValue("ok");
                     } else {
-                        Log.e("call message", "booooooo");
+                        Toast.makeText(AP2_SpeakEasy.context,
+                                "Error in send message", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     responeAnswer.setValue(response.errorBody().toString());
-                    Log.e("call message", response.errorBody().toString());
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error in send message", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -84,10 +86,12 @@ public class MessageAPI {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api1 call","ERROR: " + err );
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error" + err, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Log.e("api2 call","Unknown error");
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -100,17 +104,17 @@ public class MessageAPI {
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                 if (response.isSuccessful()) {
                     messagesLiveData.setValue(response.body());
-                    Log.e("messages-call",response.body().toString());
                 }
                 else {
-                    Log.e("messages-call","booooooo");
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error in get messages" , Toast.LENGTH_SHORT).show();
                 }
-                // Process the retrieved messages
             }
 
             @Override
             public void onFailure(Call<List<Message>> call, Throwable t) {
-                // Handle the failure
+                Toast.makeText(AP2_SpeakEasy.context,
+                        "Error in get messages" , Toast.LENGTH_SHORT).show();
             }
         });
 

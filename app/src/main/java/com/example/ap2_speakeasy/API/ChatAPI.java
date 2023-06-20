@@ -1,6 +1,7 @@
 package com.example.ap2_speakeasy.API;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -89,12 +90,14 @@ public class ChatAPI {
                         responeAnswer.setValue("ok");
                     }
                     else {
-                        Log.e("api call31","booooooo");
+                        Toast.makeText(AP2_SpeakEasy.context,
+                                "Error with add contact" , Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    responeAnswer.setValue(response.errorBody().toString());
-                    Log.e("api call32",response.errorBody().toString());
+                    //responeAnswer.setValue(response.errorBody().toString());
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error:" + response.message() , Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -102,10 +105,12 @@ public class ChatAPI {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 String err = t.getMessage();
                 if (err!=null){
-                    Log.e("api call34","ERROR: " + err );
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error" + err , Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Log.e("api call35","Unknown error");
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error" , Toast.LENGTH_SHORT).show();
                 }
             }
         });
