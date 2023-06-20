@@ -17,6 +17,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChatContactsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class ChatContactsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, TextWatcher {
     private ActivityChatContactsBinding binding;
     String activeUserName;
     String userToken;
@@ -126,6 +128,8 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         lvContacts.setAdapter(adapter);
         lvContacts.setClickable(true);
 
+        binding.searchEditText.addTextChangedListener(this);
+
         lvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,6 +161,7 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         super.onResume();
         //loadPosts();
     }
+
 
     private void showAddContactDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -208,6 +213,43 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Not needed in this case
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // Get the search query
+        String query = s.toString().trim();
+
+        // Filter the contacts based on the query
+        List<Contact> filteredContacts = new ArrayList<>();
+
+        // Update the contacts list with the current database contacts
+        contacts.clear();
+        contacts.addAll(viewModel.getContacts().getValue());
+
+        if (query.isEmpty()) {
+            // If the query is empty, show all contacts
+            filteredContacts.addAll(contacts);
+        } else {
+            for (Contact contact : contacts) {
+                if (contact.getUser().getDisplayName().toLowerCase().startsWith(query.toLowerCase())) {
+                    filteredContacts.add(contact);
+                }
+            }
+        }
+
+        // Update the contact list in the adapter
+        adapter.setContacts(filteredContacts);
+        adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // Not needed in this case
+        }
 
 }
 

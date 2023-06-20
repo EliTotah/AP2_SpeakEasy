@@ -16,6 +16,7 @@ import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
@@ -27,8 +28,13 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
 
     private String userToken;
     private String activeUserName;
+    private String newToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, instanceIdResult -> {
+             newToken = instanceIdResult.getToken();
+        });
+
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -90,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                 binding.editTextPassword.setError("Password is empty");
             } else {
                 try {
-                    userAPI.signIn(username, password, callback -> {
+                    userAPI.signIn(username, password,newToken, callback -> {
                         if (callback == 200) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
                             Log.e("token", userToken);

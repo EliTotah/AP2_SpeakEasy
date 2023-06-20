@@ -79,8 +79,8 @@ public class UserAPI {
     }
 
 
-    public void signIn(String username, String password, CallBackFlag callBackFlag) {
-        Call<ResponseBody> loginCall = userServiceAPI.login(Map.of("username", username, "password", password));
+    public void signIn(String username, String password, String deviceToken, CallBackFlag callBackFlag) {
+        Call<ResponseBody> loginCall = userServiceAPI.login(Map.of("username", username, "password", password, "deviceToken", deviceToken));
         loginCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
