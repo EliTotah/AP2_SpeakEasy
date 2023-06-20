@@ -18,15 +18,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MainActivity.this, instanceIdResult -> {
-                String newToken = instanceIdResult.getToken();
-        });
-
         // Use a Handler to introduce a delay
         new Handler().postDelayed(() -> {
             // Start the LoginActivity after the delay
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
 
 
             startActivity(intent);
