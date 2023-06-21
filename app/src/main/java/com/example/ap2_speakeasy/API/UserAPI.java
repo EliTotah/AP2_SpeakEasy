@@ -57,6 +57,7 @@ public class UserAPI {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+
         userServiceAPI = retrofit.create(UserServiceAPI.class);
         tokenLiveData = new MutableLiveData<>();
         activeUserName = new MutableLiveData<>();

@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
@@ -40,24 +42,23 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
         Message message = getItem(position);
 
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.message_list_item, parent, false);
-        }
+        convertView = inflater.inflate(R.layout.message_list_item, parent, false);
 
         LinearLayout zone = convertView.findViewById(R.id.Message_zone);
         TextView content = convertView.findViewById(R.id.Message_content);
         TextView time = convertView.findViewById(R.id.Time_sent);
         if (message != null) {
-            if (message != null) {
                 if ((Objects.equals(message.getSender().get("username"), ActiveUser))) {
+                    convertView = inflater.inflate(R.layout.messaeg2_list_item, parent, false);
+                    zone = convertView.findViewById(R.id.Message_zone2);
+                    content = convertView.findViewById(R.id.Message_content2);
+                    time = convertView.findViewById(R.id.Time_sent2);
                     if (isNightMode) {
                         zone.setBackgroundResource(R.color.my_message_background_night);
                     } else {
                         zone.setBackgroundResource(R.color.my_message_background);
                     }
                 }
-                //zone.setBackgroundResource(R.color.my_message_background);
-                //move the message right in the screen
                 else {
                     if (isNightMode) {
                         zone.setBackgroundResource(R.color.friend_message_background_night);
@@ -65,7 +66,6 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
                         zone.setBackgroundResource(R.color.friend_message_background);
                     }
                 }
-            }
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
             SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.US);
             String formattedTime = "";
@@ -77,7 +77,8 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
                     date = inputFormat.parse(message.getCreated());
                 }
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                Toast.makeText(AP2_SpeakEasy.context,
+                        "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             // Format the Date object to the desired output format
             formattedTime = outputFormat.format(date);
