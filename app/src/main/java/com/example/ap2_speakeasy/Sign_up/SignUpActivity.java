@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,11 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.preference.PreferenceManager;
 
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
@@ -60,6 +63,10 @@ public class SignUpActivity extends AppCompatActivity {
         CardView cardView = binding.cardViewProfileImage;
         imageView = binding.profileImage;
         imageView.setImageResource(R.drawable.profilepic);// Assign the ImageView reference
+        //in the first time that i entered to the sign-up
+        isReturn.getInstance().setIsReturn(false);
+        ImageButton backButton = binding.backButton;
+        backButton.setOnClickListener(v -> onBackPressed());
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -198,7 +205,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return encodedImage;
     }
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isReturn.getInstance().getIsReturn()){
+            finish();
+        }
+    }
 
 }

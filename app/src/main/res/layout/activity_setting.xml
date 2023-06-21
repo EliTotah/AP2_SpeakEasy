@@ -37,7 +37,7 @@
                 android:layout_height="77dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:text="Chat App Settings"
+                android:text="@string/chat_app_settings"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -66,14 +66,6 @@
                 android:text="Enable Dark Mode"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
-
-
-<!--            <Spinner-->
-<!--                android:id="@+id/languageSpinner"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:entries="@array/language_options"-->
-<!--                android:padding="16dp" />-->
 
 
         </LinearLayout>

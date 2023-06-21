@@ -28,7 +28,7 @@
             android:layout_marginBottom="38dp"
             android:tint="@null"
             android:src="@drawable/ic_action_settings"
-            app:backgroundTint="@color/light_grey" />
+            app:backgroundTint="@color/background_icon" />
     </RelativeLayout>
 
     <LinearLayout
