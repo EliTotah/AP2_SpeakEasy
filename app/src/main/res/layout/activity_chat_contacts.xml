@@ -127,7 +127,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:src="@drawable/ic_action_settings"
-            app:backgroundTint="@color/white" />
+            app:backgroundTint="@color/background_icon" />
 
     </RelativeLayout>
 </RelativeLayout>
