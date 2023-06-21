@@ -55,10 +55,8 @@ public class UserAPI {
                 .addInterceptor(interceptor)
                 .build();
         /////////////////
-       // String apiAddress = AP2_SpeakEasy.preferences.getString("server", "http://10.0.2.2:5000");
         String apiAddress = AP2_SpeakEasy.urlServer.getValue();
 
-        Log.e("URL-SERVER", apiAddress );
         retrofit = new Retrofit.Builder()
                 .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -82,7 +80,6 @@ public class UserAPI {
         /////////////////
         //String apiAddress = AP2_SpeakEasy.preferences.getString("server", "http://10.0.2.2:5000");
         String apiAddress = AP2_SpeakEasy.urlServer.getValue();
-        Log.e("URL-SERVER", apiAddress );
         retrofit = new Retrofit.Builder()
                 .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())

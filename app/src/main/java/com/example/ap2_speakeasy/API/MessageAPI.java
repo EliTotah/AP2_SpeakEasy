@@ -33,8 +33,10 @@ public class MessageAPI {
     private MutableLiveData responeAnswer;
 
     public MessageAPI() {
+        String apiAddress = AP2_SpeakEasy.urlServer.getValue();
+
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5002/api/")
+                .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         messageServiceAPI = retrofit.create(MessageServiceAPI.class);

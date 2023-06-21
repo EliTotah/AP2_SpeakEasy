@@ -52,10 +52,10 @@ public class ChatAPI {
                 .addInterceptor(interceptor)
                 .build();
         /////////////////
-        String apiAddress = AP2_SpeakEasy.preferences.getString("server", "http://10.0.2.2:5000");
+        String apiAddress = AP2_SpeakEasy.urlServer.getValue();
+
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5002/api/")
-                .client(client)
+                .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         chatServiceAPI = retrofit.create(ChatServiceAPI.class);
