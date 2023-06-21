@@ -20,6 +20,7 @@ import com.example.ap2_speakeasy.API.MessageAPI;
 import com.example.ap2_speakeasy.Dao.MessageDao;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
+import com.example.ap2_speakeasy.entities.User;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -38,7 +39,7 @@ public class FireBaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
-        MutableLiveData<Contact> contactMutableLiveData = SingeltonFireBase.getContactFirebase();
+        MutableLiveData<String> contactMutableLiveData = SingeltonFireBase.getContactFirebase();
 
         if (message.getNotification() != null) {
             createNotificationChannel();
@@ -66,6 +67,14 @@ public class FireBaseService extends FirebaseMessagingService {
             }
 
             if(message.getData().get("action").equals("add_contact")) {
+                /*String username = message.getData().get("UserName");
+                String display = message.getData().get("DisplayName");
+                String pic = message.getData().get("profilePic");
+                User user = new User(username,display,pic);
+                String idString = message.getData().get("chatID");
+                int id = Integer.parseInt(idString);
+                Contact c = new Contact(id, user, null);
+                contactMutableLiveData.postValue(c);*/
                 contactMutableLiveData.postValue(message.getNotification().getBody());
             }
             else if (message.getData().get("action").equals("send_message")) {

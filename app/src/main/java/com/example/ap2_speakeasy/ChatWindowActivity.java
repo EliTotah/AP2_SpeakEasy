@@ -1,6 +1,9 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -8,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ChatWindowActivity extends AppCompatActivity {
+public class ChatWindowActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     int chatID;
     String userToken;
@@ -39,6 +43,8 @@ public class ChatWindowActivity extends AppCompatActivity {
     String friendPic;
     private String activeUserName;
     private ActivityChatWindowBinding binding;
+    private SharedPreferences settingsSharedPreferences;
+    private Boolean isNightMode = null;
     private AppDB db;
     private List<Message> messages;
     private List<Message> dbMessages;
@@ -52,6 +58,14 @@ public class ChatWindowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatWindowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Retrieve the initial value of the preference and set the theme
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+        changeTheme(isNightMode);
+
+        // Register the shared preference change listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         Intent intent = getIntent();
 
@@ -74,7 +88,7 @@ public class ChatWindowActivity extends AppCompatActivity {
         this.messages = new ArrayList<>();
 
         ListView lvMessages = binding.listViewMessages;
-        adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName);
+        adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName,isNightMode);
 
         viewModel.getMessages().observe(this, messages1 -> {
             adapter.setMessages(messages1);
@@ -99,6 +113,26 @@ public class ChatWindowActivity extends AppCompatActivity {
                 viewModel.addMessage(message);
             }
         });
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("dark_mode")) {
+            isNightMode = sharedPreferences.getBoolean(key, false);
+        }
+    }
+    private void changeTheme(boolean isNightMode) {
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the shared preference change listener
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override

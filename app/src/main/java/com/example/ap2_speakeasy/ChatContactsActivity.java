@@ -134,10 +134,16 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
 
         binding.searchEditText.addTextChangedListener(this);
 
-        MutableLiveData<Contact> contactFirebase = SingeltonFireBase.getContactFirebase();
+        MutableLiveData<String> contactFirebase = SingeltonFireBase.getContactFirebase();
+        MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
+
+        messageMutableLiveData.observe(this,contacts -> {
+            viewModel.getContacts();
+        });
         contactFirebase.observe(this,contact -> {
             if (contact != null) {
-                viewModel.addContact(contact);
+                //viewModel.addContact(contact);
+                viewModel.getContacts();
             }
         });
 

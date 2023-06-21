@@ -12,6 +12,7 @@ import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.Dao.MessageDao;
 import com.example.ap2_speakeasy.DatabaseManager;
+import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class MessageRepository {
     private MessageDao messageDao;
+    private ContactViewModel contactViewModel;
     private MessageListData messageListData;
     private MessageAPI messageAPI;
     private String token;
@@ -34,6 +36,10 @@ public class MessageRepository {
         this.messageListData = new MessageListData();
         this.messageAPI = new MessageAPI();
         this.chatID = chatID;
+    }
+
+    public void setContactViewModel(ContactViewModel contactViewModel) {
+        this.contactViewModel = contactViewModel;
     }
 
     public LiveData<List<Message>> getAll() {
@@ -57,8 +63,10 @@ public class MessageRepository {
                 list.add(m);
             }
             this.messageListData.postValue(list);
+            this.contactViewModel.reload();
         }
     }
+
     class MessageListData extends MutableLiveData<List<Message>> {
         public MessageListData() {
             super();
