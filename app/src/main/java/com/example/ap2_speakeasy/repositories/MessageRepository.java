@@ -37,19 +37,27 @@ public class MessageRepository {
     }
 
     public LiveData<List<Message>> getAll() {
-        messageListData.setValue(messageDao.getAllMessagesWithContact(chatID).getValue());
+        messageListData.postValue(messageDao.getAllMessagesWithContact(chatID).getValue());
         return messageListData;
     }
     public void insertMessage(String content) {
         messageAPI.createMessage(token,chatID,content,messageListData);
-        messageListData.setValue(messageDao.getAllMessagesWithContact(chatID).getValue());
+        messageListData.postValue(messageDao.getAllMessagesWithContact(chatID).getValue());
     }
 
     public  void addMessage(Message m) {
-        messageDao.insert(m);
-        List<Message> list = this.messageListData.getValue();
-        list.add(m);
-        this.messageListData.setValue(list);
+        if (m!=null) {
+            messageDao.insert(m);
+            List<Message> list = this.messageListData.getValue();
+            if (list == null) {
+                list = new ArrayList<>();
+                list.add(m);
+            }
+            else {
+                list.add(m);
+            }
+            this.messageListData.postValue(list);
+        }
     }
     class MessageListData extends MutableLiveData<List<Message>> {
         public MessageListData() {

@@ -41,6 +41,7 @@ import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.adapters.MessageListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.Message;
 import com.example.ap2_speakeasy.entities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -132,6 +133,13 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         lvContacts.setClickable(true);
 
         binding.searchEditText.addTextChangedListener(this);
+
+        MutableLiveData<Contact> contactFirebase = SingeltonFireBase.getContactFirebase();
+        contactFirebase.observe(this,contact -> {
+            if (contact != null) {
+                viewModel.addContact(contact);
+            }
+        });
 
         lvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

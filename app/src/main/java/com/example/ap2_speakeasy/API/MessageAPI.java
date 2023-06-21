@@ -69,8 +69,8 @@ public class MessageAPI {
                             currentMessages = new ArrayList<>();
                             currentMessages.add(m);
                         }
-                        messages.setValue(currentMessages);
-                        responeAnswer.setValue("ok");
+                        messages.postValue(currentMessages);
+                        responeAnswer.postValue("ok");
                     } else {
                         Toast.makeText(AP2_SpeakEasy.context,
                                 "Error in send message", Toast.LENGTH_SHORT).show();
@@ -103,7 +103,7 @@ public class MessageAPI {
             @Override
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                 if (response.isSuccessful()) {
-                    messagesLiveData.setValue(response.body());
+                    messagesLiveData.postValue(response.body());
                 }
                 else {
                     Toast.makeText(AP2_SpeakEasy.context,

@@ -27,7 +27,6 @@ public class MessageViewModel extends ViewModel {
 
     public void insertMessage(String content) {
         messageRepository.insertMessage(content);
-        reload();
     }
 
     public void addMessage(Message m) {

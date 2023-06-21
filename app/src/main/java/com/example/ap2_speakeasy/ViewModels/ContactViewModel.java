@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.Message;
 import com.example.ap2_speakeasy.repositories.ContactRepository;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class ContactViewModel extends ViewModel {
 
     public LiveData<List<Contact>> getContacts() {
         return this.contacts;
+    }
+
+    public void addContact(Contact c) {
+        contactsRepository.addContact(c);
     }
 
 
