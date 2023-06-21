@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
         settingsButton.setOnClickListener(v -> {
             // Start the SettingActivity
             Intent intentSettings = new Intent(LoginActivity.this, SettingActivity.class);
+            intentSettings.putExtra("camefrom","login");
             startActivity(intentSettings);
         });
 
@@ -93,6 +94,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                             Intent intent = new Intent(LoginActivity.this, ChatContactsActivity.class);
                             intent.putExtra("token", "Bearer " + userToken);
                             intent.putExtra("activeUserName", activeUserName);
+                            isReturn.getInstance().setIsReturn(false);
                             startActivity(intent);
                         } else if (callback == 404) {
                             Toast.makeText(getApplicationContext(),
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
                 }
                 catch (Exception e) {
                     Toast.makeText(getApplicationContext(),
-                            "error", Toast.LENGTH_SHORT).show();
+                            "error:", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -135,6 +137,6 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
     protected void onResume() {
         super.onResume();
         userAPI.setUrl();
-        }
+    }
 
 }

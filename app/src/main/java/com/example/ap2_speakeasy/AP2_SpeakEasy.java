@@ -3,10 +3,16 @@ package com.example.ap2_speakeasy;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 public class AP2_SpeakEasy extends Application {
 
     public static SharedPreferences preferences;
+
+    public static MutableLiveData<String> urlServer;
     SharedPreferences.Editor editor;
 
     public static Context context;
@@ -14,8 +20,9 @@ public class AP2_SpeakEasy extends Application {
     public void onCreate(){
         super.onCreate();
         context = getApplicationContext();
-        preferences = context.getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE);
         editor = preferences.edit();
+        urlServer = new MutableLiveData<>("http://10.0.2.2:5000");
     }
 
     public SharedPreferences getPreferences() {
@@ -38,8 +45,16 @@ public class AP2_SpeakEasy extends Application {
         editor.apply();
     }
     public void setString(String key, String value) {
-        editor.putString(key, value);
-        editor.apply();
+        preferences.edit().putString(key, value);
+        preferences.edit().apply();
+        /*if(editor== null) {
+            Log.e("editor ----","big problem");
+        }
+        else {
+            Log.e("not null====", "setString: ");
+            editor.putString(key, value);
+            editor.apply();
+        }*/
     }
 
     public String get(String key) {

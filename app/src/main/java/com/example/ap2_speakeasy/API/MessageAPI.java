@@ -34,7 +34,7 @@ public class MessageAPI {
 
     public MessageAPI() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5000/api/")
+                .baseUrl("http://10.0.2.2:5002/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         messageServiceAPI = retrofit.create(MessageServiceAPI.class);

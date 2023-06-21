@@ -114,6 +114,7 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         settingsButton.setOnClickListener(v -> {
             // Start the SettingActivity
             Intent intentSettings = new Intent(ChatContactsActivity.this, SettingActivity.class);
+            intentSettings.putExtra("camefrom","contacts");
             startActivity(intentSettings);
         });
 
@@ -270,14 +271,10 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         if(isReturn.getInstance().getIsReturn()){
             finish();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         // Get contacts list from web-api
         new Thread(() -> viewModel.getContacts()).start();
     }
+
 }
 
 

@@ -3,10 +3,10 @@ package com.example.ap2_speakeasy;
 
 public class isReturn {
     private static isReturn instance;
-    private boolean isReturn = false;
+    private boolean isReturn;
 
     private isReturn() {
-        // Private constructor to prevent external instantiation
+        isReturn = false;
     }
 
     public static synchronized isReturn getInstance() {
