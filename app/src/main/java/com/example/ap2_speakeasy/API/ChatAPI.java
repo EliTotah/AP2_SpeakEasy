@@ -62,8 +62,8 @@ public class ChatAPI {
         responeAnswer = new MutableLiveData<>();
     }
 
-    public void createChat(String token, String username,MutableLiveData<List<Contact>> contacts) {
-        Call<JsonObject> call = chatServiceAPI.createChat(token,Map.of("username",username));
+    public void createChat(String token, String username, MutableLiveData<List<Contact>> contacts) {
+        Call<JsonObject> call = chatServiceAPI.createChat(token, Map.of("username", username));
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -76,7 +76,7 @@ public class ChatAPI {
                         int id2 = Integer.parseInt(id);
                         JsonObject userJson = responseBody.get("user").getAsJsonObject();
                         User user = new Gson().fromJson(userJson, User.class);
-                        Contact c = new Contact(id2,user,null);
+                        Contact c = new Contact(id2, user, null);
                         contactDao.insert(c);
                         List<Contact> currentUsers = contacts.getValue();
                         // Add the new User object to the current list
@@ -88,29 +88,26 @@ public class ChatAPI {
                         }
                         contacts.setValue(currentUsers);
                         responeAnswer.setValue("ok");
-                    }
-                    else {
+                    } else {
                         Toast.makeText(AP2_SpeakEasy.context,
-                                "Error with add contact" , Toast.LENGTH_SHORT).show();
+                                "Error with add contact", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else {
+                } else {
                     //responeAnswer.setValue(response.errorBody().toString());
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error:" + response.message() , Toast.LENGTH_SHORT).show();
+                            "Error:" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 String err = t.getMessage();
-                if (err!=null){
+                if (err != null) {
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error" + err , Toast.LENGTH_SHORT).show();
-                }
-                else {
+                            "Error" + err, Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error" , Toast.LENGTH_SHORT).show();
+                            "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -123,64 +120,23 @@ public class ChatAPI {
             public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
                 if (response.isSuccessful()) {
                     contactListData.setValue(response.body());
-                }
-                else {
-                    Log.e("api call12","booooooo");
+                } else {
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error:" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Contact>> call, Throwable t) {
                 String err = t.getMessage();
-                if (err!=null){
-                    Log.e("api call13","ERROR: " + err );
-                }
-                else {
-                    Log.e("api call14","Unknown error");
-                }
-            }
-        });
-    }
-
-    public void getUserDetails() {
-
-    }
-
-/*
-    public Call<Contact> getChatById(int id) {
-        return chatServiceAPI.getChat(id);
-        /*call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    // Handle the successful response here
+                if (err != null) {
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error:" + err, Toast.LENGTH_SHORT).show();
                 } else {
-                    // Handle the error response here
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error:", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                // Handle the failure here
             }
         });
     }
-    public void deleteChat(int id) {
-        chatServiceAPI.deleteChat(id);
-        /*call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    // Handle the successful response here
-                } else {
-                    // Handle the error response here
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                // Handle the failure here
-            }
-        });
-    }*/
 }

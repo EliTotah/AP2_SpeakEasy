@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/headerLayout"
-            android:background="@color/chat_background_header"
+            android:background="@color/chat_searchContainer"
             android:layout_margin="2dp"
             android:padding="10dp">
 
@@ -108,12 +108,12 @@
             android:layout_height="match_parent"
             android:layout_below="@id/searchContainer"
             android:orientation="vertical"
-            android:background="@color/white"
             android:padding="10dp">
 
             <ListView
                 android:id="@+id/list_view_chats"
                 android:layout_width="match_parent"
+                android:outlineAmbientShadowColor="@color/background_contact"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 

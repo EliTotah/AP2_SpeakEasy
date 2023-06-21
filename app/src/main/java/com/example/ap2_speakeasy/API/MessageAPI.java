@@ -78,7 +78,7 @@ public class MessageAPI {
                 } else {
                     responeAnswer.setValue(response.errorBody().toString());
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error in send message", Toast.LENGTH_SHORT).show();
+                            "Error:" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -107,14 +107,21 @@ public class MessageAPI {
                 }
                 else {
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error in get messages" , Toast.LENGTH_SHORT).show();
+                            "Error:" + response.message() , Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Message>> call, Throwable t) {
-                Toast.makeText(AP2_SpeakEasy.context,
-                        "Error in get messages" , Toast.LENGTH_SHORT).show();
+                String err = t.getMessage();
+                if (err != null) {
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error: " + err, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(AP2_SpeakEasy.context,
+                            "Error in get messages", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

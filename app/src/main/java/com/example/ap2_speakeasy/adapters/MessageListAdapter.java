@@ -26,10 +26,12 @@ import java.util.Objects;
 public class MessageListAdapter extends ArrayAdapter<Message> {
     LayoutInflater inflater;
     String ActiveUser;
-    public MessageListAdapter(Context ctx, ArrayList<Message> messagesArrayList, String activeUser) {
+    private boolean isNightMode = false;
+    public MessageListAdapter(Context ctx, ArrayList<Message> messagesArrayList, String activeUser, boolean isNightMode) {
         super(ctx, 0, messagesArrayList);
         this.inflater = LayoutInflater.from(ctx);
         this.ActiveUser=activeUser;
+        this.isNightMode = isNightMode;
     }
 
     @NonNull
@@ -46,10 +48,23 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         TextView content = convertView.findViewById(R.id.Message_content);
         TextView time = convertView.findViewById(R.id.Time_sent);
         if (message != null) {
-            if ((Objects.equals(message.getSender().get("username"), ActiveUser))) {
-                zone.setBackgroundResource(R.color.my_message_background);
-            } else {
-                content.setBackgroundResource(R.color.friend_message_background);
+            if (message != null) {
+                if ((Objects.equals(message.getSender().get("username"), ActiveUser))) {
+                    if (isNightMode) {
+                        zone.setBackgroundResource(R.color.my_message_background_night);
+                    } else {
+                        zone.setBackgroundResource(R.color.my_message_background);
+                    }
+                }
+                //zone.setBackgroundResource(R.color.my_message_background);
+                //move the message right in the screen
+                else {
+                    if (isNightMode) {
+                        zone.setBackgroundResource(R.color.friend_message_background_night);
+                    } else {
+                        zone.setBackgroundResource(R.color.friend_message_background);
+                    }
+                }
             }
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
             SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.US);
@@ -78,6 +93,11 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         if (messages != null) {
             addAll(messages);
         }
+        notifyDataSetChanged();
+    }
+    // Add a method to update the night mode flag and refresh the adapter
+    public void setNightMode(boolean isNightMode) {
+        this.isNightMode = isNightMode;
         notifyDataSetChanged();
     }
 }

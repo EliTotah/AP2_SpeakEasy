@@ -56,6 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/Sign_up_text_color"
                     android:text="@string/ContactInfo_contact_info"
                     android:textSize="35sp"
                     android:textStyle="bold" />
@@ -72,6 +73,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/Sign_up_text_color"
                         android:text="@string/ContactInfo_Contact_info"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -84,7 +86,7 @@
                         android:hint="@string/ContactInfo_mail"
                         android:minHeight="48dp"
                         android:padding="20dp"
-                        android:textColor="@color/Password_text_color"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -96,7 +98,7 @@
                         android:minHeight="48dp"
                         android:gravity="center"
                         android:padding="20dp"
-                        android:textColor="@color/Password_text_color"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 

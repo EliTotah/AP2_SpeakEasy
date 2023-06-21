@@ -100,8 +100,9 @@ public class UserAPI {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                String err = t.getMessage();
                 Toast.makeText(AP2_SpeakEasy.context,
-                        "Error in login", Toast.LENGTH_SHORT).show();
+                        "Error:" + err, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -121,7 +122,7 @@ public class UserAPI {
                 }
                 else {
                     Toast.makeText(AP2_SpeakEasy.context,
-                            "Error in get details of User", Toast.LENGTH_SHORT).show();
+                            "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
                 callBackFlag.complete(response.code());
             }

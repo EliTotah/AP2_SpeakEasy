@@ -21,11 +21,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 public class LoginActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     private ActivityLoginBinding binding;
-    private SharedPreferences settingsSharedPreferences;
-    private Boolean isNightMode = null;
+
     public static Context context;
     private UserAPI userAPI;
-
     private String userToken;
     private String activeUserName;
     private String newToken;
@@ -51,13 +49,6 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
         userAPI.getTokenLiveData().observe(this, token -> {
             if (token != null) {
                 userToken = token;
-                // Token value has changed, handle it here
-                //Log.e("token", token);
-//                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-//                intent.putExtra("token", token);
-//                startActivity(intent);
-                // Save the token to preferences or use it as needed
-
             }
         });
 

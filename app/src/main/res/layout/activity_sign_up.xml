@@ -58,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/SignUp_sign_up"
+                    android:textColor="@color/Sign_up_text_color"
                     android:textSize="35sp"
                     android:textStyle="bold" />
 
@@ -74,6 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/SignUp_Basic_info"
+                        android:textColor="@color/Sign_up_text_color"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
