@@ -11,7 +11,7 @@ import com.example.ap2_speakeasy.repositories.MessageRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageViewModel extends ViewModel {
+public class   MessageViewModel extends ViewModel {
     private MessageRepository messageRepository;
     private LiveData<List<Message>> messages;
 

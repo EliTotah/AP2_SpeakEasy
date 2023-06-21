@@ -269,8 +269,8 @@ public class PasswordActivity extends AppCompatActivity {
             if (callback == 200) {
                 // Implement your logic here when the callback is complete and the boolean is true
                 Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PasswordActivity.this, LoginActivity.class);
-                startActivity(intent);
+                isReturn.getInstance().setIsReturn(true);
+                finish();
             }
             else if (callback == 409) {
                 Toast.makeText(this, "User name is already exist", Toast.LENGTH_SHORT).show();
@@ -295,6 +295,13 @@ public class PasswordActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         byte[] imageBytes = outputStream.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isReturn.getInstance().getIsReturn()){
+            finish();
+        }
     }
 
 }
