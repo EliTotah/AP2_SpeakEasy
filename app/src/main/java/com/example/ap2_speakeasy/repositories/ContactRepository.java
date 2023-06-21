@@ -41,6 +41,7 @@ public class ContactRepository {
     }
 
     public LiveData<List<Contact>> getAll() {
+        reload();
         return contactListData;
     }
 
@@ -49,22 +50,21 @@ public class ContactRepository {
     }
 
     public  void addContact(Contact c) {
-        if (c!=null) {
-            contactDao.insert(c);
-            List<Contact> list = this.contactListData.getValue();
-            if (list == null) {
-                list = new ArrayList<>();
-                list.add(c);
-            }
-            else {
-                list.add(c);
-            }
-            this.contactListData.postValue(list);
-        }
+        contactDao.insert(c);
+        //contactListData.postValue(contactsList);
     }
 
     public void reload() {
-        contactListData.setValue(contactDao.index());
+        ChatAPI chatAPI = new ChatAPI();
+        chatAPI.getAllChats(contactListData,token);
+        contactDao.deleteContacts();
+        List<Contact> contactsList = contactListData.getValue();
+        if (contactsList != null) {
+            for (Contact c : contactsList) {
+                addContact(c);
+            }
+        }
+        contactListData.postValue(contactDao.index());
     }
 
 

@@ -9,7 +9,7 @@ import com.example.ap2_speakeasy.entities.Message;
 
 public class SingeltonFireBase {
     public static MutableLiveData<Message> messageFirebase;
-    public static MutableLiveData<Contact> contactFirebase;
+    public static MutableLiveData<String> contactFirebase;
 
 
     public static synchronized MutableLiveData<Message> getMessageFirebase() {
@@ -19,7 +19,7 @@ public class SingeltonFireBase {
         return messageFirebase;
     }
 
-    public static synchronized MutableLiveData<Contact> getContactFirebase() {
+    public static synchronized MutableLiveData<String> getContactFirebase() {
         if (contactFirebase == null) {
             contactFirebase = new MutableLiveData<>();
         }

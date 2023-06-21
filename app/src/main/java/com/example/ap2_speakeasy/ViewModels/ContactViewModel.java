@@ -20,6 +20,7 @@ public class ContactViewModel extends ViewModel {
     }
 
     public LiveData<List<Contact>> getContacts() {
+        reload();
         return this.contacts;
     }
 
@@ -30,7 +31,6 @@ public class ContactViewModel extends ViewModel {
 
     public void insertContact(String username) {
         contactsRepository.insertContact(username);
-        reload();
     }
 
     public void reload() {
