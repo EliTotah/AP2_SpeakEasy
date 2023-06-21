@@ -173,10 +173,6 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
             changeTheme(isNightMode);
         }
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     private void showAddContactDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -265,6 +261,13 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         public void afterTextChanged(Editable s) {
             // Not needed in this case
         }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isReturn.getInstance().getIsReturn()){
+            finish();
+        }
+    }
 
 }
 

@@ -49,8 +49,8 @@
     <string name="Settings_vibration_option">אפשר רטט</string>
     <string name="Settings_dark_mode_option">מצב כהה</string>
     <string name="Settings_language_option">שפה</string>
-    <string name="Settings_save_button">שמירת הגדרות</string>
     <string name="settings_back">חזרה</string>
+    <string name="Settings_save_server">שמור כתובת שרת</string>
     <string name="settings_server_address">כתובת השרת</string>
     <string name="settings_enter_server_address">הזן כתובת שרת חדשה</string>
     <item name="Settings_notification_sound_checkbox" type="id" />

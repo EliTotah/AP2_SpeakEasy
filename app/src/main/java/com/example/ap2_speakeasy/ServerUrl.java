@@ -1,26 +1,25 @@
 package com.example.ap2_speakeasy;
 
+import android.content.SharedPreferences;
 
 public class ServerUrl {
-    private static ServerUrl instance;
-    private String url = "http://10.0.2.2:5000/api/";
+
+    private static SharedPreferences preferences;
+    //private String url = "http://10.0.2.2:5000/api/";
 
     private ServerUrl() {
         // Private constructor to prevent external instantiation
     }
 
-    public static synchronized ServerUrl getInstance() {
-        if (instance == null) {
-            instance = new ServerUrl();
+    public static synchronized SharedPreferences getInstance(SharedPreferences pref) {
+        if (preferences == null) {
+            preferences = pref;
         }
-        return instance;
+        return preferences;
     }
 
-    public String getUrl() {
-        return url;
+    public static synchronized SharedPreferences getUrlInstance() {
+        return preferences;
     }
 
-    public void setUrl(String url) {
-        this.url=url;
-}
 }

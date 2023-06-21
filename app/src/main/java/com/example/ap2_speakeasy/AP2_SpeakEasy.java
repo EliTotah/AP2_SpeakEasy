@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 public class AP2_SpeakEasy extends Application {
 
-    SharedPreferences preferences;
+    public static SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
     public static Context context;
@@ -35,6 +35,10 @@ public class AP2_SpeakEasy extends Application {
     }
     public void set(String key, boolean value) {
         editor.putBoolean(key, value);
+        editor.apply();
+    }
+    public void setString(String key, String value) {
+        editor.putString(key, value);
         editor.apply();
     }
 

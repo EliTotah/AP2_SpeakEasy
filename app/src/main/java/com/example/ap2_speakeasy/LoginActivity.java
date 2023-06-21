@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
         changeTheme(isNightMode);
-
         // Register the shared preference change listener
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         userAPI = new UserAPI();
@@ -132,4 +131,10 @@ public class LoginActivity extends AppCompatActivity implements SharedPreference
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userAPI.setUrl();
+        }
+
 }

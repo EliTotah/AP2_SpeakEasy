@@ -1,11 +1,13 @@
 package com.example.ap2_speakeasy.API;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.LoginActivity;
@@ -40,6 +42,8 @@ public class UserAPI {
 
     private MutableLiveData<User> user;
 
+    private MutableLiveData<String> url;
+
 
 
 
@@ -51,9 +55,9 @@ public class UserAPI {
                 .addInterceptor(interceptor)
                 .build();
         /////////////////
-
+        String apiAddress = AP2_SpeakEasy.preferences.getString("server", "http://10.0.2.2:5000");
         retrofit = new Retrofit.Builder()
-                .baseUrl(ServerUrl.getInstance().getUrl())
+                .baseUrl(apiAddress + "/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -61,6 +65,24 @@ public class UserAPI {
         tokenLiveData = new MutableLiveData<>();
         activeUserName = new MutableLiveData<>();
         user = new MutableLiveData<>();
+    }
+
+    public void setUrl() {
+
+        /////////////
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+        /////////////////
+        String apiAddress = AP2_SpeakEasy.preferences.getString("server", "http://10.0.2.2:5000");
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(apiAddress + "/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        userServiceAPI = retrofit.create(UserServiceAPI.class);
     }
 
 

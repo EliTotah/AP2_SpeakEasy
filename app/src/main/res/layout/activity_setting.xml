@@ -37,7 +37,7 @@
                 android:layout_height="77dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:text="@string/chat_app_settings"
+                android:text="@string/Settings_settings_title"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/Setting_save_server" />
+                android:text="@string/settings_server_address" />
 
 
             <Switch

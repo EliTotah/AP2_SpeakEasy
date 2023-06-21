@@ -2,7 +2,6 @@ package com.example.ap2_speakeasy.Sign_up;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -18,7 +17,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,24 +24,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ap2_speakeasy.AP2_SpeakEasy;
-import com.example.ap2_speakeasy.API.CallBackFlag;
 import com.example.ap2_speakeasy.API.UserAPI;
-import com.example.ap2_speakeasy.LoginActivity;
 import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
-import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
 import com.example.ap2_speakeasy.databinding.ActivityPasswordBinding;
-import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
+import com.example.ap2_speakeasy.isReturn;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PasswordActivity extends AppCompatActivity {
     private ActivityPasswordBinding binding;

@@ -3,6 +3,7 @@ package com.example.ap2_speakeasy;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -10,6 +11,7 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,6 +32,8 @@ import com.example.ap2_speakeasy.Sign_up.ContactInfoActivity;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SettingActivity extends AppCompatActivity {
     private EditText serverAddressEditText;
@@ -41,13 +46,12 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
+        isReturn.getInstance().setIsReturn(false);
         serverAddressEditText = findViewById(R.id.server_address_edittext);
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
-        //languageSpinner = findViewById(R.id.languageSpinner);
-
+        settingsSharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
         loadSavedSettings();
-
+        serverAddressEditText.setText(settingsSharedPreferences.getString("url", "http://10.0.2.2"));
         Button saveButton = findViewById(R.id.saveSettingsButton);
         saveButton.setOnClickListener(v -> saveServer());
 
@@ -57,22 +61,6 @@ public class SettingActivity extends AppCompatActivity {
             //updateThemeButtonLabel();
         });
 
-//        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedLanguage = parent.getItemAtPosition(position).toString();
-//                if (selectedLanguage.equals("English")) {
-//                    updateLanguage("en");
-//                } else if (selectedLanguage.equals("Hebrew")) {
-//                    updateLanguage("he");
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Do nothing
-//            }
-//        });
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());
@@ -101,20 +89,22 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void saveServer() {
-        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Pattern pattern = Pattern.compile("^(http|https)://");
+        Matcher matcher = pattern.matcher(serverAddressEditText.getText().toString());
 
-        //editor.putBoolean("dark_mode", darkModeSwitch.isChecked());
-
-        String url = serverAddressEditText.getText().toString();
-        ServerUrl.getInstance().setUrl(url);
-        editor.putString("server_address", url);
-
-        editor.apply();
-
-        // Start the next activity
-        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-        startActivity(intent);
+        if (!matcher.find()) {
+            Toast.makeText(getApplicationContext(),
+                    "Invalid URL, has to start with http / https",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        AP2_SpeakEasy ap2_speakEasy = new AP2_SpeakEasy();
+        ap2_speakEasy.setString("server", serverAddressEditText.getText().toString());
+        //ap2_speakEasy.getEditor().clear();
+        //ap2_speakEasy.getEditor().apply();
+        //SharedPreferences.Editor editor = settingsSharedPreferences.edit();
+        isReturn.getInstance().setIsReturn(true);
+        finish();
     }
 
     private void loadSavedSettings() {
@@ -129,23 +119,4 @@ public class SettingActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void updateLanguage(String languageCode) {
-        String currentLanguage = Locale.getDefault().getLanguage();
-        if (!currentLanguage.equals(languageCode)) {
-            Locale newLocale = new Locale(languageCode);
-            Locale.setDefault(newLocale);
-
-            Resources res = getResources();
-            Configuration config = res.getConfiguration();
-            config.setLocale(newLocale);
-
-            // Update the configuration of the current resources
-            res.updateConfiguration(config, res.getDisplayMetrics());
-
-            // Restart the activity to apply the new language
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }
-    }
 }
