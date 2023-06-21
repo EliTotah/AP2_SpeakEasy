@@ -138,7 +138,9 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
 
         messageMutableLiveData.observe(this,contacts -> {
-            viewModel.getContacts();
+            if(contacts!=null) {
+                viewModel.getContacts();
+            }
         });
         contactFirebase.observe(this,contact -> {
             if (contact != null) {
@@ -173,10 +175,6 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
             changeTheme(isNightMode);
         }
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     private void showAddContactDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -208,7 +206,8 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
             byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            Toast.makeText(AP2_SpeakEasy.context,
+                    "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();;
         }
         return null;
     }
@@ -266,6 +265,12 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
             // Not needed in this case
         }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Get contacts list from web-api
+        new Thread(() -> viewModel.getContacts()).start();
+    }
 }
 
 

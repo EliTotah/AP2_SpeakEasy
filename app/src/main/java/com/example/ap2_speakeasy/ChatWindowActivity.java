@@ -91,12 +91,14 @@ public class ChatWindowActivity extends AppCompatActivity implements SharedPrefe
         adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName,isNightMode);
 
         viewModel.getMessages().observe(this, messages1 -> {
-            adapter.setMessages(messages1);
-            Log.e("adapter:", "observe1");
-            lvMessages.smoothScrollToPosition(adapter.getCount()-1);
+            if(messages1 != null) {
+                adapter.setMessages(messages1);
+                lvMessages.smoothScrollToPosition(adapter.getCount() - 1);
+            }
         });
 
         lvMessages.setAdapter(adapter);
+
 
         binding.sendIcon.setClickable(true);
         binding.sendIcon.setOnClickListener(v -> {
@@ -138,7 +140,7 @@ public class ChatWindowActivity extends AppCompatActivity implements SharedPrefe
     @Override
     protected void onResume() {
         super.onResume();
-        //loadMessages();
+        new Thread(() -> viewModel.reload()).start();
     }
 
     private void handleSend() {
@@ -158,42 +160,9 @@ public class ChatWindowActivity extends AppCompatActivity implements SharedPrefe
             byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         } catch (Exception e) {
-            Log.e("Error:",e.getMessage());
+            Toast.makeText(AP2_SpeakEasy.context,
+                    "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return null;
     }
 }
-
-/*
-private void handleMessages() {
-        messages = new ArrayList<>();
-        adapter = new MessageListAdapter(getApplicationContext(), messages);
-        lvMessages = binding.listViewMessages;
-
-        loadMessages();
-
-        lvMessages.setAdapter(adapter);
-        lvMessages.setClickable(true);
-
-        lvMessages.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            messages.remove(i);
-            Message message = dbMessages.remove(i);
-            messageDao.delete(message);
-            adapter.notifyDataSetChanged();
-            return true;
-        });
-    }
-
-    private void loadMessages() {
-        messages.clear();
-        dbMessages = messageDao.getMessages();
-        for (Message message : dbMessages) {
-            Message aMessage = new Message(
-                    message.getContent(), message.getCreated(),
-                    message.isSent(), message.getContactId()
-            );
-            messages.add(aMessage);
-        }
-        adapter.notifyDataSetChanged();
-    }
- */

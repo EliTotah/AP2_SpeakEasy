@@ -101,6 +101,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void saveServer() {
+
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
