@@ -1,7 +1,6 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.FireBase;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.pm.PackageManager;
@@ -13,7 +12,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_speakeasy.databinding.ActivitySettingBinding;
+import com.example.ap2_speakeasy.FireBase.SingeltonFireBase;
+import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Message;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

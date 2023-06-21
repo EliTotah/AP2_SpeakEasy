@@ -22,7 +22,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <service
-            android:name=".FireBaseService"
+            android:name=".FireBase.FireBaseService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

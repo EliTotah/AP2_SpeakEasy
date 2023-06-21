@@ -6,8 +6,8 @@ import androidx.room.TypeConverters;
 
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
-import com.example.ap2_speakeasy.messageConverter;
-import com.example.ap2_speakeasy.userConvert;
+import com.example.ap2_speakeasy.converts.messageConverter;
+import com.example.ap2_speakeasy.converts.userConvert;
 
 @Database(entities = {Contact.class, Message.class}, version = 5)
 @TypeConverters({userConvert.class, messageConverter.class})
