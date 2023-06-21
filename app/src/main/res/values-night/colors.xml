@@ -15,19 +15,10 @@
     <color name="loginActivity_button_text">#1f1f1f</color>
     <color name="hints_login">#1f1f1f</color>
 
+    <color name="chat_background">#ccc</color>
     <color name="chat_background_header">#1f1f1f</color>
     <color name="my_message_background">#006400</color>
     <color name="friend_message_background">#3d3c3c</color>
     <color name="light_grey">#ECECEC</color>
     <color name="window_texts">#FFFFFFFF</color>
-    <color name="contact_color">#FFFFFFFF</color>
-    <color name="background_contact">#FFFFFFFF</color>
-    <color name="chat_searchContainer">#3C3939</color>
-    <color name="chat_background">#1f1f1f</color>
-    <color name="my_message_background_night">#263F3D</color>
-    <color name="friend_message_background_night">#4E4B4B</color>
-    <color name="night_mode_text_color">#FFFFFF</color>
-    <color name="night_mode_background_color">#1f1f1f</color>
-    <color name="night_contact_color">#1f1f1f</color>
-    <color name="background_icon">#AB87B1</color>
 </resources>
