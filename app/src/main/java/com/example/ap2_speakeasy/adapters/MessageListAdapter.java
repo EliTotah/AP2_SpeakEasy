@@ -30,7 +30,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
     public MessageListAdapter(Context ctx, ArrayList<Message> messagesArrayList, String activeUser, boolean isNightMode) {
         super(ctx, 0, messagesArrayList);
         this.inflater = LayoutInflater.from(ctx);
-        this.ActiveUser=activeUser;
+        this.ActiveUser = activeUser;
         this.isNightMode = isNightMode;
     }
 

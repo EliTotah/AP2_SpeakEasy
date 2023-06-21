@@ -14,7 +14,9 @@ import com.example.ap2_speakeasy.DatabaseManager;
 import com.example.ap2_speakeasy.LoginActivity;
 import com.example.ap2_speakeasy.MainActivity;
 import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.entities.Message;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class ContactRepository {
     }
 
     public LiveData<List<Contact>> getAll() {
+        reload();
         return contactListData;
     }
 
@@ -46,8 +49,22 @@ public class ContactRepository {
         chatAPI.createChat(token,username,contactListData);
     }
 
+    public  void addContact(Contact c) {
+        contactDao.insert(c);
+        //contactListData.postValue(contactsList);
+    }
+
     public void reload() {
-        contactListData.setValue(contactDao.index());
+        ChatAPI chatAPI = new ChatAPI();
+        chatAPI.getAllChats(contactListData,token);
+        contactDao.deleteContacts();
+        List<Contact> contactsList = contactListData.getValue();
+        if (contactsList != null) {
+            for (Contact c : contactsList) {
+                addContact(c);
+            }
+        }
+        contactListData.postValue(contactDao.index());
     }
 
 
