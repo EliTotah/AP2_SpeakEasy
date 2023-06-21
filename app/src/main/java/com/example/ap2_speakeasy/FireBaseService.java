@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -95,7 +97,7 @@ public class FireBaseService extends FirebaseMessagingService {
                         date = inputFormat.parse(created);
                     }
                 } catch (ParseException e) {
-
+                    Log.e("big problem", e.getMessage());
                 }
                 String createdDate = outputFormat.format(date);
 

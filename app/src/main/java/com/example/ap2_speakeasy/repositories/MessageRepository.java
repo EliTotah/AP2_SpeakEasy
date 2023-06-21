@@ -21,7 +21,6 @@ import java.util.List;
 
 public class MessageRepository {
     private MessageDao messageDao;
-    private ContactViewModel contactViewModel;
     private MessageListData messageListData;
     private MessageAPI messageAPI;
     private String token;
@@ -38,17 +37,12 @@ public class MessageRepository {
         this.chatID = chatID;
     }
 
-    public void setContactViewModel(ContactViewModel contactViewModel) {
-        this.contactViewModel = contactViewModel;
-    }
-
     public LiveData<List<Message>> getAll() {
         messageListData.postValue(messageDao.getAllMessagesWithContact(chatID).getValue());
         return messageListData;
     }
     public void insertMessage(String content) {
         messageAPI.createMessage(token,chatID,content,messageListData);
-        messageListData.postValue(messageDao.getAllMessagesWithContact(chatID).getValue());
     }
 
     public  void addMessage(Message m) {
@@ -63,7 +57,6 @@ public class MessageRepository {
                 list.add(m);
             }
             this.messageListData.postValue(list);
-            this.contactViewModel.reload();
         }
     }
 

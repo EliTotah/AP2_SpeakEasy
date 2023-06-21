@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+
+import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.Contact;
 
@@ -25,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -90,7 +93,8 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
                     date = inputFormat.parse(created);
                 }
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                Toast.makeText(AP2_SpeakEasy.context,
+                        "Error:" + e.getMessage(), Toast.LENGTH_SHORT).show();;
             }
             // Format the Date object to the desired output format
             formattedTime = outputFormat.format(date);
