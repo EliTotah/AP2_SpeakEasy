@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -75,7 +76,11 @@ public class ChatWindowActivity extends AppCompatActivity {
         ListView lvMessages = binding.listViewMessages;
         adapter = new MessageListAdapter(getApplicationContext(), (ArrayList<Message>) this.messages,activeUserName);
 
-        viewModel.getMessages().observe(this, adapter::setMessages);
+        viewModel.getMessages().observe(this, messages1 -> {
+            adapter.setMessages(messages1);
+            Log.e("adapter:", "observe1");
+            lvMessages.smoothScrollToPosition(adapter.getCount()-1);
+        });
 
         lvMessages.setAdapter(adapter);
 
@@ -86,6 +91,13 @@ public class ChatWindowActivity extends AppCompatActivity {
 
         binding.returnButton.setOnClickListener(view -> {
             finish();
+        });
+
+        MutableLiveData<Message> messageFirebase = SingeltonFireBase.getMessageFirebase();
+        messageFirebase.observe(this,message -> {
+            if (message != null) {
+                viewModel.addMessage(message);
+            }
         });
     }
 
@@ -112,7 +124,7 @@ public class ChatWindowActivity extends AppCompatActivity {
             byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("Error:",e.getMessage());
         }
         return null;
     }

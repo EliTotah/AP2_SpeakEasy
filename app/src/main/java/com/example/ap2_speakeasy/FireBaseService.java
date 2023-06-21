@@ -18,22 +18,28 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_speakeasy.API.MessageAPI;
 import com.example.ap2_speakeasy.Dao.MessageDao;
+import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class FireBaseService extends FirebaseMessagingService {
-    private static final int NOTIFICATION_ID = 1;
     public FireBaseService() {
     }
 
     @SuppressLint("WrongThread")
     @Override
-    public void onMessageReceived(RemoteMessage message) {
+    public void onMessageReceived(@NonNull RemoteMessage message) {
         MutableLiveData<Message> messageMutableLiveData = SingeltonFireBase.getMessageFirebase();
+        MutableLiveData<Contact> contactMutableLiveData = SingeltonFireBase.getContactFirebase();
+
         if (message.getNotification() != null) {
             createNotificationChannel();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")
@@ -42,13 +48,6 @@ public class FireBaseService extends FirebaseMessagingService {
                     .setContentText(message.getNotification().getBody())
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-            String content = message.getNotification().getBody();
-            Map<String, String> sender = Map.of("username", message.getData().get("senderUserName"));
-            String created = message.getData().get("data");
-            String chatID = message.getData().get("chatId");
-            int chatid = Integer.parseInt(chatID);
-
-            Message m = new Message(content, created, sender, chatid);
             NotificationManagerCompat notificationCompat = NotificationManagerCompat.from(this);
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -61,7 +60,39 @@ public class FireBaseService extends FirebaseMessagingService {
                 return;
             }
             notificationCompat.notify(1, builder.build());
-            messageMutableLiveData.postValue(m);
+
+            if(message.getData().isEmpty()) {
+                return;
+            }
+
+            if(message.getData().get("action").equals("add_contact")) {
+                contactMutableLiveData.postValue(message.getNotification().getBody());
+            }
+            else if (message.getData().get("action").equals("send_message")) {
+                String content = message.getNotification().getBody();
+                Map<String, String> sender = Map.of("username", message.getData().get("senderUserName"));
+                String created = message.getData().get("data_date");
+                String chatID = message.getData().get("chatId");
+                int chatid = Integer.parseInt(chatID);
+
+                //edit the date
+                SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)", Locale.US);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+
+                // Parse the date string to a Date object
+                Date date = new Date();
+                try {
+                    if (!created.isEmpty()) {
+                        date = inputFormat.parse(created);
+                    }
+                } catch (ParseException e) {
+
+                }
+                String createdDate = outputFormat.format(date);
+
+                Message m = new Message(content, createdDate, sender, chatid);
+                messageMutableLiveData.postValue(m);
+            }
         }
     }
 
