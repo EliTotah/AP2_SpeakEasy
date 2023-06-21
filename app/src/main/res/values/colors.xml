@@ -21,6 +21,7 @@
     <color name="friend_message_background">@android:color/white</color>
     <color name="light_grey">#ECECEC</color>
     <color name="window_texts">#1f1f1f</color>
+
     <color name="contact_color">#1f1f1f</color>
     <color name="my_message_background_night">#263F3D</color>
     <color name="friend_message_background_night">#4E4B4B</color>
@@ -32,5 +33,6 @@
     <color name="chat_searchContainer">#FFFFFF</color>
     <color name="night_color">#F44336</color>
     <color name="night_contact_color">#1f1f1f</color>
+    <color name="dis_color">#1f1f1f</color>
 
 </resources>

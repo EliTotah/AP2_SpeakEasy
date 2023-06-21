@@ -20,6 +20,7 @@
     <color name="friend_message_background">#3d3c3c</color>
     <color name="light_grey">#ECECEC</color>
     <color name="window_texts">#FFFFFFFF</color>
+
     <color name="contact_color">#FFFFFFFF</color>
     <color name="background_contact">#FFFFFFFF</color>
     <color name="chat_searchContainer">#3C3939</color>
@@ -30,4 +31,7 @@
     <color name="night_mode_background_color">#1f1f1f</color>
     <color name="night_color">#1f1f1f</color>
     <color name="night_contact_color">#1f1f1f</color>
+
+    <color name="dis_color">#FFFFFFFF</color>
+
 </resources>
