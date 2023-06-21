@@ -51,9 +51,11 @@ public class SettingActivity extends AppCompatActivity {
         darkModeSwitch = findViewById(R.id.darkModeSwitch);
         settingsSharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
         loadSavedSettings();
-        serverAddressEditText.setText(settingsSharedPreferences.getString("url", "http://10.0.2.2"));
+        //serverAddressEditText.setText(settingsSharedPreferences.getString("url", "http://10.0.2.2"));
         Button saveButton = findViewById(R.id.saveSettingsButton);
-        saveButton.setOnClickListener(v -> saveServer());
+        Intent intent = getIntent();
+        String camefrom = intent.getStringExtra("camefrom");
+        saveButton.setOnClickListener(v -> saveServer(camefrom));
 
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -88,7 +90,7 @@ public class SettingActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void saveServer() {
+    private void saveServer(String s) {
         Pattern pattern = Pattern.compile("^(http|https)://");
         Matcher matcher = pattern.matcher(serverAddressEditText.getText().toString());
 
@@ -98,11 +100,12 @@ public class SettingActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        AP2_SpeakEasy ap2_speakEasy = new AP2_SpeakEasy();
-        ap2_speakEasy.setString("server", serverAddressEditText.getText().toString());
+        //AP2_SpeakEasy ap2_speakEasy = new AP2_SpeakEasy();
+        //ap2_speakEasy.setString("server", serverAddressEditText.getText().toString());
         //ap2_speakEasy.getEditor().clear();
         //ap2_speakEasy.getEditor().apply();
         //SharedPreferences.Editor editor = settingsSharedPreferences.edit();
+        AP2_SpeakEasy.urlServer.postValue(serverAddressEditText.getText().toString());
         isReturn.getInstance().setIsReturn(true);
         finish();
     }

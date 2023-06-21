@@ -19,7 +19,7 @@ public  class SettingManager {
     }
         private static final String PREFS_NAME = "settings";
 
-        private static SharedPreferences getSharedPreferences(Context context) {
+        public static SharedPreferences getSharedPreferences(Context context) {
             return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
 
