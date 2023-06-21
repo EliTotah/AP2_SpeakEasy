@@ -21,9 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
 import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
+import com.example.ap2_speakeasy.isReturn;
 
 import java.io.ByteArrayOutputStream;
 

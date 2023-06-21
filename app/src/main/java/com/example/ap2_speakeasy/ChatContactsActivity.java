@@ -264,6 +264,13 @@ public class ChatContactsActivity extends AppCompatActivity implements SharedPre
         public void afterTextChanged(Editable s) {
             // Not needed in this case
         }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isReturn.getInstance().getIsReturn()){
+            finish();
+        }
+    }
 
     @Override
     public void onResume() {

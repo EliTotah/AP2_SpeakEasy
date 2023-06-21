@@ -21,10 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.SettingManager;
 import com.example.ap2_speakeasy.databinding.ActivityContactInfoBinding;
-import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
+import com.example.ap2_speakeasy.isReturn;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
