@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
+import com.example.ap2_speakeasy.FireBase.SingeltonFireBase;
 import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
 import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;

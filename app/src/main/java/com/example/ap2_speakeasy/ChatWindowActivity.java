@@ -4,35 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.ap2_speakeasy.API.MessageAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
-import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.Dao.MessageDao;
-import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
+import com.example.ap2_speakeasy.FireBase.SingeltonFireBase;
 import com.example.ap2_speakeasy.ViewModels.MessageViewModel;
-import com.example.ap2_speakeasy.adapters.ContactListAdapter;
 import com.example.ap2_speakeasy.adapters.MessageListAdapter;
-import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.databinding.ActivityChatWindowBinding;
-import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ChatWindowActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
