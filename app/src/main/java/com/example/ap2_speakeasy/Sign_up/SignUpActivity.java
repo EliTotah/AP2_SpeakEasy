@@ -37,13 +37,9 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private String imageString = "";
 
-
     private Bitmap selectedImageBitmap;
     private boolean checkInput = false;
     private ImageView imageView; // Declare the ImageView as a class member
-
-    private static final int GALLERY_REQUEST_CODE = 1;
-    private static final int CAMERA_REQUEST_CODE = 2;
 
     private ActivityResultLauncher<Intent> galleryLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;

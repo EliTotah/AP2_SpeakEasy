@@ -1,17 +1,11 @@
 package com.example.ap2_speakeasy;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -23,51 +17,31 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-
-import com.example.ap2_speakeasy.API.CallBackFlag;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.ViewModels.ContactViewModel;
 import com.example.ap2_speakeasy.adapters.ContactListAdapter;
-
-import com.example.ap2_speakeasy.adapters.MessageListAdapter;
 import com.example.ap2_speakeasy.databinding.ActivityChatContactsBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 import com.example.ap2_speakeasy.entities.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.Request;
-import okio.Timeout;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChatContactsActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, TextWatcher {
     private ActivityChatContactsBinding binding;
     String activeUserName;
     String userToken;
 
-    private SharedPreferences settingsSharedPreferences;
     private Boolean isNightMode = null;
     private AppDB db;
     private List<Contact> contacts;
-    private List<Contact> dbContacts;
     private ContactDao contactDao;
-    private RecyclerView lvUsers;
     private ContactListAdapter adapter;
 
     private ContactViewModel viewModel;

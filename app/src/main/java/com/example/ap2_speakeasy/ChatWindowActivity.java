@@ -47,9 +47,8 @@ public class ChatWindowActivity extends AppCompatActivity implements SharedPrefe
     private Boolean isNightMode = null;
     private AppDB db;
     private List<Message> messages;
-    private List<Message> dbMessages;
     private MessageDao messageDao;
-    private ListView lvMessages;
+
     private MessageListAdapter adapter;
     private MessageViewModel viewModel;
 

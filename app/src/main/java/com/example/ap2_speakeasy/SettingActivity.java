@@ -6,53 +6,36 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Vibrator;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
-
-import com.example.ap2_speakeasy.Sign_up.ContactInfoActivity;
-import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
-
-import java.util.Locale;
+import com.example.ap2_speakeasy.databinding.ActivitySettingBinding;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SettingActivity extends AppCompatActivity {
+
+    private ActivitySettingBinding binding;
     private EditText serverAddressEditText;
     private Switch darkModeSwitch;
-
-    private Spinner languageSpinner;
     private SharedPreferences settingsSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        binding = ActivitySettingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         isReturn.getInstance().setIsReturn(false);
-        serverAddressEditText = findViewById(R.id.server_address_edittext);
-        darkModeSwitch = findViewById(R.id.darkModeSwitch);
+        serverAddressEditText = binding.serverAddressEdittext;
+        darkModeSwitch = binding.darkModeSwitch;
         settingsSharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
         loadSavedSettings();
-        //serverAddressEditText.setText(settingsSharedPreferences.getString("url", "http://10.0.2.2"));
-        Button saveButton = findViewById(R.id.saveSettingsButton);
+        Button saveButton = binding.saveSettingsButton;
         Intent intent = getIntent();
         String camefrom = intent.getStringExtra("camefrom");
         saveButton.setOnClickListener(v -> saveServer(camefrom));
@@ -64,7 +47,7 @@ public class SettingActivity extends AppCompatActivity {
         });
 
 
-        ImageButton backButton = findViewById(R.id.backButton);
+        ImageButton backButton = binding.backButton;
         backButton.setOnClickListener(v -> onBackPressed());
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default values for the preferences (before creating a listener!)
@@ -100,11 +83,6 @@ public class SettingActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        //AP2_SpeakEasy ap2_speakEasy = new AP2_SpeakEasy();
-        //ap2_speakEasy.setString("server", serverAddressEditText.getText().toString());
-        //ap2_speakEasy.getEditor().clear();
-        //ap2_speakEasy.getEditor().apply();
-        //SharedPreferences.Editor editor = settingsSharedPreferences.edit();
         AP2_SpeakEasy.urlServer.postValue(serverAddressEditText.getText().toString());
         isReturn.getInstance().setIsReturn(true);
         finish();

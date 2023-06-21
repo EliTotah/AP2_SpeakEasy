@@ -12,7 +12,6 @@ public class User {
     private String profilePic;
 
     public User( String username,String displayName, String profilePic) {
-        //this.id = id;
         this.displayName = displayName;
         this.profilePic = profilePic;
         this.username=username;

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 
 import java.text.ParseException;

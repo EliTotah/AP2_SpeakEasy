@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
+import com.example.ap2_speakeasy.databinding.ActivitySignUpBinding;
 import com.example.ap2_speakeasy.entities.Contact;
 
 import java.text.ParseException;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class ContactListAdapter extends ArrayAdapter<Contact> {
-
     LayoutInflater inflater;
     private boolean isNightMode = false;
 

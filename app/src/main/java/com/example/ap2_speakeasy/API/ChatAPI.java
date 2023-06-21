@@ -1,34 +1,23 @@
 package com.example.ap2_speakeasy.API;
 
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.DatabaseManager;
-import com.example.ap2_speakeasy.LoginActivity;
-import com.example.ap2_speakeasy.ServerUrl;
-import com.example.ap2_speakeasy.entities.ChatUserAdd;
 import com.example.ap2_speakeasy.entities.Contact;
-import com.example.ap2_speakeasy.R;
 import com.example.ap2_speakeasy.entities.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;

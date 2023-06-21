@@ -20,25 +20,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.example.ap2_speakeasy.databinding.ActivityGenderBinding;
 import com.example.ap2_speakeasy.isReturn;
-
 import java.io.ByteArrayOutputStream;
 
 public class GenderActivity extends AppCompatActivity {
     private ActivityGenderBinding binding;
     private String imageString = "";
-
-
     private Bitmap selectedImageBitmap;
     private String selectedImage;
     private String username;
     private String name;
     private ImageView imageView; // Declare the ImageView as a class member
-
-    private static final int GALLERY_REQUEST_CODE = 1;
-    private static final int CAMERA_REQUEST_CODE = 2;
 
     private ActivityResultLauncher<Intent> galleryLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -60,7 +53,6 @@ public class GenderActivity extends AppCompatActivity {
                 }
 
             }
-
 
         galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {

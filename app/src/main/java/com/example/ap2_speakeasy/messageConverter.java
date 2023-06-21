@@ -3,7 +3,6 @@ package com.example.ap2_speakeasy;
 import androidx.room.TypeConverter;
 
 import com.example.ap2_speakeasy.entities.Message;
-import com.example.ap2_speakeasy.entities.User;
 import com.google.gson.Gson;
 
 public class messageConverter {
