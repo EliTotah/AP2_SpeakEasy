@@ -22,14 +22,5 @@ public interface UserServiceAPI {
     @GET("Users/{id}")
     Call<User> getUser (@Header("Authorization")String token, @Path("id") String username);
 
-//    @GET("Users/")
-//    Call<List<User>> getUsers();
-//
-//    @POST("Users/")
-//    Call<Void> createUser(@Body User user);
-//
-//    @GET("Users/{id}")
-
-//    Call<Void> getUser (@Path("id") int id);
 }
 

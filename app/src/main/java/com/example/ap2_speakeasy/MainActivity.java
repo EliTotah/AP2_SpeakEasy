@@ -1,13 +1,9 @@
 package com.example.ap2_speakeasy;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 
-
-
             startActivity(intent);
-            finish(); // Optional: Close the MainActivity so the user can't go back to it
+            finish();
         }, DELAY_TIME_MS);
     }
 }

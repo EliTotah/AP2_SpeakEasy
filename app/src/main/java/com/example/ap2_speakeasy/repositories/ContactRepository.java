@@ -1,28 +1,16 @@
 package com.example.ap2_speakeasy.repositories;
 
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_speakeasy.AP2_SpeakEasy;
+
 import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.ContactDao;
 import com.example.ap2_speakeasy.DatabaseManager;
-import com.example.ap2_speakeasy.LoginActivity;
-import com.example.ap2_speakeasy.MainActivity;
 import com.example.ap2_speakeasy.entities.Contact;
-import com.example.ap2_speakeasy.entities.Message;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ContactRepository {
 
@@ -51,7 +39,6 @@ public class ContactRepository {
 
     public  void addContact(Contact c) {
         contactDao.insert(c);
-        //contactListData.postValue(contactsList);
     }
 
     public void reload() {

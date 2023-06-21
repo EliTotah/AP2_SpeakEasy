@@ -4,31 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.ap2_speakeasy.API.MessageAPI;
-import com.example.ap2_speakeasy.Dao.MessageDao;
-import com.example.ap2_speakeasy.entities.Contact;
+import com.example.ap2_speakeasy.databinding.ActivitySettingBinding;
 import com.example.ap2_speakeasy.entities.Message;
-import com.example.ap2_speakeasy.entities.User;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -69,14 +59,6 @@ public class FireBaseService extends FirebaseMessagingService {
             }
 
             if(message.getData().get("action").equals("add_contact")) {
-                /*String username = message.getData().get("UserName");
-                String display = message.getData().get("DisplayName");
-                String pic = message.getData().get("profilePic");
-                User user = new User(username,display,pic);
-                String idString = message.getData().get("chatID");
-                int id = Integer.parseInt(idString);
-                Contact c = new Contact(id, user, null);
-                contactMutableLiveData.postValue(c);*/
                 contactMutableLiveData.postValue(message.getNotification().getBody());
             }
             else if (message.getData().get("action").equals("send_message")) {

@@ -1,6 +1,5 @@
 package com.example.ap2_speakeasy.API;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -9,9 +8,6 @@ import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.Dao.AppDB;
 import com.example.ap2_speakeasy.Dao.MessageDao;
 import com.example.ap2_speakeasy.DatabaseManager;
-import com.example.ap2_speakeasy.R;
-import com.example.ap2_speakeasy.ServerUrl;
-import com.example.ap2_speakeasy.entities.Contact;
 import com.example.ap2_speakeasy.entities.Message;
 import com.google.gson.JsonObject;
 

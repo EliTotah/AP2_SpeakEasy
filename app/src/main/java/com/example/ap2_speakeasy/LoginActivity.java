@@ -3,15 +3,12 @@ package com.example.ap2_speakeasy;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.example.ap2_speakeasy.API.ChatAPI;
 import com.example.ap2_speakeasy.API.UserAPI;
 import com.example.ap2_speakeasy.Sign_up.SignUpActivity;
 import com.example.ap2_speakeasy.databinding.ActivityLoginBinding;
