@@ -49,6 +49,8 @@ The chat screen is divided into two parts. The left part shows a list of chats w
 
 <img width="212" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/13ffeef2-8aba-4bcf-bec0-5d19f2999ec8">
 
+
+
 <img width="203" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/b4047f72-65fe-4313-8791-5d120abe1a21">
 
 The chat app allows users to add new contacts, which appear in the "in conversations" section on the left part of the screen. Clicking on a conversation from the left part opens the correspondence with that contact on the right part of the screen. The right part of the screen allows users to write and send messages, which appear in the correspondence screen with the corresponding contact and are saved in JavaScript.
@@ -78,12 +80,17 @@ If applicable, modify the port number 5000 to match the appropriate port used b
 App Theme: The settings screen includes a button that allows users to change the theme of the app. By selecting a different theme, the colors of the application will change accordingly.
 
 The edited settings are persistently stored on the device, ensuring that the chosen configurations remain in effect even when the app is closed and reopened.
+
+
+
 <img width="208" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/dd581a28-eb46-45d9-9773-4603d7a5f265">
 
 # Dark Mode 
 
 <img width="209" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/17d5174b-5982-439d-9964-0cf1c807caf9">
 
+
+                                                                                                                                                                         
 <img width="205" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/4d8b84f7-cad2-430d-bb63-9a2ab089efbb">
 
 # Features
