@@ -33,6 +33,7 @@ public class SettingActivity extends AppCompatActivity {
         isReturn.getInstance().setIsReturn(false);
         serverAddressEditText = binding.serverAddressEdittext;
         darkModeSwitch = binding.darkModeSwitch;
+
         settingsSharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
         loadSavedSettings();
         Button saveButton = binding.saveSettingsButton;
@@ -40,9 +41,14 @@ public class SettingActivity extends AppCompatActivity {
         String camefrom = intent.getStringExtra("camefrom");
         saveButton.setOnClickListener(v -> saveServer(camefrom));
 
-
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             toggleNightMode(isChecked);
+            if (isChecked) {
+                darkModeSwitch.setText("Disable Dark Mode");
+            }
+            else {
+                darkModeSwitch.setText("Enable Dark Mode");
+            }
             //updateThemeButtonLabel();
         });
 
@@ -92,6 +98,12 @@ public class SettingActivity extends AppCompatActivity {
         SharedPreferences settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean darkModeEnabled = settingsSharedPreferences.getBoolean("dark_mode", false);
         darkModeSwitch.setChecked(darkModeEnabled);
+        if (darkModeEnabled) {
+            darkModeSwitch.setText("Disable Dark Mode");
+        }
+        else {
+            darkModeSwitch.setText("Enable Dark Mode");
+        }
     }
 
     private void toggleNightMode(boolean isChecked) {
