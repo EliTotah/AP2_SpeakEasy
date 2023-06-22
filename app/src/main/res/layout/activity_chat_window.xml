@@ -107,7 +107,6 @@
                     android:layout_height="732dp"
                     android:layout_weight="1"
                     android:divider="@null"
-                    android:textColor="@color/window_texts"
                     android:dividerHeight="0dp"
                     />
 
@@ -143,7 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColorHint="@color/hints_login"
+                android:textColorHint="@color/hints_message"
                 android:hint="Type a message"
                 android:padding="20dp"
                 android:background="@null"
