@@ -29,4 +29,9 @@
     <color name="night_mode_text_color">#FFFFFF</color>
     <color name="night_mode_background_color">#1f1f1f</color>
     <color name="night_contact_color">#1f1f1f</color>
+    <color name="message_content">#1f1f1f</color>
+    <color name="message_time">@android:color/darker_gray</color>
+    <color name="message_content_night">#FFFFFF</color>
+    <color name="message_time_night">#FFFFFF</color>
+    <color name="hints_message">#FFFFFF</color>
 </resources>
