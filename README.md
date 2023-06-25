@@ -44,6 +44,20 @@ The registration and login screens have input field validation to ensure that al
 Image and Password Verification
 The logic for the image and password verification on the registration screen works correctly. The user can select an existing image from their computer and the password verification ensures that the entered password meets the required criteria.
 
+To personalize your profile in our chat app, you have the option to upload a profile picture during the sign-up process. However, if you choose not to upload a custom image, the sign-up form will automatically assign a default profile image to your account.
+
+To complete the sign-up form and use the default profile image, follow these steps:
+
+1. Navigate to the sign-up page of our chat app.
+2. Fill in the required information such as your name, email address, and password.
+3. When you reach the profile picture section, you have two options:
+   - **Option 1: Upload a Custom Profile Picture** - Click on the "Upload Picture" button and select an image file from your device. The uploaded image will replace the default profile picture.
+   - **Option 2: Use the Default Profile Picture** - If you prefer to use the default profile picture, simply proceed with the form without clicking on the "Upload Picture" button. The default profile image will be automatically assigned to your account.
+
+By providing a profile picture, you can personalize your chat experience and make it easier for others to recognize you. However, we respect your choice if you prefer to use the default image or update it at a later time.
+
+<img width="203" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/118715083/f1311768-3f00-4878-883d-411be17ac2f3">
+
 # Chat Screen
 The chat screen is divided into two parts. The left part shows a list of chats with other users. For each chat, the user's picture, nickname, and last message received (along with the date/time it was received) are displayed. The right part of the screen shows the messages for the selected chat. Users can type messages and send them to the other user in the chat. Messages are displayed in real-time, so users can have a seamless conversation.
 
