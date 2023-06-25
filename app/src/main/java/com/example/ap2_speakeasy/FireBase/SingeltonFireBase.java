@@ -1,4 +1,4 @@
-package com.example.ap2_speakeasy;
+package com.example.ap2_speakeasy.FireBase;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;

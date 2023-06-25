@@ -58,7 +58,6 @@ By providing a profile picture, you can personalize your chat experience and mak
 
 <img width="203" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/118715083/f1311768-3f00-4878-883d-411be17ac2f3">
 
-
 # Chat Screen
 The chat screen is divided into two parts. The left part shows a list of chats with other users. For each chat, the user's picture, nickname, and last message received (along with the date/time it was received) are displayed. The right part of the screen shows the messages for the selected chat. Users can type messages and send them to the other user in the chat. Messages are displayed in real-time, so users can have a seamless conversation.
 

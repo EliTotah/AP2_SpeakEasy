@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.example.ap2_speakeasy.AP2_SpeakEasy;
 import com.example.ap2_speakeasy.R;
@@ -43,15 +44,27 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
         convertView = inflater.inflate(R.layout.message_list_item, parent, false);
 
+        // Customize the colors based on night mode
+        int textColor = isNightMode ? R.color.message_content_night : R.color.message_content;
+        int timeColor = isNightMode ? R.color.message_time_night : R.color.message_time;
+
         LinearLayout zone = convertView.findViewById(R.id.Message_zone);
         TextView content = convertView.findViewById(R.id.Message_content);
         TextView time = convertView.findViewById(R.id.Time_sent);
+
+
+        // Apply the colors to the views
+        content.setTextColor(ContextCompat.getColor(getContext(), textColor));
+        time.setTextColor(ContextCompat.getColor(getContext(), timeColor));
+
         if (message != null) {
                 if ((Objects.equals(message.getSender().get("username"), ActiveUser))) {
                     convertView = inflater.inflate(R.layout.messaeg2_list_item, parent, false);
                     zone = convertView.findViewById(R.id.Message_zone2);
                     content = convertView.findViewById(R.id.Message_content2);
                     time = convertView.findViewById(R.id.Time_sent2);
+                    content.setTextColor(ContextCompat.getColor(getContext(), textColor));
+                    time.setTextColor(ContextCompat.getColor(getContext(), timeColor));
                     if (isNightMode) {
                         zone.setBackgroundResource(R.color.my_message_background_night);
                     } else {

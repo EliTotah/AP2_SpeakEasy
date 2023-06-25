@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.ap2_speakeasy.senderConverter;
+import com.example.ap2_speakeasy.converts.senderConverter;
 
 import java.util.Map;
 
