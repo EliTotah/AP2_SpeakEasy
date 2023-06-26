@@ -13,10 +13,10 @@ The project in advanced programming2.
 * [Getting Started](#Getting-Started)
 
 # Chat App - SpeakEasy
-This project is a web UI for a chat site. It allows users to register, log in, and chat with other users on the platform. The project includes three screens: a registration screen, a login screen, and a chat screen.
+This project is a Android App for a chat site. It allows users to register, log in, and chat with other users on the platform. The project includes three screens: a registration screen, a login screen, and a chat screen.
 
 # Login Screen
-The login screen is the main page of the website. Users can enter their username and password to log in or click a link to go to the registration screen. If the user enters the correct credentials, they will be taken to the chat screen. If the user enters incorrect credentials, they will see an error message.
+The login screen is the main page of the app. Users can enter their username and password to log in or click a link to go to the registration screen. If the user enters the correct credentials, they will be taken to the chat screen. If the user enters incorrect credentials, they will see an error message.
 
 Screenshot: 
 
@@ -107,6 +107,21 @@ The edited settings are persistently stored on the device, ensuring that the cho
                                                                                                                                                                          
 <img width="205" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/4d8b84f7-cad2-430d-bb63-9a2ab089efbb">
 
+# Landscape view 
+
+The chat app is designed to adapt to different screen orientations, including landscape view. 
+
+Whether you prefer to use the app in portrait mode or rotate your device for a wider landscape view, SpeakEasy ensures a seamless and user-friendly experience.
+
+<img width="959" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/db99b04b-c88b-4451-9bf2-556a06d20b76">
+
+<img width="960" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/9854faee-8423-4557-bdc2-67c814ff2e45">
+
+<img width="960" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/e50e5cb0-2cd8-455c-ba63-3a7de0602446">
+
+<img width="960" alt="image" src="https://github.com/EliTotah/AP2_SpeakEasy/assets/117304079/a02c8f70-34cc-47fd-aeed-8dac31d66ed4">
+
+
 # Features
 * User registration
 * User login
@@ -136,7 +151,7 @@ http://localhost:5000/api/Users/:id: The address for retrieving user details by 
 * The GET operation gives the details of the user with the specified identifier.
 
 # Technologies Used
-The project was created using HTML and CSS. The UI is designed to be simple and user-friendly. The website is fully responsive and works on desktop devices.
+The project was created using HTML and CSS. The UI is designed to be simple and user-friendly. The app is fully responsive and works on desktop devices.
 
 # Getting Started
 
